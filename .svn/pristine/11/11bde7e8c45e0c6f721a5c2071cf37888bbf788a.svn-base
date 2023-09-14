@@ -1,0 +1,19 @@
+package com.cmu.sigicmu.admin.domaine;
+
+import com.cmu.sigicmu.param.domaine.TableValeur;
+import javax.annotation.Generated;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-12-09T12:46:37")
+@StaticMetamodel(PersonnePhysique.class)
+public class PersonnePhysique_ extends Personne_ {
+
+    public static volatile SingularAttribute<PersonnePhysique, String> nomJeuneFille;
+    public static volatile SingularAttribute<PersonnePhysique, TableValeur> statutMarital;
+    public static volatile SingularAttribute<PersonnePhysique, TableValeur> genre;
+    public static volatile SingularAttribute<PersonnePhysique, String> nomComplet;
+    public static volatile SingularAttribute<PersonnePhysique, String> prenom;
+    public static volatile SingularAttribute<PersonnePhysique, TableValeur> civilite;
+
+}

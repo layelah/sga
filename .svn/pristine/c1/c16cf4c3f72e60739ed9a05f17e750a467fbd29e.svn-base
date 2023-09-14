@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"  
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+                template="/resources/template/principalRH.xhtml"     
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jstl/core">
+    
+    
+    <script src="/resources/js/fullcalendar.min.js"></script>
+ <script>
+
+
+
+
+
+$(‘#calendar’).fullCalendar({
+    var date = new Date();
+ var d = date.getDate();
+ var m = date.getMonth();
+ var y = date.getFullYear();
+ editable: true,
+ theme:true,
+ header: {
+ left: ‘prev, next, today, prevYear, nextYear’,
+ center: ‘title’,
+ right: ‘month,agendaWeek,agendaDay’
+ },
+
+allDaySlot:false,
+ events: [
+ {
+ title: 'All Day Event',
+ start: new Date(y, m, 1)
+ },
+
+{
+ title: 'Long Event',
+ start: new Date(y, m, d-5),
+ end: new Date(y, m, d-2)
+ },
+
+{
+ id: 999,
+ title: 'Repeating Event',
+ start: new Date(y, m, d-3, 16, 0),
+ allDay: false
+ },
+
+{
+ id: 999,
+ title: 'Repeating Event',
+ start: new Date(y, m, d+4, 16, 0),
+ allDay: false
+ },
+
+{
+ title: 'Meeting',
+ start: new Date(y, m, d, 10, 30),
+ allDay: false,
+ color : "red",
+ },
+
+{
+ title: 'Lunch',
+ start: new Date(y, m, d, 12, 0),
+ end: new Date(y, m, d, 14, 0),
+ allDay: false
+ },
+
+{
+ title: 'Birthday Party',
+ start: new Date(y, m, d+1, 19, 0),
+ end: new Date(y, m, d+1, 22, 30),
+ allDay: false
+ },
+
+{
+ title: 'Click for Google',
+ start: new Date(y, m, 28),
+ end: new Date(y, m, 29),
+ url: 'http://google.com/'
+ }
+
+],
+
+timeFormat: ‘hh:mmtt’,
+ dayClick: function(date, allDay, jsEvent, view) {
+
+if (allDay) {
+ alert(‘Clicked on the entire day: ‘ + date);
+ }else{
+ alert(‘Clicked on the slot: ‘ + date);
+ }
+ },
+
+eventClick: function(calEvent, jsEvent, view) {
+ alert(‘Event title: ‘ + calEvent.title);
+ alert(‘Event start:’ + calEvent.start);
+ },
+
+dayRender:function(date, cell){
+ alert(‘dayRender has been clicked! for=>’+date);
+ }
+
+});
+
+
+</script>
+    
+<script>
+    function myFunction() {
+      document.getElementById("panel").reset();
+    }
+</script>
+
+<style>
+
+
+
+#calendar {
+
+width: 1000px;
+
+margin: 0 auto;
+
+}
+
+</style>
+
+
+    <ui:define name="title">Etat des absences validées</ui:define>
+    <ui:define name="content">
+        <style>
+            .form{width: 100%;}  
+        </style>
+        <b:container>
+                <b:panel title="Etat des absences" class="panel-info" id = "panel" >
+                    <b:column span="6">
+                       <b:row>
+                            <b:column span="5"><h:outputLabel value="Directions"/><span style="color:red"> *</span></b:column>
+                            <b:column span="6">
+                                <b:selectOneMenu id="direction" value="#{etatsAbsence.service.service}"
+                                                required="true"
+                                                requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"
+                                                process="@this">
+                                    <f:selectItem itemValue="" itemLabel="(choisissez une direction)"/>
+                                  
+                                    <f:selectItems value="#{myItems.getListService()}" />
+                                </b:selectOneMenu>
+                                <b:message for="direction" class="warning" />               
+                            </b:column>
+                        </b:row>
+                    </b:column>
+                    <b:column span="6">
+                        <b:row>
+                            <b:column span="5"><h:outputLabel value="Date de départ" style="margin-bottom: 13%"/><span style="color:red"> *</span></b:column>
+                            <b:column span="6">
+                                <b:dateTimePicker
+                                              class="datecust" 
+                                              format="DD/MM/YYYY"
+                                              mode="popup-icon" 
+                                              id="date_debut" value="#{etatsAbsence.dateDebut}"
+                                              required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"
+                                              placeholder="Selectionner une date"/>                                            
+                                <b:message for="date_debut" class="warning"/>
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span='5'><h:outputLabel value="Date de fin" style="margin-bottom: 13%"/><span style="color:red"> *</span></b:column>
+                            <b:column span='6'>
+                                <b:dateTimePicker
+                                              class="datecust" 
+                                              format="DD/MM/YYYY"
+                                              mode="popup-icon" 
+                                              id="date_fin" value="#{etatsAbsence.dateFin}" 
+                                              required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}" 
+                                              placeholder="Selectionner une date"/>                                            
+                                <b:message for="date_fin" class="warning"/>
+                            </b:column>
+                        </b:row>
+                          
+                    </b:column>
+                </b:panel>
+                    <p:commandButton styleClass="submit" value="#{msg.BNT_RECHERCHER}" action="#{etatsAbsence.afficheEtats()}" style="width: 150px;height: 5%;margin: 2px;margin-left: 35%;background: linear-gradient(graytext,buttonhighlight);color: #ffffff;font-weight: bold" ajax="false">
+                    </p:commandButton>
+                    
+            <p:commandButton id="btnReset" type="reset" value="#{msg.BNT_RESET}" action="#{etatsAbsence.restartEtats()}" style="width: 200px;height: 5%;margin: 2px;margin-left: 3%;background: linear-gradient(#019660,buttonhighlight);color: #ffffff;font-weight: bold" ajax="false">
+                    </p:commandButton>
+            
+                                
+            
+                    
+                    
+            <b:panel class="panel-info">
+                <b:tabView activeIndex="0">
+                    <b:tab title="Liste des absences acceptées">
+                        <b:panel title="Liste des absences accordées" class="panel-title">
+                                
+                            <b:dataTable value="#{etatsAbsence.listDemAbs}" var="item" >   
+                                <b:dataTableColumn label="Agent" value="#{item.absence.agent.nomComplet}"/>
+                               <b:dataTableColumn label="Service" value="#{item.absence.agent.entite.code} / #{item.absence.agent.service.code}"/>
+                               <b:dataTableColumn label="Date début" data-type="date" data-order="#{item.absence.dateDebutAbsence}" >
+                                   <h:outputText value="#{item.absence.dateDebutAbsence}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn label="Date de Retour" data-type="date" data-order="#{item.absence.dateFinAbsence}" >
+                                    <h:outputText value="#{item.absence.dateFinAbsence}" >
+                                         <f:convertDateTime pattern="dd/MM/yyyy" />
+                                     </h:outputText>
+                                </b:dataTableColumn>
+                                <b:dataTableColumn label="Motif" value="#{item.absence.motif}"/>
+                                <b:dataTableColumn label="Nombre de jours"  data-type="number" data-order="#{item.absence.nbJourAbsence}">    
+                                    <h:outputText value="#{item.absence.nbJourAbsence}">
+                                        <f:convertNumber pattern="#####.##" />
+                                    </h:outputText>
+                                </b:dataTableColumn>                               
+                                <b:dataTableColumn label="Nbre de jours ouvrables."  data-type="number" data-order="#{item.absence.nbJourOuvrable}">    
+                                    <h:outputText value="#{item.absence.nbJourOuvrable}">
+                                        <f:convertNumber pattern="#####.##" />
+                                    </h:outputText>
+                                </b:dataTableColumn>                        
+                                <b:dataTableColumn label="Nbre de jours deductibles"  data-type="number" data-order="#{item.absence.nbJourDeductible}">    
+                                    <h:outputText value="#{item.absence.nbJourDeductible}">
+                                        <f:convertNumber pattern="#####.##" />
+                                    </h:outputText>
+                                </b:dataTableColumn>                        
+                                <b:dataTableColumn label="Nbre de jours non déductible."  data-type="number" data-order="#{item.absence.nbJourNonDeductible}">    
+                                    <h:outputText value="#{item.absence.nbJourNonDeductible}">
+                                        <f:convertNumber pattern="#####.##" />
+                                    </h:outputText>
+                                </b:dataTableColumn>                                           
+                            </b:dataTable>
+                        </b:panel>
+                    </b:tab>
+                    <b:tab title="Calendrier des absences" >
+                        <b:panel title="Calendrier des absences" class="panel-title">
+                            <b:fullCalendar lang="fr"  defaultView ="month" rendered="#{etatsAbsence.estActive()}" events="#{etatsAbsence.eventJSON}" 
+                                            eventClick="function(info) { 
+                                                alert('Absence N°' + info.id + '\n Agent : '+ info.title+ ' \n Motif : '+ info.description);
+                                                
+                                            } " />
+                            <b:fullCalendar lang="fr"  defaultView ="month" rendered="#{etatsAbsence.estNonActive()}" />
+
+                        </b:panel>
+                    </b:tab>
+                </b:tabView>
+            </b:panel>   
+        </b:container>
+    </ui:define>Ì
+</ui:composition>
+

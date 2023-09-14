@@ -1,0 +1,220 @@
+package com.cmu.sigicmu.admin.domaine;
+
+
+import com.cmu.base.domaine.BaseDomaine;
+import com.cmu.sigicmu.param.domaine.TableValeur;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import static javax.persistence.FetchType.EAGER;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name="utilisateur")
+public class Utilisateur extends BaseDomaine {
+
+    @Column(name = "login", nullable = false)
+    private String login;
+    
+    @Column(name = "mot_de_passe", nullable = false)
+    private String motDePasse;
+    
+    @Column(name = "date_premiere_connexion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date datePremiereConnexion;
+    
+    @Column(name = "date_derniere_connexion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateDerniereConnexion;
+    
+    @Column(name = "date_changement_mdp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateChangementMdp;
+    
+    @Column(name = "nb_essai_connexion")
+    private Integer nbEssaiConnexion;
+    
+    @Column(name = "doit_changer_son_mdp")
+    private boolean doitChangerSonMdp;
+    
+    @Column(name = "date_derniere_deconnexion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateDerniereDeconnexion;
+    
+    @Column(name = "ip_derniere_connexion")
+    private String ipDerniereConnexion;
+      
+    @Column(name = "raison_blocage")
+    private String raisonBlocage;
+    
+    @JoinColumn(name = "agent_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = EAGER)
+    private Agent agent;
+    
+   
+    @JoinColumn(name = "etat_compte_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = EAGER)
+    private TableValeur etatCompte;
+        
+    @Transient
+    String newMdp;
+    
+    @Transient
+    String newMdpBis;
+   
+    public Utilisateur() {
+    }
+
+    public Utilisateur(Agent agent, TableValeur etatCompte) {
+        this.agent = agent;
+        this.login = agent.getEmailProfessionnel();
+        this.motDePasse = "CMU2017sigi";
+        this.etatCompte = etatCompte;
+    }
+            
+    public String getNomComplet() {
+        return agent.getNomComplet();
+    }
+    
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
+    }
+
+    public Date getDatePremiereConnexion() {
+        return datePremiereConnexion;
+    }
+
+    public void setDatePremiereConnexion(Date datePremiereConnexion) {
+        this.datePremiereConnexion = datePremiereConnexion;
+    }
+
+    public Date getDateDerniereConnexion() {
+        return dateDerniereConnexion;
+    }
+
+    public void setDateDerniereConnexion(Date dateDerniereConnexion) {
+        this.dateDerniereConnexion = dateDerniereConnexion;
+    }
+
+    public Date getDateChangementMdp() {
+        return dateChangementMdp;
+    }
+
+    public void setDateChangementMdp(Date dateChangementMdp) {
+        this.dateChangementMdp = dateChangementMdp;
+    }
+
+    public Integer getNbEssaiConnexion() {
+        return nbEssaiConnexion;
+    }
+
+    public void setNbEssaiConnexion(Integer nbEssaiConnexion) {
+        this.nbEssaiConnexion = nbEssaiConnexion;
+    }
+
+    public boolean getDoitChangerSonMdp() {
+        return doitChangerSonMdp;
+    }
+
+    public void setDoitChangerSonMdp(boolean doitChangerSonMdp) {
+        this.doitChangerSonMdp = doitChangerSonMdp;
+    }
+
+    public Date getDateDerniereDeconnexion() {
+        return dateDerniereDeconnexion;
+    }
+
+    public void setDateDerniereDeconnexion(Date dateDerniereDeconnexion) {
+        this.dateDerniereDeconnexion = dateDerniereDeconnexion;
+    }
+
+    public String getIpDerniereConnexion() {
+        return ipDerniereConnexion;
+    }
+
+    public void setIpDerniereConnexion(String ipDerniereConnexion) {
+        this.ipDerniereConnexion = ipDerniereConnexion;
+    }
+
+    public String getRaisonBlocage() {
+        return raisonBlocage;
+    }
+
+    public void setRaisonBlocage(String raisonBlocage) {
+        this.raisonBlocage = raisonBlocage;
+    }
+
+    public Agent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
+
+    public TableValeur getEtatCompte() {
+        return etatCompte;
+    }
+
+    public void setEtatCompte(TableValeur etatCompte) {
+        this.etatCompte = etatCompte;
+    }
+
+
+    
+
+    public boolean etatInconnu() {
+        return !(etatCompte != null
+                && ((etatCompte.getCode().equalsIgnoreCase(EtatCompteEnum.ACTIF.toString()))
+                    || (etatCompte.getCode().equalsIgnoreCase(EtatCompteEnum.INACTIF.toString()))
+                    || (etatCompte.getCode().equalsIgnoreCase(EtatCompteEnum.BLOQUE.toString()))));
+    }
+
+    public boolean estBloque() {
+        return etatCompte.getCode().equalsIgnoreCase(EtatCompteEnum.BLOQUE.toString());
+    }
+
+    public boolean estActif() {
+        return etatCompte.getCode().equalsIgnoreCase(EtatCompteEnum.ACTIF.toString());
+    }
+
+    public boolean estInactif() {
+        return etatCompte.getCode().equalsIgnoreCase(EtatCompteEnum.INACTIF.toString());
+    }
+    
+    
+     public String getNewMdp() {
+        return newMdp;
+    }
+
+    public void setNewMdp(String newMdp) {
+        this.newMdp = newMdp;
+    }
+
+    public String getNewMdpBis() {
+        return newMdpBis;
+    }
+
+    public void setNewMdpBis(String newMdpBis) {
+        this.newMdpBis = newMdpBis;
+    }
+}
+

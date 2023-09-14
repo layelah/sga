@@ -1,0 +1,123 @@
+body {
+	background: #F3F3F3;
+	font-family: 'Open Sans', sans-serif;
+	width: 100%;
+	min-height: 750px;
+	margin: auto;
+}
+
+.content-body {
+	min-height: 700px;
+	margin: auto;
+}
+
+/*******  Page de connexion *******/
+#authent-title {
+	text-align: center;
+	color: #536890;
+	font-weight: bold;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#wrapper-connexion>.form-c {
+	border: 1px solid #CCC;
+	border-radius: 4px;
+	min-width: 250px;
+        margin-left: 2px;
+}
+
+.form-c {
+	border: 1px solid #CCC;
+	border-radius: 4px;
+	min-width: 300px;
+}
+
+#wrapper-connexion #password {
+	margin-left: 5px;
+}
+
+#wrapper-connexion .btn-c {
+	width: auto;
+	color: green;
+	font-weight: bold;
+	border-radius: 5px;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.login-div, .pwd-div {
+	padding-bottom: 20px;
+	text-align: center;
+}
+
+#wrapper-connexion .login-div label {
+	padding-right: 60px;
+}
+
+#wrapper-connexion label {
+	width: auto;
+	padding-right: 15px;
+}
+
+#wrapper-connexion #password {
+	margin-left: 20px;
+}
+
+#wrapper-connexion .valid-btn-div {
+	text-align: center;
+	margin-top: 20px;
+	margin-left: 120px;
+}
+
+#wrapper-connexion .fieldset-connexion {
+	margin-top: 100px;
+	padding-bottom: 70px;
+	padding-top: 50px;
+}
+
+#wrapper-connexion .fieldset-connexion .ui-fieldset-legend {
+	background: #31708F;
+	color: #fff;
+	font-weight: bold;
+	text-align: center;
+	padding-left: 110px;
+	text-shadow: none;
+	box-shadow: none;
+	border: none;
+	border-radius: 5px;
+}
+
+.ui-state-default, .ui-fieldset-legend .ui-state-default {
+	background: none;
+}
+
+#wrapper-connexion .msgs {
+	max-width: 700px;
+	margin: auto;
+	margin-bottom: 20px;
+	padding-left: 200px;
+}
+
+/************ Fieldset Connexion **************/
+#update-pwd {
+	margin-top: 70px;
+}
+
+/* #update-pwd .form-group {	
+	margin-left: 250px;
+} */
+@media only screen and (max-width: 650px) {
+	#wrapper-connexion .msgs {
+		max-width: 400px;
+		margin: auto;
+		margin-bottom: 20px;
+		padding-left: 10px;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+	#wrapper-connexion .valid-btn-div {
+		margin-left: 0;
+	}
+}

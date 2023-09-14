@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <composite:interface>
+        <composite:attribute name="titre" default="Description"/>
+        <composite:attribute name="valeur" required="true"/>
+        <composite:attribute name="hide_label" required="false"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <b:row>
+            <b:column span='5' rendered="#{not cc.attrs.hide_label}" style="background-color: #c0dff4;border: solid whitesmoke 1px" >
+                <h:outputLabel value="#{cc.attrs.titre}" />          
+            </b:column>
+            <b:column span='7' style="background-color: whitesmoke;border: solid #c0dff4 1px">
+                <h:outputLabel style="font-weight: normal" value="#{cc.attrs.valeur}&nbsp;"/>
+            </b:column>
+        </b:row>        
+    </composite:implementation>
+</html>

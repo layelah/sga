@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"  
+                xmlns:b="http://bootsfaces.net/ui"
+                template="/resources/template/principalRH.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">Etat des absences d'un agent</ui:define>
+    <ui:define name="content">
+        <b:container>
+            <b:panel>
+                <b:panel title="Formulaire de choix d'un agent" class="panel-title">
+                    <b:container>
+                        <b:column span="6">
+                            <b:row>
+                                <b:column span="5">
+                                    <h:outputLabel value="Bureau"/>
+                                </b:column>
+                                <b:column span="7">
+                                    <b:selectOneMenu
+                                        id="entite"
+                                        value="#{agent.obj.entite}"
+                                        onchange="ajax:ajaxAgent.listenerEntite(agent.obj.entite)"
+                                        update="service"
+                                        required="true"
+                                        requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"
+                                        process="@this">
+                                        <f:selectItem itemValue="" itemLabel="(aucun)"/>
+                                        <f:selectItems value="#{myItems.lesEntites}" />
+                                    </b:selectOneMenu>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column span="5">
+                                    <h:outputLabel value="Service"/>
+                                </b:column>
+                                <b:column span="7">
+                                    <b:selectOneMenu
+                                        id="service"
+                                        value="#{agent.obj.service}"
+                                        onchange="ajax:ajaxAgent.listenerService(agent.obj.service)"
+                                        update="agent"
+                                        required="true"
+                                        requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"
+                                        process="@this">
+                                        <f:selectItem itemValue="" itemLabel="(aucun)"/>
+                                        <f:selectItems value="#{ajaxAgent.listService}" var="ser" itemValue="#{ser}" itemLabel="#{ser.lib}"/>
+                                    </b:selectOneMenu>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column span="5">
+                                    <h:outputLabel value="Agent"/>
+                                </b:column>
+                                <b:column span="7">
+                                    <b:selectOneMenu
+                                        id="agent"
+                                        value="#{agent.obj}"
+                                        process="@this">
+                                        <f:selectItem itemValue="" itemLabel="(aucun)"/>
+                                        <f:selectItems value="#{ajaxAgent.listAgent}" var="ag" itemValue="#{ag}" itemLabel="#{ag.nomComplet}"/>
+                                    </b:selectOneMenu>
+                                </b:column>
+                            </b:row>
+                        </b:column>
+                    </b:container>
+                </b:panel>
+                <h:commandButton value="Afficher Etat" action="#{demPermisAbsence.initTableau()}" style="width: 200px;height: 5%;background-color: #31708F;color: #ffffff;font-weight: bold;margin: 2px; margin-left: 40%"/>
+            </b:panel>
+        </b:container>
+    </ui:define>
+
+</ui:composition>

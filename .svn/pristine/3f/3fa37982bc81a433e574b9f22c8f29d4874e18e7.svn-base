@@ -1,0 +1,195 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.cmu.agence.rh.service;
+
+
+import com.cmu.agence.rh.domaine.DemandePermissionAbsence;
+import com.cmu.agence.rh.domaine.EtatAbsenceEnum;
+import com.cmu.base.service.BaseService;
+import com.cmu.sigicmu.admin.domaine.Service;
+import com.cmu.util.JIDate;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.persistence.Query;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+/**
+ *
+ * @author issathiam
+ */
+@Stateless
+@LocalBean
+public class ServiceSql extends BaseService {
+    
+    Service service;
+
+    public ServiceSql() {
+        
+    }
+
+    public ServiceSql(Service service) {
+        this.service = service;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
+    
+
+public List<DemandePermissionAbsence> getEtatDemAbsenceAll() {
+
+        String sql = "SELECT DISTINCT d "
+                + " FROM DemandePermissionAbsence as d, Absence as a "
+                + " WHERE a.id = d.absence.id"
+                + " AND a.etat.code = :etatCode1 "
+                + " ORDER BY a.dateDebutAbsence DESC";
+        
+        
+        Query q = getEm().createQuery(sql);
+        q.setParameter("etatCode1", EtatAbsenceEnum.Acceptee.toString());     
+             
+        return (List<DemandePermissionAbsence>)q.getResultList();
+    }
+  
+
+
+public List<DemandePermissionAbsence> getEtatDemAbsenceBySearch(Integer idService, Date dateDebut, Date dateFin) {
+
+        String sql = "SELECT DISTINCT b "
+                + " FROM Absence as o, Agent as a, DemandePermissionAbsence b "
+                + " WHERE  o.agent.service.id = :serviceId"
+                + " and o.id = b.absence.id"
+                + " and o.etat.code = :etatCode1"
+                + " and ((o.dateDebutAbsence BETWEEN :dateDebut and :dateFin)"
+                + " OR (o.dateFinAbsence BETWEEN :dateDebut and :dateFin))";
+       
+        sql += " ORDER BY o.dateDebutAbsence";
+       
+        Query q = getEm().createQuery(sql);
+        
+     
+        q.setParameter("serviceId", idService);
+        q.setParameter("etatCode1", EtatAbsenceEnum.Acceptee.toString());
+        q.setParameter("dateDebut", JIDate.dateSansHeure(dateDebut));
+        q.setParameter("dateFin", JIDate.dateSansHeure(dateFin));
+        
+        System.out.println("Taille liste: "+ q.getResultList().size());
+        return (List<DemandePermissionAbsence>)q.getResultList();
+        
+    }
+
+    //Recuperer la demande de permission correspondant à l'id absence
+
+    public DemandePermissionAbsence getUniqueDemPermsAbs( Integer id) {
+
+        String sql = "SELECT DISTINCT d "
+                + " FROM DemandePermissionAbsence as d"
+                + " WHERE d.absence.id = :idAbsence ";
+                
+               
+        
+        
+        Query q = getEm().createQuery(sql);
+        q.setParameter("idAbsence", id);     
+             
+       
+        return (DemandePermissionAbsence)q.getSingleResult();
+    }
+    
+
+  
+    public ResultSet getEtatForCalendar(int idService) throws SQLException{
+	//ResultSet resultat = null;
+        
+//        String req = " SELECT abs.id, nom_complet, motif, date_debut_absence, date_fin_absence, code, lib "
+//                + "from sga_imp.absence abs, sga_imp.agent a, sga_imp.personne_physique pers, sga_imp.service s "
+//                + "WHERE abs.agent_id = a.id and a.id = pers.id and a.service_id = s.id"
+//                + " and s.id = ? and abs.etat_id = 3368";
+
+//            String req = " SELECT abs.id, a.nom_complet, a.motif, a.date_debut_absence, a.date_fin_absence "
+//                + "from sga_imp.absence abs, sga_imp.agent a, sga_imp.service s "
+//                + "WHERE abs.agent_id = a.id and a.service = s.code"
+//                + " and s.id = ? and abs.etat_id = 3368";
+            
+            String req = "SELECT abs.id, nom_complet, motif, date_debut_absence, date_fin_absence " 
+                 + " from sga_imp.absence abs, sga_imp.agent ag, sga_imp.imp_agent a , sga_imp.service s "
+                 + " WHERE abs.agent_id = ag.id" 
+                 + " and ag.service_id = s.id"
+                 + " and ag.matricule = a.matricule"
+                 + " and s.id = ? and abs.etat_id = 3368";
+                
+            
+            Connection con = getJDBCConnection();
+            PreparedStatement ps = con.prepareStatement(req);
+            ps.setInt(1, idService);
+             
+        
+            ResultSet rs = ps.executeQuery();
+            
+
+            
+     return rs;
+   }
+    
+    
+    public String getJSONFromResultSet(ResultSet rs) throws SQLException {
+    //Creating a JSONObject object
+      JSONObject jsonObject = new JSONObject();
+      //Creating a json array
+      JSONArray array = new JSONArray();
+      
+      //Inserting ResutlSet data into the json object
+      //rs.first();
+      //rs.beforeFirst();
+      while(rs.next()) {
+         int numLigne =0;
+         JSONObject record = new JSONObject();
+         DemandePermissionAbsence dem = getUniqueDemPermsAbs(rs.getInt("abs.id"));
+         Object demande = (DemandePermissionAbsence) dem;
+         //String url = "#{demPermisAbsence.goInfo("+demande+")}";
+         String dateStart = rs.getString("date_debut_absence").substring(0, 10);
+         String dateEnd = rs.getString("date_fin_absence").substring(0, 10);
+         
+         
+         record.put("id", rs.getInt("abs.id"));
+         record.put("description", rs.getString("motif"));
+         record.put("title", rs.getString("nom_complet")); 
+         record.put("end", dateEnd);
+         record.put("start", dateStart);
+         //record.put("url", url);
+         
+         
+
+         
+          System.out.println("Numero ligne: "+ numLigne);
+         array.add(record);
+        numLigne++;
+      }
+      jsonObject.put("",array);
+      
+     
+      return jsonObject.toString();
+             
+   }
+    
+    
+     
+        
+        
+        
+
+}

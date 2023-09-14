@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:b="http://bootsfaces.net/ui" 
+                template="/resources/template/principalRH.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina">
+
+    <ui:define name="title">Modification du solde de congés d'un agent</ui:define>
+    <ui:define name="content">
+        <b:container>
+             <b:panel class="panel-info">
+                <b:panel title="Agent: #{solde.obj.agent.matricule}&nbsp;/&nbsp;#{solde.obj.agent.nomTotal}&nbsp;/&nbsp;#{solde.obj.agent.fonction.lib}" class="panel-title">
+                    <b:row>
+                        <b:column span="6">
+                            <infina:infoDate   titre="Date d'entrée en service" valeur="#{solde.obj.agent.datePriseFonction}"/>
+                            <infina:infoString titre="Bureau" valeur="#{solde.obj.agent.entite.lib}"/>
+                            <infina:infoString titre="Service" valeur="#{solde.obj.agent.service.lib}"/>
+                            <infina:infoString titre="Superviseur" valeur="#{solde.obj.agent.superviseur.nomComplet}"/>
+                        </b:column>
+                        <b:column span="6">
+                            <infina:infoString titre="N°. poste / Fixe bureau" valeur="#{solde.obj.agent.numeroPoste} / #{solde.obj.agent.telBureau}"/>
+                            <infina:infoString titre="Tél. eGov (ADIE)" valeur="#{solde.obj.agent.telProfessionnel}"/>
+                            <infina:infoString titre="Email Professionel" valeur="#{solde.obj.agent.emailProfessionnel}"/>
+                        </b:column>
+                    </b:row>
+                </b:panel>
+                <b:panel title="Modification du solde de congés d'un agent" class="panel-tilte">
+                    <b:row>
+                        <b:column span="6">
+                            <infina:formNumerique code="acquis" obj="#{solde.obj.nbCongesAcquis}" titre="Congés acquis" decimalPlaces="2"/>
+                            <infina:formNumerique code="pris" obj="#{solde.obj.nbJourPrisDeductible}" titre="Congés pris" decimalPlaces="2"/>
+                            <infina:formNumerique code="reliquat" obj="#{solde.obj.nbCongesReliquat}" titre="Reliquat des congès" decimalPlaces="2"/>
+                        </b:column>
+                        <b:column span="6">
+                            <infina:formNumerique code="echu" obj="#{solde.obj.nbCongesEchus}" titre="Congès en échus" decimalPlaces="2"/>
+                            <infina:formNumerique code="en_cours" obj="#{solde.obj.nbCongesEncours}" titre="Congès en cours" decimalPlaces="2"/>
+                            <infina:formNumerique code="complementaire" obj="#{solde.obj.nbCongesSupplementaire}" titre="Congés supplémentaires" decimalPlaces="2"/>
+                        </b:column>
+                    </b:row>
+                </b:panel>
+                <b:panel>
+                    <h:commandButton styleClass="submit" value="#{msg.BNT_ENREGISTRER}" action="#{solde.enregistrer()}" style="width: 150px;height: 5%;margin: 2px;margin-left: 30%;background: #31708F;color: #ffffff;font-weight: bold"/>
+                    <h:button styleClass="cancel-btn"   value="#{msg.BNT_RESET}" style="width: 150px;height: 5%;margin: 2px;background: #e7e6e3;color: #000000;font-weight: bold"/>
+                    <h:button styleClass="cancel-btn" value="#{msg.BNT_FERMER}" outcome="/RH/soldeCongesList.xhtml" style="width: 150px;height: 5%;margin: 2px;background: #ac0000;color: #ffffff;font-weight: bold"/>
+                </b:panel>
+            </b:panel>
+                   
+        </b:container>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,25 @@
+
+package com.cmu.agence.rh.domaine;
+
+public enum AbsenceEnum {    
+    PermAbsDeducConge("DEDUCTIBLE"),
+    PermAbsNonDeducConge("NON_DEDUCTIBLE"),
+    PermAbsExcep("EXCEPTIONNELLE"), 
+    Regularisation("REGULARISATION");
+    
+    
+ private String code;
+    
+    private AbsenceEnum(String code) {
+        this.code = code;
+    }
+    
+    @Override
+    public String toString() {
+        return code;
+    }
+    
+    public String getCode() {
+        return code;
+    }
+}

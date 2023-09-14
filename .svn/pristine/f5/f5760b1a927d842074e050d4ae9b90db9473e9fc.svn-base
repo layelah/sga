@@ -1,0 +1,446 @@
+package com.cmu.agence.rh.bean;
+
+import com.cmu.agence.rh.domaine.Absence;
+import com.cmu.agence.rh.domaine.AbsenceEnum;
+import com.cmu.agence.rh.domaine.AbsenceExceptionnelle;
+import com.cmu.agence.rh.domaine.CongesNonDeductible;
+import com.cmu.agence.rh.domaine.EtatAbsenceEnum;
+import com.cmu.agence.rh.domaine.SoldeConges;
+import com.cmu.agence.rh.service.AbsenceService;
+import com.cmu.agence.rh.service.SoldeCongesService;
+import com.cmu.base.bean.BaseCRUDBean;
+import com.cmu.base.bean.JsfUtil;
+import com.cmu.base.domaine.BaseDomaine;
+import com.cmu.base.service.BaseService;
+import com.cmu.base.service.exception.CMUServiceException;
+import com.cmu.base.service.exception.EchecSelectException;
+import com.cmu.sigicmu.admin.bean.AgentBean;
+import com.cmu.sigicmu.admin.domaine.Agent;
+import com.cmu.sigicmu.param.domaine.TableValeur;
+import com.cmu.sigicmu.param.domaine.TableValeurTypeEnum;
+import com.cmu.sigicmu.param.domaine.WebRacineEnum;
+import com.cmu.sigicmu.param.service.TableValeurService;
+import com.cmu.util.JIDate;
+import com.cmu.util.JUtil;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.primefaces.model.UploadedFile;
+
+@Named("solde")
+@javax.enterprise.context.SessionScoped
+public class SoldeCongeBean extends BaseCRUDBean {
+
+    @EJB
+    TableValeurService tvSrv;
+
+    @EJB
+    SoldeCongesService scSrv;
+    
+    @EJB
+    AbsenceService srv;
+    
+    @Inject
+    private AgentBean agentBean;
+    
+    Absence absence;
+    SoldeConges sc;
+    SoldeConges scAvant;
+     /*****Prise en compte des conges demi-journée*******************/
+    private String moment_deb;
+    private String moment_fin;
+    
+    //Fichiers Joints
+    private UploadedFile file;
+
+    public SoldeCongeBean() {
+        super(WebRacineEnum.RH, "soldeConges");
+    }
+
+    @Override
+    public BaseService getService() {
+        return srv;
+    }
+
+    @Override
+    public BaseDomaine getNewInstance() {
+        return (new SoldeConges());
+    }
+
+    public String getMoment_deb() {
+        return moment_deb;
+    }
+
+    public void setMoment_deb(String moment_deb) {
+        this.moment_deb = moment_deb;
+    }
+
+    public String getMoment_fin() {
+        return moment_fin;
+    }
+
+    public void setMoment_fin(String moment_fin) {
+        this.moment_fin = moment_fin;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+    
+    
+    
+    
+    public void exportSolde() throws IOException{
+        String filename = "soldeconges.xlsx";
+        
+        XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet sheet = wb.createSheet();
+       
+        XSSFRow row = sheet.createRow((short)0);
+        row.createCell((short)0).setCellValue("ORDRE");
+        row.createCell((short)1).setCellValue("MATRICULE");
+        row.createCell((short)2).setCellValue("PRENOM");
+        row.createCell((short)3).setCellValue("NOM");
+        row.createCell((short)4).setCellValue("GENRE");
+        row.createCell((short)5).setCellValue("DATE NAISSANCE");
+        row.createCell((short)6).setCellValue("BUREAU");
+        row.createCell((short)7).setCellValue("SERVICE");
+        row.createCell((short)8).setCellValue("FONCTION");
+        row.createCell((short)9).setCellValue("DATE PRISE SERVICE");
+        row.createCell((short)10).setCellValue("EMAIL PRO");
+        row.createCell((short)11).setCellValue("TEL eGOV");
+        row.createCell((short)12).setCellValue("TEL BUREAU");
+        row.createCell((short)13).setCellValue("N¨POSTE");
+        row.createCell((short)14).setCellValue("TEL PERSO");
+        row.createCell((short)15).setCellValue("EMAIL PERSO");
+        row.createCell((short)16).setCellValue("ADRESSE");
+        row.createCell((short)17).setCellValue("N° PIECE");
+        row.createCell((short)18).setCellValue("ACQUIS");
+        row.createCell((short)19).setCellValue("PRIS");
+        row.createCell((short)20).setCellValue("RELIQUAT");
+        row.createCell((short)21).setCellValue("ECHUS");
+        row.createCell((short)22).setCellValue("COURRUS");
+        row.createCell((short)23).setCellValue("SUPPLEMENTAIRE");
+        
+        List<SoldeConges> lSc = scSrv.soldeCongesList(getAuth().getUser().getAgent());
+        
+        int j = 0;
+        for (SoldeConges sc : lSc) {
+            j++;                    
+            XSSFRow row1 = sheet.createRow((short)j);
+            row1.createCell((short)0).setCellValue(j);
+            row1.createCell((short)1).setCellValue(sc.getAgent().getMatricule());
+            row1.createCell((short)2).setCellValue(sc.getAgent().getPrenom());
+            row1.createCell((short)3).setCellValue(sc.getAgent().getNom());
+            row1.createCell((short)4).setCellValue(sc.getAgent().getGenre().getLib());
+            row1.createCell((short)5).setCellValue(sc.getAgent().getDateNaissance());
+            row1.createCell((short)6).setCellValue(sc.getAgent().getEntite().getLib());
+            row1.createCell((short)7).setCellValue(sc.getAgent().getService().getLib());
+            row1.createCell((short)8).setCellValue(sc.getAgent().getFonction().getLib());
+            row1.createCell((short)9).setCellValue(sc.getAgent().getDatePriseFonction());
+            row1.createCell((short)10).setCellValue(sc.getAgent().getEmailProfessionnel());
+            row1.createCell((short)11).setCellValue(sc.getAgent().getTelProfessionnel());
+            row1.createCell((short)12).setCellValue(sc.getAgent().getTelBureau());
+            row1.createCell((short)13).setCellValue(sc.getAgent().getNumeroPoste());
+            row1.createCell((short)14).setCellValue(sc.getAgent().getCoord().getTel1());
+            row1.createCell((short)15).setCellValue(sc.getAgent().getCoord().getEmail());
+            row1.createCell((short)16).setCellValue(sc.getAgent().getCoord().getAdresse1()+ " "+ sc.getAgent().getCoord().getAdresse2()+ " "+ sc.getAgent().getCoord().getAdresse3());
+            row1.createCell((short)17).setCellValue(sc.getAgent().getNumPiece());
+            row1.createCell((short)18).setCellValue(sc.getNbCongesAcquis());
+            row1.createCell((short)19).setCellValue(sc.getNbJourPris());
+            row1.createCell((short)20).setCellValue(sc.getNbCongesReliquat());
+            row1.createCell((short)21).setCellValue(sc.getNbCongesEchus());
+            row1.createCell((short)22).setCellValue(sc.getNbCongesEncours());
+            row1.createCell((short)23).setCellValue(sc.getNbCongesSupplementaire());
+        }
+
+        ByteArrayOutputStream outByteStream = new ByteArrayOutputStream();
+        wb.write(outByteStream);
+        byte [] outArray = outByteStream.toByteArray();
+        
+        HttpServletResponse response = (HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        FacesContext.getCurrentInstance().responseComplete();         
+        response.setContentType("application/ms-excel");
+        response.setContentLength(outArray.length);
+        response.addHeader("Content-disposition", "attachment; filename=" +filename);
+        OutputStream outStream = response.getOutputStream();
+        outStream.write(outArray);
+        outStream.flush();        
+    }
+   
+
+    public Absence getAbsence() {
+        return absence;
+    }
+
+    public void setAbsence(Absence absence) {
+        this.absence = absence;
+    }
+
+    public SoldeConges getSc() {
+        return sc;
+    }
+
+    public void setSc(SoldeConges sc) {
+        this.sc = sc;
+    }
+
+    public List getSoldeConges() throws EchecSelectException {
+        return scSrv.soldeCongesList(getAuth().getUser().getAgent());
+    }
+    
+    public String goInfoAgent(int id) {
+        
+        try {
+            agentBean.getObj(id);
+        
+        } catch (CMUServiceException ex) {
+            JsfUtil.addExceptionMessage("Impossible d'afficher la fiche personnelle de l'agent", ex);
+        }
+        
+        return "/RH/fichePersonnelle.xhtml";
+    }    
+    
+    public String addAbsence(Agent agt) {
+        JUtil.s("AGENT ID", agt.getId());
+        sc = scSrv.getSoldeConges(agt.getId());
+        scAvant = new SoldeConges();
+        scAvant.setValeur(sc);
+        absence = new Absence(agt);
+        return "/RH/absenceForm.xhtml";
+    }
+    
+    public void ajaxGetNbJourNonDeductible(CongesNonDeductible congNonDeduc) {
+        absence.setNbJourNonDeductible(congNonDeduc.getNbJourConges());
+        
+        if (JIDate.estVide(absence.getDateDebutAbsence())) {
+            absence.setDateDebutAbsence(JIDate.dateDuJourSansHeure());
+        }
+
+        if (JIDate.estVide(absence.getDateFinAbsence())) {
+            absence.setDateFinAbsence(JIDate.ajouterJour(absence.getDateDebutAbsence(), (int) (absence.getNbJourNonDeductible() - 1.0)));
+        }
+        ajaxCalculDate(absence);
+    }
+
+//    public void ajaxCalculDateNbj(Absence absence) {
+//        Integer nbJourFerie = srv.getNbJourFerie(absence.getDateDebutAbsence(), absence.getDateFinAbsence());
+//        
+//        absence.setNbJourAbsence((int) JIDate.nbJour(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) + 1);
+//        
+//        absence.setNbJourOuvrable(JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - nbJourFerie);
+//        absence.setNbJourDeductible(JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - nbJourFerie);
+//        
+//        sc.setNbCongesEchus(scAvant.getNbCongesEchus() - absence.getNbJourDeductible());
+//        sc.setNbJourPris(scAvant.getNbJourPris() + absence.getNbJourDeductible());
+//        sc.setNbCongesReliquat(sc.getNbCongesAcquis() - sc.getNbJourPris());
+//    }
+    
+    public void ajaxCalculDateNbj(Absence absence) {
+        //DemandePermissionAbsence m_obj = (DemandePermissionAbsence) obj;
+        Integer nbJourFerie = srv.getNbJourFerie(absence.getDateDebutAbsence(), absence.getDateFinAbsence());      
+        //Vérification si une demi-journée est prise en compte
+        if(estDemiJournee()){
+            if(absence.getDateDebutAbsence().equals(absence.getDateFinAbsence())){
+                System.out.println("On est en demi journée et meme jour");
+                absence.setNbJourAbsence( JIDate.nbJour(absence.getDateDebutAbsence(), absence.getDateFinAbsence())  + 1.00 - 0.50);
+                //absence.setNbJourNonDeductible((int) (JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - 0.50 - (nbJourFerie)));
+                absence.setNbJourOuvrable(JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - 0.50 - (nbJourFerie));
+                absence.setNbJourNonDeductible(JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - 0.50 - (nbJourFerie ) );
+               
+            }else{
+                
+                if((this.getMoment_deb().equalsIgnoreCase("matin") && this.getMoment_fin().equalsIgnoreCase("apres_midi"))){
+                    System.out.println("On est en demi journée et jour diff et deb matin et fin soir");
+                    absence.setNbJourAbsence( (JIDate.nbJour(absence.getDateDebutAbsence(), absence.getDateFinAbsence())  - 0.50) + 1);
+                    absence.setNbJourNonDeductible( (JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - 0.50 - (nbJourFerie)));
+                    absence.setNbJourOuvrable(JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - 1.50 - (nbJourFerie));
+                    //absence.setNbJourDeductible(JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - 0.50 - (nbJourFerie ) );
+                    
+                }else{
+                    System.out.println("On est en demi journée et jour diff et deb soir et fin matin");
+                    absence.setNbJourAbsence( JIDate.nbJour(absence.getDateDebutAbsence(), absence.getDateFinAbsence())  - 0.50);
+                    absence.setNbJourNonDeductible( (JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - 1.50 - (nbJourFerie)));
+                    absence.setNbJourOuvrable(JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - 1.50 - (nbJourFerie));
+                    //absence.setNbJourDeductible(JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - 1.50 - (nbJourFerie ) );
+                   
+                }   
+            
+            }
+      
+        }else{
+            System.out.println("On est pas en demi");
+            absence.setNbJourAbsence( JIDate.nbJour(absence.getDateDebutAbsence(), absence.getDateFinAbsence())  );
+            absence.setNbJourNonDeductible( (JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - 1.00 - nbJourFerie));
+            absence.setNbJourOuvrable(JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - 1.00  - nbJourFerie );
+  
+//            scApres.setNbCongesEchus(scAvant.getNbCongesEchus() - absence.getNbJourDeductible());
+//            scApres.setNbJourPris(scAvant.getNbJourPris() + absence.getNbJourDeductible());
+//            scApres.setNbCongesReliquat(scApres.getNbCongesAcquis() - scApres.getNbJourPris());
+        }
+       
+        
+        /*Dans le cas d'un ajout d'absence de la part du RH
+        //Le solde conges ne sera pas deduit*/
+        
+//        sc.setNbCongesEchus(scAvant.getNbCongesEchus() - absence.getNbJourDeductible());
+//        sc.setNbJourPris(scAvant.getNbJourPris() + absence.getNbJourDeductible());
+//        sc.setNbCongesReliquat(sc.getNbCongesAcquis() - sc.getNbJourPris());
+    }
+
+
+    public void ajaxCalculDate(Absence absence) {
+        absence.setDateFinAbsence(JIDate.ajouterJour(absence.getDateDebutAbsence(), (int) (absence.getNbJourNonDeductible() - 1)));
+        Integer nbJourFerie = srv.getNbJourFerie(absence.getDateDebutAbsence(), absence.getDateFinAbsence());
+        absence.setNbJourAbsence((int) JIDate.nbJour(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) + 1);
+
+        if (JIDate.estVide(absence.getDateFinAbsence())) {
+            JIDate.ajouterJour(absence.getDateDebutAbsence(), (int) (absence.getNbJourNonDeductible() - 1));
+        }
+        absence.setNbJourOuvrable(JIDate.nbJourOuvrable(absence.getDateDebutAbsence(), absence.getDateFinAbsence()) - nbJourFerie);
+    }
+    
+    public String enregistrerAbsence() {
+        // Contrôles des données
+        if (yaErreurDansFormAbsence(absence)) {
+            return null;
+        }
+                
+        // Calcul des jours de congés
+        ajaxCalculDateNbj(absence);
+       
+        // Enregistrement de la demande d'absence
+        try {
+            TableValeur typeAbsence = tvSrv.getRef(TableValeurTypeEnum.TypeAbsence, AbsenceEnum.PermAbsNonDeducConge.toString());
+            TableValeur etatAbsence = tvSrv.getRef(TableValeurTypeEnum.EtatAbsence, EtatAbsenceEnum.Effective.toString());
+            
+            //Mise à jour des heures de depart et d'arrivée de l'absence
+
+              absence.setMomentDepart(this.moment_deb);
+              absence.setMomentFin(this.moment_fin);
+              
+              //FIchiers Joints avec la demande d'absence
+              
+              if (this.getFile().getFileName().equalsIgnoreCase("")){
+                System.out.println("Pas de fichier joint");
+            
+            }else{
+                System.out.println("fichier joint existant");
+                //absence.setCheminFileUploaded("/Users/issathiam/NetBeansProjects/SGA/sources/src/main/webapp/resources/piecesJointes");
+                absence.setCheminFileUploaded("/home/srvdebian/deploiement/SGA_V3/resources/fichiersJoints");
+                String chemin = absence.getCheminFileUploaded();
+                String nomFichier = this.save(this.getFile(), chemin);
+                absence.setFileUploaded(nomFichier);
+                
+                System.out.println("Nom FIle: "+ nomFichier);
+                System.out.println("Chemn File: "+ chemin);
+                
+            }
+            // Information sur la demande d'absence
+            absence.setTypeAbsence(typeAbsence);
+            absence.setEtat(etatAbsence);
+            
+            // Sauvegarde de l'absence
+            absence = (Absence) srv.save(absence);
+
+            
+            // Sauvegarde de l'absence
+            sc = (SoldeConges) srv.save(sc);
+            
+        } catch (CMUServiceException ex) {
+            JsfUtil.addErrorMessage("Une erreur est survenue lors de l'enregistrement de la demande");
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(SoldeCongeBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(SoldeCongeBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "/RH/soldeCongesList.xhtml";
+    }
+    
+    public boolean yaErreurDansFormAbsence(Absence absence) {
+        boolean yaErreur = false;
+        
+        if (JIDate.apresAujourdhui(absence.getDateDebutAbsence()) || JIDate.apresAujourdhui(absence.getDateFinAbsence())) {
+            JsfUtil.addErrorMessage("date_debut", "Vous ne pouvez enregistrer que des absences passées");
+             yaErreur = true;
+        }
+
+        if (JIDate.avantJour(absence.getDateFinAbsence(), absence.getDateDebutAbsence())) {
+            JsfUtil.addErrorMessage("date_fin", "La date de fin de permission congès doit être postérieure à la date de début");
+            yaErreur = true;
+        }
+
+        return yaErreur;        
+    }
+    
+    public String calculerSolde() {
+        try {
+            scSrv.executerPSCalculSolde();
+            JsfUtil.addSuccessMessage("Les soldes ont été calculés avec succès");
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Erreur lors du lancement de la procédure stockée");
+        }
+        
+        return null;
+    }
+    
+    @Override
+    public String enregistrer() {
+        try {
+            SoldeConges m_obj = (SoldeConges)obj;
+
+            //m_obj.setNbCongesReliquat(m_obj.getNbCongesAcquis() - m_obj.getNbJourPris());
+            //m_obj.setDateDernierCalcul(JIDate.now());
+            m_obj = (SoldeConges)srv.save(m_obj);
+
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage("Erreur lors de l'enregistrement du nouveau solde");
+            return null;
+        }
+        
+        return goList();    
+    }
+    
+    public boolean estDemiJournee(){
+        return ((this.getMoment_deb().equalsIgnoreCase("matin") && this.getMoment_fin().equalsIgnoreCase("apres_midi")) || (this.getMoment_deb().equalsIgnoreCase("apres_midi") && this.getMoment_fin().equalsIgnoreCase("matin")));
+    }
+    
+    public String save(UploadedFile file, String filePath) throws IOException {
+       
+        String filename = FilenameUtils.getName(file.getFileName());
+        InputStream input = file.getInputstream();
+        OutputStream output = new FileOutputStream(new File(filePath, filename));
+        
+        try {
+            IOUtils.copy(input, output);
+        } finally {
+            IOUtils.closeQuietly(input);
+            IOUtils.closeQuietly(output);
+        }
+        
+        return filename;
+    }
+    
+}

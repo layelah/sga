@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+        <composite:attribute name="objTemps" required="true"/>
+        <composite:attribute name="code" required="true"/>
+        <composite:attribute name="titre" required="true"/>
+        <composite:attribute name="optionnel" default="false"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <h:panelGrid columns="5">
+            <h:outputLabel value="#{cc.attrs.titre} : " for="#{cc.attrs.code}" />
+            <h:inputText id="#{cc.attrs.code}" size="10" maxlength="10" value="#{cc.attrs.obj}" required="#{not cc.attrs.optionnel}" converterMessage="#{msg.GEN_ERR_VALEUR_TYPE}" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"/>            
+            <h:selectOneMenu readonly="#{cc.attrs.lecture_seule}" id="unite_temps_code" value="#{cc.attrs.objTemps}" required="#{not cc.attrs.optionnel}" requiredMessage="#{msg.GEN_ERR_UNITE_TEMPS_OBLIGATOIRE}">
+                <f:selectItems value="#{myItems.lesUnitesTemps}" />
+            </h:selectOneMenu>
+            <h:outputLabel rendered="#{not cc.attrs.optionnel}" value=" * " style="color: red"/><h:outputLabel rendered="#{cc.attrs.optionnel}" value="  " style="color: red"/>
+            <h:message for="#{cc.attrs.code}" errorStyle="color: red" />
+        </h:panelGrid>
+    </composite:implementation>
+</html>

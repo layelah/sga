@@ -1,0 +1,98 @@
+package com.cmu.agence.rh.domaine;
+
+import com.cmu.base.domaine.BaseDomaine;
+import com.cmu.sigicmu.param.domaine.TableValeur;
+import com.cmu.util.JIDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "demande_permission_absence")
+public class DemandePermissionAbsence extends BaseDomaine {
+
+    @Column(name = "date_demande", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateDemande;
+    
+    @JoinColumn(name = "absence_id", referencedColumnName = "id")
+    @OneToOne(optional = false)
+    private Absence absence;
+    
+    @JoinColumn(name = "etat_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private TableValeur etat;
+    
+    @Column(name = "date_acceptation", nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateAcceptation;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "demandePermissionAbsence")
+    private List<ValidationDemande> validationDemandeList;
+    
+    public DemandePermissionAbsence() {
+        absence = new Absence(this);
+    }
+    
+    public Date getDateDemande() {
+        return dateDemande;
+    }
+
+    public void setDateDemande(Date dateDemande) {
+        this.dateDemande = dateDemande;
+    }
+
+    public List<ValidationDemande> getValidationDemandeList() {
+        return validationDemandeList;
+    }
+
+    public void setValidationDemandeList(List<ValidationDemande> validationDemandeList) {
+        this.validationDemandeList = validationDemandeList;
+    }
+
+    public Absence getAbsence() {
+        return absence;
+    }
+
+    public void setAbsence(Absence absence) {
+        this.absence = absence;
+    }
+
+    public TableValeur getEtat() {
+        return etat;
+    }
+
+    public void setEtat(TableValeur etat) {
+        this.etat = etat;
+    }
+
+    public Date getDateAcceptation() {
+        return dateAcceptation;
+    }
+
+    public void setDateAcceptation(Date dateAcceptation) {
+        this.dateAcceptation = dateAcceptation;
+    }
+    
+    public void addValidation(ValidationDemande validDem) {
+        if (validationDemandeList == null) {
+            validationDemandeList = new ArrayList<>();
+        }
+        
+        validationDemandeList.add(validDem);        
+    }
+    
+    public String getStrDateDemande() {
+        return JIDate.formatDate(dateDemande);
+    }
+ }

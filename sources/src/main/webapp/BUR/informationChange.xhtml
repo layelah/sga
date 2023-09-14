@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:h="http://java.sun.com/jsf/html" 
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+                template="./../resources/template/principal.xhtml">
+
+    <ui:define name="title">
+        <h:outputLink style="font-size: 15px">Modification des Informations</h:outputLink>
+        
+    </ui:define>
+    <ui:define name="content">
+        <b:container>
+            <b:panel>
+            <h:form>
+                <infina:formSelect code="civilite" titre="Civilite" obj="#{auth.user.agent.civilite}" list="#{myItems.lesCivilites}" optionnel="true"/>
+                <infina:formString code="prenom" titre="Prenom" obj="#{auth.user.agent.prenom}" optionnel="true"/>
+                <infina:formString code="nom" titre="Nom" obj="#{auth.user.agent.nom}" optionnel="true"/>
+                <infina:formString code="email_professionnel" titre="Email Prof." optionnel="false" obj="#{auth.user.agent.emailProfessionnel}"/>
+                <infina:formString code="adresse_1" titre="Adresse 1" optionnel="true" obj="#{auth.user.agent.coord.adresse1}"/>
+                <infina:formString code="adresse_2" titre="Adresse 2" optionnel="true" obj="#{auth.user.agent.coord.adresse2}"/>
+                <infina:formString code="adresse_3" titre="Adresse 3" optionnel="true" obj="#{auth.user.agent.coord.adresse3}"/>
+                <infina:formString code="ville" titre="Ville 3" optionnel="true" obj="#{auth.user.agent.coord.ville}"/>
+                
+                <b:row style="margin-top: 20px">
+                <b:column span="4">
+                    <b:commandButton action="#{auth.changerInfoUser}" value="Enregistrer" look='primary' />
+                </b:column>
+            </b:row>
+            </h:form>
+            </b:panel>
+        </b:container>
+    </ui:define>
+    
+     <ui:define name="footer">
+        content
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/resources/template/principalRH.xhtml"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"    
+                xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:define name="title">Demandes de permission traitées</ui:define>
+
+    <ui:define name="content">
+        <b:container>
+            <b:panel>
+                <b:panel title="Liste des demandes de permission traitées" class="panel-body panel-title" id="text" collapsible="false">
+                    <b:dataTable value="#{demPermisAbsence.listDesDemandes}" var="item"> 
+                        <b:dataTableColumn label="N°" value="#{item.absence.demandePermissionAbsence.id}"/>
+                        <b:dataTableColumn label="Agent" value="#{item.absence.agent.nomComplet}"/>
+                        <b:dataTableColumn label="Service" value="#{item.absence.agent.service.code}"/>
+                        <h:column>
+                            <f:facet name="header">Date demande</f:facet>
+                            <infina:colDateLongue valeur="#{item.dateDemande}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Date début</f:facet>
+                            <infina:colDate valeur="#{item.absence.dateDebutAbsence1}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Date fin</f:facet>
+                            <infina:colDate valeur="#{item.absence.dateFinAbsence1}" />
+                        </h:column>
+                        <b:dataTableColumn label="Nb. jours déductible" value="#{item.absence.nbJourDeductible}"/>
+                        <b:dataTableColumn label="Etat" value="#{item.etat.lib}"/>
+                        <h:column>
+                            <f:facet name="header">Action</f:facet>
+                            <h:commandLink title="détail" action="#{demPermisAbsence.goInfo(item)}"  immediate="true" value="" styleClass="fa fa-eye fa-1x btn-detail" style="margin-left: 10%;" /> 
+                            <h:commandLink title="imprimer"  rendered="#{demPermisAbsence.peutImprimer(item)}" styleClass="fa fa-file-pdf-o" action="#{demPermisAbsence.printPDF(item.absence.id,item)}" style="margin-left: 20%;"/>
+                        </h:column>
+                    </b:dataTable>
+                </b:panel>
+            </b:panel>
+        </b:container>
+    </ui:define>
+</ui:composition>
+

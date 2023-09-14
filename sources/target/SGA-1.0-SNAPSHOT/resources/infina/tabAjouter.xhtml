@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite">
+
+    <composite:interface>
+        <composite:attribute name="bean" required="true"/>
+        <composite:attribute name="lib_nouveau" default="Ajouter"/>
+        <composite:attribute name="show_nouveau" default="true"/>
+        <composite:attribute name="show_rech" default="false"/>
+    </composite:interface>
+    
+    <composite:implementation>        
+        <b:commandButton action="#{cc.attrs.bean.goNew}" rendered="#{cc.attrs.show_nouveau}" immediate="true" value="Ajouter" class="fa fa-plus" style="width: 150px;background: linear-gradient(gray,#006060);color: #ffffff;font-weight: bold;margin-left: 30%"/>
+        <b:commandButton action="#{cc.attrs.bean.goPageRechAvance}" look="primary" rendered="#{cc.attrs.show_rech}" immediate="true" value="Nouvelle recherche" style="width: 150px;background: linear-gradient(gray,#006060);color: #ffffff;font-weight: bold;margin-left: 10px"/>
+    </composite:implementation>
+</html>

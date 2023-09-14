@@ -1,0 +1,39 @@
+package com.cmu.agence.rh.domaine;
+
+import com.cmu.agence.rh.domaine.AbsenceExceptionnelle;
+import com.cmu.agence.rh.domaine.CongesNonDeductible;
+import com.cmu.agence.rh.domaine.DemandePermissionAbsence;
+import com.cmu.base.domaine.BaseDomaine_;
+import com.cmu.sigicmu.admin.domaine.Agent;
+import com.cmu.sigicmu.param.domaine.TableValeur;
+import java.util.Date;
+import javax.annotation.Generated;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-10-12T16:18:41")
+@StaticMetamodel(Absence.class)
+public class Absence_ extends BaseDomaine_ {
+
+    public static volatile SingularAttribute<Absence, String> momentFin;
+    public static volatile SingularAttribute<Absence, AbsenceExceptionnelle> absenceExceptionnelle;
+    public static volatile SingularAttribute<Absence, Agent> agent;
+    public static volatile SingularAttribute<Absence, Double> nbJourAbsence;
+    public static volatile SingularAttribute<Absence, String> momentDepart;
+    public static volatile SingularAttribute<Absence, TableValeur> etat;
+    public static volatile SingularAttribute<Absence, TableValeur> typeAbsence;
+    public static volatile SingularAttribute<Absence, Date> dateDebutAbsence;
+    public static volatile SingularAttribute<Absence, Integer> nbJourNonDeductible;
+    public static volatile SingularAttribute<Absence, DemandePermissionAbsence> demandePermissionAbsence;
+    public static volatile SingularAttribute<Absence, Double> nbJourExceptionnel;
+    public static volatile SingularAttribute<Absence, String> cheminFileUploaded;
+    public static volatile SingularAttribute<Absence, Integer> insertUserId;
+    public static volatile SingularAttribute<Absence, Double> nbJourOuvrable;
+    public static volatile SingularAttribute<Absence, String> motif;
+    public static volatile SingularAttribute<Absence, Date> dateFinAbsence;
+    public static volatile SingularAttribute<Absence, String> commentaire;
+    public static volatile SingularAttribute<Absence, Double> nbJourDeductible;
+    public static volatile SingularAttribute<Absence, CongesNonDeductible> congesNonDeductible;
+    public static volatile SingularAttribute<Absence, String> fileUploaded;
+
+}

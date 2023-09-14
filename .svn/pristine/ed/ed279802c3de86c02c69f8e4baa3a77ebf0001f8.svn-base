@@ -1,0 +1,17 @@
+package com.cmu.agence.rh.service;
+
+import com.cmu.base.service.BaseLibService;
+import javax.ejb.Schedule;
+import javax.ejb.Stateless;
+import javax.persistence.StoredProcedureQuery;
+
+
+@Stateless
+public class CalculerCongesService extends BaseLibService {
+
+    @Schedule(hour="1", persistent = false)
+    public void calculerSoldeConges() {
+        StoredProcedureQuery psRecalculerSoldeConges = getEm().createStoredProcedureQuery("ps_recalculer_solde_conges");        
+        psRecalculerSoldeConges.execute();    
+    }   
+}

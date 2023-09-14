@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:b="http://bootsfaces.net/ui" 
+                template="/resources/template/templateException404.xhtml"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title"><span style="color:red;">Désolé vous n'avez pas le droit d'accéder à cette page</span></ui:define>
+
+    <ui:define name="content">
+        <b:panel>
+        <h:graphicImage library="image" name="erreur404.png"  style=" width: 40%;height: 40%;margin-left: 30%;"/>
+        </b:panel>
+        <b:panel>
+            <infina:tabCloseException bean="#{exceptionBean}" />
+        </b:panel>
+    </ui:define>
+
+</ui:composition>

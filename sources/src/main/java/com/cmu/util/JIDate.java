@@ -1,0 +1,400 @@
+package com.cmu.util;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+
+public final class JIDate {
+    
+    // Constantes lié à la date
+    /////////////////////////////////////////////////////////////
+    
+    private static final DateFormat FORMAT_DATE = new SimpleDateFormat("dd/MM/yyyy");
+    private static final DateFormat FORMAT_DATE_HEURE = new SimpleDateFormat("dd/MM/yyyy à HH:mm");
+    private static final DateFormat FORMAT_JSON_DATE_HEURE = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private static final DateFormat FORMAT_DATE_HEURE_SECONDE = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private static final DateFormat FORMAT_HEURE = new SimpleDateFormat("HH:mm");
+    private static final long MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24; 
+    
+    
+    // Constructeurs privés (NON INSTANCIABLE)
+    /////////////////////////////////////////////////////////////
+    
+    private JIDate() {
+    }
+    
+    // Nb de jour
+    /////////////////////////////////////////////////////////////
+    public static long nbJour(Date dateDebut, Date dateFin) {        
+        long delta = dateFin.getTime() - dateDebut.getTime();
+        return delta / (MILLISECONDS_PER_DAY);
+    }
+    
+    public static int nbJourOuvrable(Date dateDebut, Date dateFin) {
+        int nbjOuv = 0;
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        
+        cal1.setTime(dateDebut);
+        cal2.setTime(dateFin);
+        
+        int nbj = (int)nbJour(dateDebut, dateFin);
+        for (int i = 0; i <= nbj; i++) {
+            if (cal1.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY
+                && cal1.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+                nbjOuv++;
+            }
+            cal1.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        return nbjOuv;
+    }
+    
+    // Fonction pour verifier si date est jour de week end
+    
+    public static boolean estJourWeekEnd(Date date) {
+         boolean yaErreur = false;
+        Calendar cal1 = Calendar.getInstance();
+        
+        
+        cal1.setTime(date);
+        
+        
+        
+       
+            if (cal1.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+                || cal1.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                
+                yaErreur = true;
+            }
+            //cal1.add(Calendar.DAY_OF_MONTH, 1);
+        
+        return yaErreur;
+    }
+     
+    // Formattage
+    /////////////////////////////////////////////////////////////
+    
+    public static String formatDate(java.util.Date uneDate) {
+        return FORMAT_DATE.format(uneDate);
+    }
+    
+     public static String formatJsonDateHeure(java.util.Date uneDate) {
+        return FORMAT_JSON_DATE_HEURE.format(uneDate);
+    }
+     
+    public static String formatDateHeure(java.util.Date uneDate) {
+        return FORMAT_DATE_HEURE.format(uneDate);
+    }
+    
+    public static String formatDateHeureSeconde(java.util.Date uneDate) {
+        return FORMAT_DATE_HEURE_SECONDE.format(uneDate);
+    }
+    
+    
+    // Test et conversion Date
+    /////////////////////////////////////////////////////////////
+    
+    public static boolean estDate(String inDate) {        
+        FORMAT_DATE.setLenient(false);
+        try {
+            FORMAT_DATE.parse(inDate.trim());
+            return true;
+        } catch (ParseException pe) {          
+        }
+        
+        return false;
+    }
+    
+    public static boolean estDateHeure(String inDate) {        
+        FORMAT_DATE_HEURE.setLenient(false);
+        try {
+            FORMAT_DATE_HEURE.parse(inDate.trim());
+            return true;
+        } catch (ParseException pe) {          
+        }
+        
+        return false;
+    }
+    
+    public static boolean estHeure(String inDate) {        
+        FORMAT_HEURE.setLenient(false);
+        try {
+            FORMAT_HEURE.parse(inDate.trim());
+            return true;
+        } catch (ParseException pe) {          
+        }
+        
+        return false;
+    }
+    
+    public static Date getDate(String inDate) {        
+        FORMAT_DATE.setLenient(false);
+        try {
+            return FORMAT_DATE.parse(inDate.trim());            
+        } catch (ParseException pe) {          
+        }
+        
+        return null;
+    }
+    
+    public static Date getDateHeure(String inDate) {        
+        FORMAT_DATE_HEURE.setLenient(false);
+        try {
+            return FORMAT_DATE_HEURE.parse(inDate.trim());
+        } catch (ParseException pe) {          
+        }
+        
+        return null;
+    }
+    
+    public static Date getHeure(String inDate) {        
+        FORMAT_HEURE.setLenient(false);
+        try {
+            return FORMAT_HEURE.parse(inDate.trim());
+            
+        } catch (ParseException pe) {          
+        }
+        
+        return null;
+    }
+    
+    
+    // Récupération de la date du jour
+    /////////////////////////////////////////////////////////////
+    public static Date now() {
+        return new java.util.Date();
+    }
+    
+    public static java.util.Date dateHeure() {
+        return now();
+    }
+    
+    public static java.util.Date date() {
+        return now();
+    }
+    
+    public static java.util.Date dateSansHeure() {
+        return dateSansHeure(now());
+    }
+    
+    public static java.util.Date dateDuJourSansHeure() {
+        return dateSansHeure(now());
+    }
+     
+    // Récupération de Date
+    /////////////////////////////////////////////////////////////
+    public static java.util.Date dateSansHeure(Date aDate) {
+         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(aDate);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+    
+    public static java.util.Date dateAvecHeure(Date aDate, Integer heure, Integer minute) {
+        return dateAvecHeure(aDate, heure, minute, 0);
+    }
+    
+    public static java.util.Date dateAvecHeure(Date aDate, Integer heure, Integer minute, Integer seconde) {
+         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(aDate);
+        calendar.set(Calendar.HOUR_OF_DAY, heure);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, seconde);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+    
+    
+    // Exploitation des données de la date
+    ////////////////////////////////////////////////////////////
+    
+    public static int anneeEnCours() {
+        return getAnnee(now());
+    }
+    
+    public static int getAnnee(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);          
+        return c.get(Calendar.YEAR);
+    }
+    
+    public static String getAA() {
+        return getAA(now());
+    }
+    
+    
+    public static String getAA(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yy");
+        return sdf.format(date);
+    }
+    
+    public static String getMM() {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM");
+        return sdf.format(cal.getTime());
+    }
+    
+    public static String getAAMM() {
+        return getAA()+getMM();
+    }
+    
+    
+    
+    // Opération sur les dates (décallage d'une période)
+    ////////////////////////////////////////////////////////////
+    
+    public static Date ajouterMois(Date date, int nbMois) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, nbMois);
+        return cal.getTime();
+    }
+    
+    public static Date ajouterSemaine(Date date, int nbSemaine) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.WEEK_OF_MONTH, nbSemaine);
+        return cal.getTime();
+    }
+    
+    public static Date ajouterJour(Date date, int nbJour) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_MONTH, nbJour);
+        
+        return cal.getTime();
+    }
+  
+    public static Date ajouterHeure(Date date, int nbHeure) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR_OF_DAY, nbHeure);
+        return cal.getTime();
+    }
+    
+    public static Date ajouterMinute(Date date, int nbMinute) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MINUTE, nbMinute);
+        return cal.getTime();
+    }
+    
+    
+    // Comparaison sur la date et heure
+    /////////////////////////////////////////////////////////////
+
+    public static boolean egaleJourHeure(Date d1, Date d2) {
+        return d1.equals(d2);
+    }
+    
+    public static boolean avantJourHeure(Date d1, Date d2) {
+        return d1.before(d2) && !egaleJourHeure(d1, d2);
+    }
+    
+    public static boolean avantOuEgaleJourHeur(Date d1, Date d2) {
+        return (egaleJourHeure(d1, d2) || avantJourHeure(d1, d2));
+    }
+    
+    public static boolean apresJourHeure(Date d1, Date d2) {
+        return d1.after(d2) && !egaleJourHeure(d1, d2);
+    }
+    
+    public static boolean apresOuEgaleJourHeure(Date d1, Date d2) {
+        return (egaleJourHeure(d1, d2) || apresJourHeure(d1, d2));
+    }
+
+    public static boolean egaleAujourdhuiHeure(Date d) {
+        return egaleJourHeure(d, now());
+    }
+    
+    public static boolean avantAujourdhuiHeure(Date d) {
+        return avantJourHeure(d, now());
+    }
+    
+    public static boolean avantOuEgaleAujourdhuiHeure(Date d) {
+        return avantOuEgaleJourHeur(d, now());
+    }
+    
+    public static boolean apresAujourdhuiHeure(Date d) {
+        return apresJourHeure(d, now());
+    }
+		 
+    public static boolean apresOuEgaleAujourdhuiHeure(Date d) {
+        return apresOuEgaleJourHeure(d, now());      
+    }		
+    
+    
+	// Comparaison que sur la date
+    /////////////////////////////////////////////////////////////
+
+    public static boolean egaleJour(Date dd1, Date dd2) {
+        Date d1 = dateSansHeure(dd1);
+        Date d2 = dateSansHeure(dd2);
+        return egaleJourHeure(d1, d2);
+    }
+    
+    public static boolean avantJour(Date dd1, Date dd2) {
+        Date d1 = dateSansHeure(dd1);
+        Date d2 = dateSansHeure(dd2);
+        return avantJourHeure(d1, d2);
+    }
+    
+    public static boolean avantOuEgaleJour(Date dd1, Date dd2) {
+        Date d1 = dateSansHeure(dd1);
+        Date d2 = dateSansHeure(dd2);
+        return avantOuEgaleJourHeur(d1, d2);
+    }
+    
+    public static boolean apresJour(Date dd1, Date dd2) {
+        Date d1 = dateSansHeure(dd1);
+        Date d2 = dateSansHeure(dd2);
+        return apresJourHeure(d1, d2);
+    }
+    
+    public static boolean apresOuEgaleJour(Date dd1, Date dd2) {
+        Date d1 = dateSansHeure(dd1);
+        Date d2 = dateSansHeure(dd2);
+        return apresOuEgaleJourHeure(d1, d2);
+    }
+
+    public static boolean egaleAujourdhui(Date d) {
+        Date d1 = dateSansHeure(d);
+        Date d2 = dateSansHeure(now());
+        return egaleJourHeure(d1, d2);
+    }
+    
+    public static boolean avantAujourdhui(Date d) {
+        Date d1 = dateSansHeure(d);
+        Date d2 = dateSansHeure(now());
+        return avantJourHeure(d1, d2);
+    }
+    
+    public static boolean avantOuEgaleAujourdhui(Date d) {
+        Date d1 = dateSansHeure(d);
+        Date d2 = dateSansHeure(now());
+        return avantOuEgaleJourHeur(d1, d2);
+    }
+    
+    public static boolean estVide(Date d) {
+        return (d == null);
+    }
+    
+    
+    public static boolean apresAujourdhui(Date d) {
+        Date d1 = dateSansHeure(d);
+        Date d2 = dateSansHeure(now());
+        return apresJourHeure(d1, d2);
+    }
+    
+    public static boolean apresOuEgaleAujourdhui(Date d) {
+        Date d1 = dateSansHeure(d);
+        Date d2 = dateSansHeure(now());
+        return apresOuEgaleJourHeure(d1, d2);      
+    }
+}

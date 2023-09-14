@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:composite="http://java.sun.com/jsf/composite" 
+      xmlns:infina="http://java.sun.com/jsf/composite/infina">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+        <composite:attribute name="mode_simple" required="false"/>
+    </composite:interface>
+
+    <composite:implementation> 
+        <infina:infoString titre="#{msg.LBL_NOM}" valeur="#{cc.attrs.obj.lib}" />
+        <infina:infoString titre="#{msg.LBL_NUM_AGREMENT}" valeur="#{cc.attrs.obj.numAgrement}" />
+        <infina:infoString titre="#{msg.LBL_NUM_IMMATRICULATION}" valeur="#{cc.attrs.obj.numImmatriculation}" />
+        <infina:infoString titre="#{msg.LBL_TYPE_ENT_MUT}" valeur="#{cc.attrs.obj.type.lib}" />
+        <infina:infoString titre="#{msg.LBL_LOCALITE}" valeur="#{cc.attrs.obj.commune.lib}" />        
+    </composite:implementation>
+</html>

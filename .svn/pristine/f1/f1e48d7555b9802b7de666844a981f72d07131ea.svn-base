@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RapportDmDAbs" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" isIgnorePagination="true" uuid="7c1bb13e-2732-4105-ab5f-3b940ab2839a">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="8"/>
+	<subDataset name="sga_ds" uuid="338f7875-9644-4bdd-ae30-2699790973f2">
+		<parameter name="id" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select
+    ppd.nom_complet as a_nom, f.lib as a_fonction, s.lib as a_service
+    , d.id as num_dmd, d.date_demande as date_dmd,  so.nb_conges_acquis as conges_acquis, so.nb_jour_pris_deductible as conges_pris, so.nb_conges_echus as conges_echus, so.nb_conges_reliquat as reliquat
+    , DATE_FORMAT(a.date_debut_absence,'%d/%m/%Y') as date_deb_abs, DATE_FORMAT(a.date_fin_absence,'%d/%m/%Y') as date_fin_abs, a.motif as ab_motif, a.nb_jour_absence as duree
+    , ppsup.nom_complet as sup_hier
+    , ifnull(v.date_validation,'') as date_visa, ifnull(v.note,'') as observ, ev.lib as valid
+from absence a, solde_conges so, demande_permission_absence d, agent ad, agent asup, personne_physique ppd, personne_physique ppsup
+    , table_valeur f, service s, validation_demande v, utilisateur usup, table_valeur ev
+where a.id = $P{id}
+   and a.id = d.absence_id
+and a.agent_id = ad.id
+     and ad.fonction_id = f.id
+    and ad.service_id = s.id
+    and ad.superviseur_id = asup.id
+    and ad.id = ppd.id
+    and asup.id = ppsup.id
+    and usup.agent_id = asup.id
+    and d.id = v.demande_id
+    and a.agent_id= so.agent_id
+    and v.etat_id = ev.id
+order by v.date_validation
+limit 1;]]>
+		</queryString>
+		<field name="a_nom" class="java.lang.String"/>
+		<field name="a_fonction" class="java.lang.String"/>
+		<field name="a_service" class="java.lang.String"/>
+		<field name="num_dmd" class="java.lang.Long"/>
+		<field name="date_dmd" class="java.sql.Timestamp"/>
+		<field name="conges_acquis" class="java.math.BigDecimal"/>
+		<field name="conges_pris" class="java.math.BigDecimal"/>
+		<field name="conges_echus" class="java.math.BigDecimal"/>
+		<field name="reliquat" class="java.math.BigDecimal"/>
+		<field name="date_deb_abs" class="java.lang.String"/>
+		<field name="date_fin_abs" class="java.lang.String"/>
+		<field name="ab_motif" class="java.lang.String"/>
+		<field name="duree" class="java.math.BigDecimal"/>
+		<field name="sup_hier" class="java.lang.String"/>
+		<field name="date_visa" class="java.lang.String"/>
+		<field name="observ" class="java.lang.String"/>
+		<field name="valid" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/mohamed/NetBeansProjects/intranet_sga/src/main/webapp/report/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+    ppd.nom_complet as a_nom, f.lib as a_fonction, s.lib as a_service
+    , d.id as num_dmd, d.date_demande as date_dmd,  so.nb_conges_acquis as conges_acquis, so.nb_jour_pris_deductible as conges_pris, so.nb_conges_echus as conges_echus, so.nb_conges_reliquat as reliquat
+    , a.date_debut_absence as date_deb_abs, a.date_fin_absence as date_fin_abs, a.motif as ab_motif, a.nb_jour_absence as duree
+    , ppsup.nom_complet as sup_hier
+    , ifnull(v.date_validation,'') as date_visa, ifnull(v.note,'') as observ, ev.lib as valid
+from absence a, solde_conges so, demande_permission_absence d, agent ad, agent asup, personne_physique ppd, personne_physique ppsup
+    , table_valeur f, service s, validation_demande v, utilisateur usup, table_valeur ev
+where a.id = $P{id}
+   and a.id = d.absence_id
+and a.agent_id = ad.id
+     and ad.fonction_id = f.id
+    and ad.service_id = s.id
+    and ad.superviseur_id = asup.id
+    and ad.id = ppd.id
+    and asup.id = ppsup.id
+    and usup.agent_id = asup.id
+    and d.id = v.demande_id
+    and a.agent_id= so.agent_id
+    and v.etat_id = ev.id
+order by v.date_validation
+limit 1;]]>
+	</queryString>
+	<field name="a_nom" class="java.lang.String"/>
+	<field name="a_fonction" class="java.lang.String"/>
+	<field name="a_service" class="java.lang.String"/>
+	<field name="num_dmd" class="java.lang.Long"/>
+	<field name="date_dmd" class="java.sql.Timestamp"/>
+	<field name="conges_acquis" class="java.math.BigDecimal"/>
+	<field name="conges_pris" class="java.math.BigDecimal"/>
+	<field name="conges_echus" class="java.math.BigDecimal"/>
+	<field name="reliquat" class="java.math.BigDecimal"/>
+	<field name="date_deb_abs" class="java.sql.Timestamp"/>
+	<field name="date_fin_abs" class="java.sql.Timestamp"/>
+	<field name="ab_motif" class="java.lang.String"/>
+	<field name="duree" class="java.math.BigDecimal"/>
+	<field name="sup_hier" class="java.lang.String"/>
+	<field name="date_visa" class="java.lang.String"/>
+	<field name="observ" class="java.lang.String"/>
+	<field name="valid" class="java.lang.String"/>
+	<variable name="reliquat_conges_1" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="131" splitType="Stretch">
+			<staticText>
+				<reportElement x="186" y="27" width="225" height="20" uuid="b0c6f459-75de-4c8c-99af-2ceb741e9d6d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPUBLIQUE DU MALI></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="69" width="178" height="50" uuid="0da8fe93-0d9e-47d0-a6a2-6649ba71ee11"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MINISTÈRE DU DÉVELOPPEMENT COMMUNAUTAIRE, DE L’ÉQUITÉ SOCIALE ET TERRITORIALE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="411" y="69" width="144" height="51" uuid="8fd6f3b4-17c7-4061-aa9e-696612df1401"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AGENCE NATIONALE DE LA COUVERTURE MALADIE UNIVERSELLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="186" y="47" width="225" height="20" uuid="604a95a3-2729-45dd-914b-654dbf2406d5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Un Peuple- Un But- Une Foi]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="657" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="20" width="104" height="17" uuid="c55eef94-06fe-46de-83c0-6e7d05d74fa0"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="20" width="102" height="27" uuid="0dee2611-d264-464e-ba48-977e55163856"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[I-IDENTIFICATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="37" width="100" height="20" uuid="ddcb4146-091b-4d46-9c9c-3ceedcd38082"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Beneficiaire :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="57" width="100" height="20" uuid="38cda6d8-0b3b-43fb-ba59-5ed3d8b94aaa"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fonction :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="77" width="100" height="20" uuid="8db0b237-a2b2-4ca7-be65-9f7cebb8396b"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Direction :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="97" width="102" height="20" uuid="e3a809a9-df12-43d4-aaee-e280c700b724"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="97" width="102" height="20" uuid="d1a13511-d9cf-41f6-85b8-e19587a66232"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[II-Demande]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="117" width="100" height="20" uuid="a5b7e9bb-a12d-49f4-9165-d4a00cbc7039"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N°Demande :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="137" width="100" height="20" uuid="69c92680-fabc-4aab-8dc7-f84dc4797a2f"/>
+				<textElement>
+					<font size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Date debut conge :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="157" width="100" height="20" uuid="211dc689-0ef4-4bc3-9b76-427f8ba1a983"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Durée :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="177" width="100" height="20" uuid="cd844025-5963-4d6f-a670-48b965e02839"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Motif :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="117" width="119" height="20" uuid="59b7634e-f764-4e6c-9776-b719948be06e"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date demande conge :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="322" y="137" width="119" height="20" uuid="796ddfd7-6c12-49bf-b1de-67c3af9d2914"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date fin conge (inclus) :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="197" width="100" height="20" uuid="a90423e0-3030-4146-ade5-e8b9acc49e01"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="201" width="100" height="20" uuid="b06c7dae-85b4-4ddc-a2ae-316403c8ae9d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[III-Visas]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="4" y="222" width="551" height="103" uuid="d9ebc92f-ff11-4cda-b4d1-e5270b905b92"/>
+			</rectangle>
+			<line>
+				<reportElement x="6" y="242" width="549" height="1" uuid="5cbe8bb8-1ef4-4413-b51f-84d850b8a817"/>
+			</line>
+			<line>
+				<reportElement x="4" y="261" width="551" height="1" uuid="19f9c82d-9863-4f0c-aebe-fcfc9f7d98b2"/>
+			</line>
+			<line>
+				<reportElement x="6" y="288" width="549" height="1" uuid="8cafd840-d5a7-4d1b-ac45-4af2ede28dad"/>
+			</line>
+			<line>
+				<reportElement x="334" y="243" width="1" height="45" uuid="d63625dc-06fe-4717-9679-5d72ef48d1f4"/>
+			</line>
+			<rectangle>
+				<reportElement x="4" y="343" width="551" height="78" uuid="74fe3ea0-ebbc-49c8-943f-bd8488da6df6"/>
+			</rectangle>
+			<line>
+				<reportElement x="6" y="362" width="549" height="1" uuid="143c599e-18d4-40a4-8572-65fb48af337d"/>
+			</line>
+			<line>
+				<reportElement x="4" y="377" width="551" height="1" uuid="efc5b542-0be2-484a-98e8-0458c547f491"/>
+			</line>
+			<line>
+				<reportElement x="107" y="362" width="1" height="58" uuid="65d9adae-1741-4615-b779-379fc7926543"/>
+			</line>
+			<line>
+				<reportElement x="207" y="362" width="1" height="58" uuid="da643d3b-1d1f-4afe-870b-0a095b5f252d"/>
+			</line>
+			<line>
+				<reportElement x="321" y="362" width="1" height="58" uuid="839544f0-1c2d-4bdf-8559-6eb732b11c6a"/>
+			</line>
+			<line>
+				<reportElement x="438" y="362" width="1" height="58" uuid="f9210a58-5b8e-4fb7-8ad2-de02cbe3c164"/>
+			</line>
+			<rectangle>
+				<reportElement x="8" y="442" width="258" height="87" uuid="f0ef7239-91c1-44c5-b5bb-cb3c4cc812f1"/>
+			</rectangle>
+			<line>
+				<reportElement x="7" y="464" width="259" height="1" uuid="cac5c882-af0f-48a5-a4c9-583cda72780f"/>
+			</line>
+			<line>
+				<reportElement x="7" y="483" width="259" height="1" uuid="bb85fd81-dcc6-4c83-b9db-bedfd476aa38"/>
+			</line>
+			<line>
+				<reportElement x="148" y="465" width="1" height="65" uuid="1e401948-9752-4e7d-99f7-3848bb428771"/>
+			</line>
+			<rectangle>
+				<reportElement x="6" y="540" width="549" height="101" uuid="21fa3a0c-2160-4815-bf28-9d14a4361511"/>
+			</rectangle>
+			<line>
+				<reportElement x="7" y="560" width="548" height="1" uuid="986c75bb-d6b9-4dd3-90fa-3f5478288f48"/>
+			</line>
+			<line>
+				<reportElement x="128" y="561" width="1" height="80" uuid="602cdd5b-6ef1-43c3-97f4-2e9e5cb9f722"/>
+			</line>
+			<line>
+				<reportElement x="7" y="584" width="548" height="1" uuid="bd258c68-885f-4b6e-889e-1511b81dbbfe"/>
+			</line>
+			<staticText>
+				<reportElement x="186" y="223" width="217" height="20" uuid="9ccd19b9-df11-4fe9-a025-c754b38cab12"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[III- 1  Visa supérieur hiérarchique]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="243" width="166" height="20" uuid="c1ef20d8-9acb-492f-aa03-4ca7f883741e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Supérieur hiérarchique]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="391" y="243" width="142" height="20" uuid="139f6e26-ac84-470c-be0a-ddb7ef5508ad"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Résultat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="145" y="350" width="325" height="20" uuid="526e9bb6-1fe5-4865-b4e2-36479f642a4f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situation des congés (en nombre de jours ouvrables)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="360" width="100" height="20" uuid="b602c81e-a23b-432e-b2e6-9783dadbc8cd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Congés acquis]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="121" y="360" width="100" height="20" uuid="1359964b-7f79-4634-9604-7b4533883289"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Congés pris]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="235" y="363" width="100" height="20" uuid="57334a47-8afe-46a8-9404-626586ff529d"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Congés échus]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="363" width="115" height="20" uuid="aa9919fa-60dd-4df2-a859-2f9325312d2f"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reliquat congés dû à ce jour]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="363" width="100" height="20" uuid="4da5b3c3-8d4f-4514-b9d6-9f601a5fc17f"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[III-2 Visa RH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="121" y="446" width="100" height="20" uuid="84b37849-9d52-4181-b670-704747ab123b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[III-3   Visa DAF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="469" width="100" height="20" uuid="8901c7b7-f3df-4c54-a8e3-e22aa1ec4214"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="159" y="464" width="100" height="20" uuid="014ccb75-77f9-4117-9476-73a9436030e1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observations]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="20" y="489" width="14" height="11" uuid="9b7dc04d-83df-41e9-b916-df857c86267d"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="21" y="509" width="14" height="11" uuid="c245da0f-6a31-481a-afc3-fc2103a494ae"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="42" y="486" width="100" height="20" uuid="9c9b532c-31a4-4e72-b5d6-afb90c38eed8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Approuvé]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="505" width="100" height="20" uuid="1b6bedd6-e15a-42b1-8876-f3fb8eed98bb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Rejeté]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="24" y="595" width="14" height="11" uuid="786fcddc-73de-4be4-9b8f-6db35fcca252"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="24" y="621" width="14" height="11" uuid="65d48875-5552-484a-92d7-3f0ee4e8c473"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="48" y="595" width="100" height="20" uuid="74e706c9-c029-4946-8691-cab471ff2f43"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Approuvé]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="621" width="100" height="20" uuid="04dc3661-2f83-4268-a425-9f5ef0e5459a"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Rejeted]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="183" y="544" width="214" height="20" uuid="a084fd13-263c-4901-bd3d-9d9fa88b57bf"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[III-5  Décision Direction Générale ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="565" width="100" height="20" uuid="86514fcd-c09e-4e0d-8007-24024b94bf5a"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="137" y="567" width="100" height="20" uuid="c1e735f4-e3c2-4623-97a0-b45c5b38a092"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observations]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="152" y="37" width="251" height="20" uuid="b6df178c-a005-4f23-9442-fe2c761329ec"/>
+				<textFieldExpression><![CDATA[$F{a_nom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="152" y="57" width="251" height="20" uuid="56a1eeef-85b1-461d-9927-73b7212ab2db"/>
+				<textFieldExpression><![CDATA[$F{a_fonction}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="152" y="77" width="251" height="20" uuid="c08ff5cd-68f3-4b73-83ba-572d91f04388"/>
+				<textFieldExpression><![CDATA[$F{a_service}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="146" y="121" width="100" height="20" uuid="776703f6-7da2-4f62-a202-6d8d90f047d6"/>
+				<textFieldExpression><![CDATA[$F{num_dmd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="117" width="100" height="20" uuid="d7c2906b-464f-4e70-b1ee-01e4cbe3b52c"/>
+				<textFieldExpression><![CDATA[$F{date_dmd}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="146" y="137" width="100" height="20" uuid="64d60157-2edb-44c7-894f-e27b9c630e79"/>
+				<textFieldExpression><![CDATA[$F{date_deb_abs}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="157" width="100" height="20" uuid="25635372-33b0-4e4d-baa2-c34e1bf8d0a7"/>
+				<textFieldExpression><![CDATA[$F{duree}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="177" width="391" height="20" uuid="3586022d-6204-4d09-a559-041d8266c8f8"/>
+				<textFieldExpression><![CDATA[$F{ab_motif}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="440" y="137" width="100" height="20" uuid="9a18b64d-1964-47e9-b0d1-57a6e2a8d9e6"/>
+				<textFieldExpression><![CDATA[$F{date_fin_abs}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="267" width="291" height="20" uuid="32f3fcad-49f3-446f-aa0f-fe71910604df"/>
+				<textFieldExpression><![CDATA[$F{sup_hier}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="127" y="289" width="1" height="36" uuid="118f88f5-aaf7-4444-91ce-a9db36abe26f"/>
+			</line>
+			<staticText>
+				<reportElement x="27" y="305" width="100" height="20" uuid="54f9ceda-77df-41f8-8b19-9d719230a0d9"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observations]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="18" y="383" width="100" height="20" uuid="7ba4085d-8d8d-4af3-9e27-b0b04819dd8a"/>
+				<textFieldExpression><![CDATA[$F{conges_acquis}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="383" width="100" height="20" uuid="3361f952-8e1c-418c-b8d5-11d5157fd2d5"/>
+				<textFieldExpression><![CDATA[$F{conges_pris}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="221" y="383" width="100" height="20" uuid="fb7729a7-fbfd-4db8-9b03-9878befe5c31"/>
+				<textFieldExpression><![CDATA[$F{conges_echus}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="78" y="0" width="492" height="20" uuid="068d7c89-b733-45c0-a800-47b9cac8a466"/>
+				<textElement>
+					<font size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[DEMANDE DE PERMISSION D'ABSENCE DEDUCTIBLE DES CONGES]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="341" y="383" width="100" height="20" uuid="5a145db0-f0e7-49a7-9fc3-c137ee2266e7"/>
+				<textFieldExpression><![CDATA[$F{reliquat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="137" y="299" width="399" height="20" uuid="e36ab9d1-6788-416f-b13f-a66d9a309cb4"/>
+				<textFieldExpression><![CDATA[$F{observ}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="294" y="491" width="14" height="11" uuid="9f01c98d-02ca-4a81-936f-b21d52fff643"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="395" y="448" width="100" height="20" uuid="ae86338e-8354-4e78-995f-b61d237f4885"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[III-3   Visa DAF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="316" y="488" width="100" height="20" uuid="1e976df6-d784-4418-ab0d-d95365debc49"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Approuvé]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="295" y="511" width="14" height="11" uuid="18c28e63-6ffe-42ef-a2c1-dffcb782c68e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="284" y="468" width="100" height="20" uuid="e7086edf-badb-4920-836c-24e95233ead0"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="281" y="442" width="258" height="87" uuid="2a509629-a3fc-402f-a5e1-b29765f4b02f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="314" y="507" width="100" height="20" uuid="d46273bd-6a0f-4e48-a626-5b8f2877532f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Rejeté]]></text>
+			</staticText>
+			<line>
+				<reportElement x="422" y="467" width="1" height="62" uuid="0bda9022-3bec-4567-8319-d278c3f45df3"/>
+			</line>
+			<staticText>
+				<reportElement x="433" y="466" width="100" height="20" uuid="d53d2ba5-9aff-4de1-9b20-f56f74942cad"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observations]]></text>
+			</staticText>
+			<line>
+				<reportElement x="281" y="466" width="259" height="1" uuid="4d86f44b-f9d3-427e-bba5-a9dc0766b3f5"/>
+			</line>
+			<line>
+				<reportElement x="281" y="485" width="259" height="1" uuid="945c9e52-4c78-4ac2-9c3a-69fff8fe5804"/>
+			</line>
+			<rectangle>
+				<reportElement x="285" y="511" width="14" height="11" uuid="4558a8ff-0334-452f-b27d-9e1a24688455"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="284" y="494" width="14" height="11" uuid="7b603c39-a113-4a3e-b01c-cca6febf1bbc"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="314" y="487" width="100" height="20" uuid="e1bebaa4-436b-461f-83dc-b464a575bc59"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Approuvé]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="471" width="100" height="20" uuid="ffebac3b-aa2f-4b41-922b-49bee39e5308"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="447" width="100" height="20" uuid="c1abab22-4c04-45cf-b3bb-b8b08cea823e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[III-4   Visa SG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="384" y="263" width="140" height="20" uuid="3a8ed0cb-fe1b-4e51-b737-c7dc72241f35"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Approuvé]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+</jasperReport>

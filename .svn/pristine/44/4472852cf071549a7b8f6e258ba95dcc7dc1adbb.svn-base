@@ -1,0 +1,19 @@
+package com.cmu.sigicmu.param.domaine;
+
+import com.cmu.agence.rh.domaine.JourFerie;
+import com.cmu.base.domaine.BaseDomaine_;
+import javax.annotation.Generated;
+import javax.persistence.metamodel.ListAttribute;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2022-10-03T12:27:04")
+@StaticMetamodel(Annee.class)
+public class Annee_ extends BaseDomaine_ {
+
+    public static volatile SingularAttribute<Annee, Boolean> estCourante;
+    public static volatile SingularAttribute<Annee, Boolean> estCachee;
+    public static volatile SingularAttribute<Annee, Integer> annee;
+    public static volatile ListAttribute<Annee, JourFerie> jourFerieList;
+
+}

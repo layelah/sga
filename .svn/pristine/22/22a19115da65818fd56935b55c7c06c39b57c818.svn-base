@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+        xmlns:b="http://bootsfaces.net/ui" 
+        xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+        template="/resources/template/principal.xhtml">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+        <composite:attribute name="lbl_lib" default="#{msg.LBL_LIB}"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <infina:infoString titre="#{msg.LBL_CODE}" valeur="#{cc.attrs.obj.code}"/>
+        <infina:infoString titre="#{cc.attrs.lbl_lib}" valeur="#{cc.attrs.obj.lib}"/>
+    </composite:implementation>
+</html>

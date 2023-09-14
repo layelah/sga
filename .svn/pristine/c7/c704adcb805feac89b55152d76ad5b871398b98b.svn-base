@@ -1,0 +1,291 @@
+package com.cmu.agence.rh.domaine;
+
+import com.cmu.base.domaine.BaseDomaine;
+import com.cmu.sigicmu.admin.domaine.Agent;
+import com.cmu.sigicmu.admin.domaine.Utilisateur;
+import com.cmu.sigicmu.param.domaine.TableValeur;
+import com.cmu.util.JIDate;
+import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import static javax.persistence.FetchType.EAGER;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.servlet.http.Part;
+
+ @Entity
+@Table(name = "absence")
+public class Absence extends BaseDomaine {
+
+    @Column(name = "date_debut_absence", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateDebutAbsence;
+    
+    @Column(name = "moment_depart", nullable = true)
+    private String momentDepart;
+    
+    @Column(name = "date_fin_absence", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateFinAbsence;
+    
+    @Column(name = "moment_fin", nullable = true)
+    private String momentFin;
+    
+    @Column(name = "nb_jour_absence", nullable = false)
+    private double nbJourAbsence;
+    
+    @Column(name = "nb_jour_ouvrable", nullable = false)
+    private double nbJourOuvrable;
+    
+    @Column(name = "nb_jour_deductible", nullable = false)
+    private double nbJourDeductible;
+    
+    @Column(name = "nb_non_jour_deductible", nullable = false)
+    private int nbJourNonDeductible;
+    
+    @Column(name = "nb_jour_exceptionnel", nullable = false)
+    private double nbJourExceptionnel;
+    
+    @JoinColumn(name = "agent_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Agent agent;
+    
+    @Column(name = "insert_user_id", nullable = false, updatable = false)
+    private int insertUserId;
+    
+    @JoinColumn(name = "conges_non_deductible_id", referencedColumnName = "id")
+    @ManyToOne
+    private CongesNonDeductible congesNonDeductible;
+    
+    @JoinColumn(name = "absence_exceptionnelle_id", referencedColumnName = "id")
+    @ManyToOne
+    private AbsenceExceptionnelle absenceExceptionnelle;
+    
+    @JoinColumn(name = "demande_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "absence")
+    private DemandePermissionAbsence demandePermissionAbsence;
+    
+    @JoinColumn(name = "type_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private TableValeur typeAbsence;
+    
+    @JoinColumn(name = "etat_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private TableValeur etat;
+    
+    @Column(name = "motif", nullable = true)
+    private String motif;
+    
+    @Column(name = "file_uploaded", nullable = true)
+    private String fileUploaded;
+    
+    @Column(name = "chemin_file", nullable = true)
+    private String cheminFileUploaded;
+    
+    @Column(name = "commentaire", nullable = true)
+    private String commentaire;
+    
+   
+    
+    public Absence() {
+    }
+
+    public Absence(Agent agent) {
+        this.agent = agent;
+    }
+
+    public Absence(DemandePermissionAbsence dem) {
+        demandePermissionAbsence = dem;
+    }
+
+    public Date getDateDebutAbsence() {
+        return dateDebutAbsence;
+    }
+
+    public void setDateDebutAbsence(Date dateDebutAbsence) {
+        this.dateDebutAbsence = dateDebutAbsence;
+    }
+
+    public Date getDateFinAbsence() {
+        return dateFinAbsence;
+    }
+
+    public void setDateFinAbsence(Date dateFinAbsence) {
+        this.dateFinAbsence = dateFinAbsence;
+    }
+    public double getNbJourAbsence() {
+        return nbJourAbsence;
+    }
+
+    public void setNbJourAbsence(double nbJourAbsence) {
+        this.nbJourAbsence = nbJourAbsence;
+    }
+
+    public double getNbJourOuvrable() {
+        return nbJourOuvrable;
+    }
+
+    public void setNbJourOuvrable(double nbJourOuvrable) {
+        this.nbJourOuvrable = nbJourOuvrable;
+    }
+
+    public double getNbJourDeductible() {
+        return nbJourDeductible;
+    }
+
+    public void setNbJourDeductible(double nbJourDeductible) {
+        this.nbJourDeductible = nbJourDeductible;
+    }
+
+    public int getNbJourNonDeductible() {
+        return nbJourNonDeductible;
+    }
+
+    public void setNbJourNonDeductible(int nbJourNonDeductible) {
+        this.nbJourNonDeductible = nbJourNonDeductible;
+    }
+
+    public double getNbJourExceptionnel() {
+        return nbJourExceptionnel;
+    }
+
+    public void setNbJourExceptionnel(double nbJourExceptionnel) {
+        this.nbJourExceptionnel = nbJourExceptionnel;
+    }
+    
+    
+
+    public Agent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
+
+
+    public CongesNonDeductible getCongesNonDeductible() {
+        return congesNonDeductible;
+    }
+
+    public void setCongesNonDeductible(CongesNonDeductible congesNonDeductible) {
+        this.congesNonDeductible = congesNonDeductible;
+    }
+
+    public AbsenceExceptionnelle getAbsenceExceptionnelle() {
+        return absenceExceptionnelle;
+    }
+
+    public void setAbsenceExceptionnelle(AbsenceExceptionnelle absenceExceptionnelle) {
+        this.absenceExceptionnelle = absenceExceptionnelle;
+    }
+    
+    
+
+    public DemandePermissionAbsence getDemandePermissionAbsence() {
+        return demandePermissionAbsence;
+    }
+
+    public void setDemandePermissionAbsence(DemandePermissionAbsence demandePermissionAbsence) {
+        this.demandePermissionAbsence = demandePermissionAbsence;
+    }
+
+    public TableValeur getTypeAbsence() {
+        return typeAbsence;
+    }
+
+    public void setTypeAbsence(TableValeur typeAbsence) {
+        this.typeAbsence = typeAbsence;
+    }
+
+    public String getMotif() {
+        return motif;
+    }
+
+    public void setMotif(String motif) {
+        this.motif = motif;
+    }
+
+    public TableValeur getEtat() {
+        return etat;
+    }
+
+    public void setEtat(TableValeur etat) {
+        this.etat = etat;
+    }
+    
+    public String getJsonDateDebut(){
+        return JIDate.formatJsonDateHeure(dateDebutAbsence);
+    }
+    
+     public String getJsonDateFin(){
+        return JIDate.formatJsonDateHeure(dateFinAbsence);
+    }
+
+    public String getFileUploaded() {
+        return fileUploaded;
+    }
+
+    public void setFileUploaded(String fileUploaded) {
+        this.fileUploaded = fileUploaded;
+    }
+
+    public String getCheminFileUploaded() {
+        return cheminFileUploaded;
+    }
+
+    public void setCheminFileUploaded(String cheminFileUploaded) {
+        this.cheminFileUploaded = cheminFileUploaded;
+    }
+    
+    // Ces périodes auront comme valeur Matin ou Apres-Midi 
+    //et permettront de prendre en copmte les absences d'une demi-journée
+
+    public String getMomentDepart() {
+        return momentDepart;
+    }
+
+    public void setMomentDepart(String momentDepart) {
+        this.momentDepart = momentDepart;
+    }
+
+    public String getMomentFin() {
+        return momentFin;
+    }
+
+    public void setMomentFin(String momentFin) {
+        this.momentFin = momentFin;
+    }
+
+    
+
+    public String getCommentaire() {
+        return commentaire;
+    }
+
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
+    }
+
+    public int getInsertUserId() {
+        return insertUserId;
+    }
+
+    public void setInsertUserId(int insertUserId) {
+        this.insertUserId = insertUserId;
+    }
+    
+    
+    
+    
+    
+    
+     
+     
+    
+}

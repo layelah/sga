@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:b="http://bootsfaces.net/ui" 
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+                  
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"> 
+    <h:head>
+        <meta charset="utf-8"></meta>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+        <meta content="width=device-width, initial-scale=1" name="viewport"></meta>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"></meta>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"></meta>
+        <meta content="" name="description"></meta>
+        <meta content="" name="author"></meta>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+        <link rel="shortcut icon" href="favicon.ico"></link>
+        <h:outputStylesheet name="/css/font-awesome.min.css"></h:outputStylesheet >
+        <h:outputStylesheet name="/css/simple-line-icons.min.css"></h:outputStylesheet>
+        <h:outputStylesheet name="/css/bootstrap.min.css" ></h:outputStylesheet >
+        <h:outputStylesheet name="/css/uniform.default.css" ></h:outputStylesheet>
+        <h:outputStylesheet name="css/select2.css" > </h:outputStylesheet>
+        <h:outputStylesheet name="/css/login3.css" > </h:outputStylesheet>
+        <h:outputStylesheet name="/css/plugins.css" > </h:outputStylesheet>
+        <h:outputStylesheet name="/css/components-rounded.css" id="style_components" ></h:outputStylesheet>
+        <h:outputStylesheet name="/css/layout.css" > </h:outputStylesheet>
+        <h:outputStylesheet name="/css/default.css"  id="style_color"> </h:outputStylesheet>
+        <h:outputStylesheet  name="/css/custom.css"> </h:outputStylesheet>
+        
+        <h:outputStylesheet name="/css/jquery.circliful.css" ></h:outputStylesheet>
+        <h:outputScript library="javax.faces" name="jsf.js" target="body" />
+        <h:outputScript library="js" name="jquery.circliful.min.js" target="body" />
+        <h:outputScript library="js" name="highcharts.js" target="body" />
+        <h:outputScript library="js" name="data.js" target="body" />
+        <h:outputScript library="js" name="exporting.js" target="body" />
+        <!--- Element du formulaire de Connexion -->
+        <h:outputScript name="/js/metronic.js"></h:outputScript>
+
+        <h:outputScript name="/js/demo.js" ></h:outputScript>
+
+        <h:outputScript name="/js/layout.js" ></h:outputScript>
+
+        <h:outputScript name="/js/login.js" ></h:outputScript>
+
+        <h:outputScript name="/js/jquery.validate.min.js" ></h:outputScript>
+
+        <h:outputScript name="/js/select2.min.js" ></h:outputScript>
+
+        <h:outputScript name="/js/jquery.cokie.min.js" ></h:outputScript>
+
+        <h:outputScript name="/js/jquery.uniform.min.js" ></h:outputScript>
+
+        <h:outputScript name="/js/respond.min.js" ></h:outputScript>
+
+        <h:outputScript name="/js/excanvas.min.js" ></h:outputScript>
+
+        <h:outputScript name="/js/jquery.min.js" ></h:outputScript>
+
+        <h:outputScript name="/js/jquery-migrate.min.js" ></h:outputScript>
+
+        <h:outputScript name="/js/bootstrap.min.js" ></h:outputScript>
+
+        <h:outputScript name="/js/jquery.blockui.min.js" ></h:outputScript>
+
+        <!-- Fin Elements du Formulaire de Connexion -->
+
+
+<!-- END JAVASCRIPTS -->
+        
+      
+
+
+        <link href='http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel="stylesheet" type="text/css"/>
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=all" rel="stylesheet" type="text/css"/>
+
+        <link href="#{resource['assets/admin/layout2/css/layout.css']}" rel="stylesheet" type="text/css"/>
+        <link href="#{resource['assets/admin/layout2/css/themes/grey.css']}" rel="stylesheet" type="text/css" id="style_color"/>
+        <link href="#{resource['css/dotpoint.css']}" rel="stylesheet" type="text/css"/>
+        <link href="#{resource['css/bootstrap.css']}" rel="stylesheet" type="text/css"/>
+        <link href="#{resource['css/uniform.default.css']}" rel="stylesheet" type="text/css"/>
+        <link href="#{resource['css/custom.css']}" rel="stylesheet" type="text/css"/>
+
+        <link rel="shortcut icon" href="favicon.ico"/>
+        <style>
+
+            .padrow{
+                padding-bottom : 10px;
+            }
+            .panel-dash{
+                width: 100px;
+                height: 100px
+            }
+            .content{
+                padding-top: 80px;
+                padding-left: 40px;
+                padding-right: 40px;
+                padding-bottom: 20px
+            }
+            .contain{
+                min-height: 500px
+            }
+            table{
+                font-size: 12px
+            }
+            .badge{
+                position: absolute;
+                height:2rem;
+                top:0rem;
+                font-size:30%;
+                left:2rem;
+                text-align: center;
+                line-height: 2rem;;
+                font-size: 1rem;
+                border-radius: 5%;
+                color: #000;
+                border:1px solid #a55f5f;
+            }
+
+            .ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+                background: #ffffff;
+                -moz-box-shadow: inset 0 2px 2px #8f8f8f;
+                -webkit-box-shadow: inset 0 2px 2px #8f8f8f;
+                box-shadow: inset 0 2px 2px #8f8f8f;
+                color: #555;
+                width: 100%;
+            }
+        </style>
+        
+        <script>
+            function validateForm(){
+
+                var login = document.getElementById("input_inform:login");
+                var pass = document.getElementById("input_inform:pass");
+                if(login != null &amp;&amp; login.value == ""){
+                    document.getElementById("errorLog").innerHTML = "Renseigner le login";
+                    return false;
+                }
+                if(login.value.length &lt; 1){
+                    document.getElementById("errorPass").innerHTML = "Renseigner le mot de passe"
+                    return false;
+                }
+                return true;
+            }
+        </script>
+        <style type="text/css">
+        #h1 {
+          font-family: "Times New Roman", Times, serif;
+          font-style: italic;
+          font-weight: bold;
+          font-size: 200%
+
+        }
+
+        .badge{
+                        background-color: #ed6b75;
+                        border-radius: 3px
+                    }
+                    .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+                        color: #ffffff;
+                        /*background-color: #000*/
+                    }
+                    .navbar-default .navbar-nav > li > a {
+                        color: black;
+                    }
+                    .navbar-default .navbar-nav > li > a:hover,
+                    .navbar-default .navbar-nav > li > a:focus {
+                        /**color: #333;**/
+                        color: #31708F;
+                        /*background-color: transparent;*/
+                    }
+
+                    .panel-default > .panel-heading {
+                        color: white;
+                        /*color: #333;*/
+                        background-color: #31708F;
+                        /*background-color: #f5f5f5;*/
+                        border-color: #ddd;
+                    }
+                    .panel-default > .panel-heading + .panel-collapse > .panel-body {
+                        border-top-color: #ddd;
+                        background-color: #F7F7F7;
+                    }
+
+                    .page-bar {
+                        padding: 0px;
+                        background-color: #e7e6e3;
+                        margin-bottom: 20px;
+                        -webkit-border-radius: 4px;
+                        -moz-border-radius: 4px;
+                        -ms-border-radius: 4px;
+                        -o-border-radius: 4px;
+                        border-radius: 4px;
+                    }
+                    /**.dropdown:hover .dropdown-menu {
+                        display: block;
+                        margin-top: 0
+                     }
+
+                     **/
+
+
+        </style>
+    <script language="JavaScript">
+        jQuery(document).ready(function() {     
+          Metronic.init(); // init metronic core components
+          Layout.init(); // init current layout
+          Login.init();
+          Demo.init();
+        });
+    </script> 
+
+    </h:head>
+    
+    
+    <h:body class="page-container-bg-solid" onload="clearItForm.reset();" style="background:#31708F;"> 
+        <!--<div style="margin-top: -10px;position:fixed;top:0px;left:0px;right:0px;z-index:1;style="background:#31708F;">
+        <div class="jumbotron" style="background:#31708F; height: 10px;">
+            <div class="container">
+                <div class="page-bar" style="background: linear-gradient(white, #e7e6e3); height: 70px;">-->
+
+    <b:navBar  style="background: linear-gradient(white, #e7e6e3);box-shadow: 4px 4px 4px 4px grey; " >
+        
+        <b:row>
+            <b:column span="2">
+                    <b:image value="#{resource['design/images/logo.png']}" style="width: 100px;height: 40px;margin-left: 4px;margin-top: 5%;" onclick="window.open('https://www.agencecmu.sn/')" />
+            </b:column>
+            <b:column span="7">
+                <h1 id="h1" align="center">Système de Gestion des Absences (SGA 1.2.4)</h1>
+            </b:column>
+        </b:row>
+    </b:navBar>
+    
+
+                   
+        <b:container >
+            <b:panel class="panel-info">
+                
+                
+                
+                        
+                            <b:column span="9"> 
+                                <b:row>
+                                <b:panel title="Article L.148 du code du travail" class="panel-title">
+                                    <b:row style="margin-left: 4px;margin-top: 4px;">
+                                        
+                                            <h:outputLabel style="font-weight: normal" value="Sauf dispositions plus favorables des conventions collectives, le travailleur acquiert droit au congé payé à la charge de l’employeur à raison de deux jours ouvrables par mois de service. " />
+                                            <h:outputLabel style="font-weight: normal" value="Cette durée du congé est augmentée en considération de l’ancienneté du travailleur dans l’entreprise, suivant les règlements en vigueur ou les dispositions des conventions collectives. " />
+                                            <h:outputLabel style="font-weight: normal" value="Les mères de famille ont droit à un jour de congé supplémentaire par an pour chaque enfant de moins de 14 ans enregistré à l’état civil.  " />
+                                            <h:outputLabel style="font-weight: normal" value="Les périodes de suspension de contrat de travail, énumérées à l’article L. 70 de la présente loi, ouvrent droit à congé au même titre que le temps de service effectif à l’exception de celles visées aux alinéas 9°, 10° et 11° du même article.  " />
+                                        
+                                    </b:row>
+                                </b:panel>
+                                    
+                            </b:row>
+                                    
+                                         
+                                   
+                                         
+                
+                                        <b:row>   
+                                            <b:panel title="Article L.150 du code du travail" class="panel-title" collapsed="true">
+                                                    <b:row style="margin-left: 4px;margin-top: 4px;">
+                                                      
+                                                            <h:outputLabel style="font-weight: normal" value="Le droit de jouissance au congé est acquis après une période minimale de service effectif, appelée période de référence, égale à 12 mois." />
+                                                            <h:outputLabel style="font-weight: normal" value="Dans tous les cas, la jouissance effective du congé peut être reportée d'accord parties, sans que la durée de service effectif puisse excéder trois ans, et sous réserve d'un congé de six jours ouvrables à prendre obligatoirement chaque année." />
+                                                        
+                                                    </b:row>                                
+                                            </b:panel> 
+                                        </b:row>
+                                                                   
+                                
+                               
+                            <b:row>
+                                
+                                    <b:panel title="Définition des concepts liés au congés " class="panel-title" collapsed="true">
+                                        <b:row>
+                                            <b:column >
+                                                <infina:infoString titre="Total congés acquis" valeur="C’est le nombre de jour de congés totalisé pour l’agent depuis son premier jour de service"/>
+                                                <infina:infoString titre="Total congés pris" valeur="C’est le cumul des jours de congés déductibles pris depuis le début                          "/>
+                                                <infina:infoString titre="Congés en cours" valeur="Ce sont les congés courus (non encore échus). Les congés courus sont échus à la date d’anniversaire du jour de prise de service de l’agent"/>
+                                            </b:column>
+                                            <b:column >
+                                                <infina:infoString titre="Congés échus" valeur="Ce sont les congés comptabilisés pour l’agent lors des exercices précédents" />
+                                                <infina:infoString titre="Reliquat des congés" valeur="C’est le total des congés échus et des congés encours"/>
+                                                <infina:infoString titre="Congés supplémentaires" valeur="Ce sont des jours de congés exceptionnellement accordés aux agents sur des critères bien précis (nombre d’enfant pour la mère, nombre d’année d’ancienneté, etc.)"/>
+                                            </b:column>
+                                        </b:row>                                     
+                                    </b:panel> 
+                            </b:row>   
+                </b:column>
+                
+                <b:column span="3" style="align-items: center;margin-top: 3px; ">
+                                            <!-- BEGIN LOGIN FORM -->
+                                            <h:form id="inform" onsubmit="return validateForm()" style="align-content: center" >
+                                                <b:panel title="Connexion à votre compte" collapsible="false"> 
+                                                    <b:row>
+                                                        <div class="form-group">
+                                                            <div class="input-icon">
+                                                                <b:inputText class="form-control placeholder-no-fix fa fa-user" type="text" autocomplete="off" placeholder="Identifiant"  value="#{auth.login}" id="login" />
+                                                                <p id="errorLog" class="alert-danger"></p>
+                                                                <b:message for="login"/>
+                                                            </div>
+                                                        </div>
+                                                    </b:row>
+                                                    <b:row>
+                                                        <div class="form-group">
+                                                            <div class="input-icon">
+                                                                <b:inputSecret class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Mot de passe" value="#{auth.mdp}" id="pass"/>
+                                                                <p id="errorPass"></p>
+                                                                <b:message for="pass"/>
+                                                            </div>
+                                                        </div>
+                                                    </b:row>
+                                                    <b:row>                                                   
+                                                        <b:messages style="color: red" showSummary="true" globalOnly="true" showDetail="true" errorStyle="color: blue;" infoStyle="color: green;" fatalClass="color: red;"/>
+                                                    </b:row>   
+                                                    
+                                                        
+                                                    <b:row>
+                                                        <div class="form-actions">			
+                                                            <b:commandButton look="success" type="submit" value="Connexion" action="#{auth.connecter()}" />
+                                                            <b:commandButton class="btn btn"  type="reset" value="Annuler" ></b:commandButton>
+                                                        </div>
+                                                    </b:row>
+                                                    <b:row>
+                                                        
+                                                        <b:navLink value="Mdp Oublie" href="/BUR/bienvenue.xhtml"></b:navLink>
+                                                    </b:row>
+                                                </b:panel>          
+
+                                            </h:form>
+                                            <!-- END REGISTRATION FORM -->
+                                        </b:column>
+                        
+               
+            </b:panel>   
+        </b:container>
+          <div class="footer" style="margin-top: 10px;position:fixed;bottom:0px;left:0px;right:0px; text-align: center; height: 20px; background:#31708F; z-index:1;">
+            <a href="http://www.agencecmu.sn"
+               style="color: white; font-weight:bolder;  font-size: 10px;"> Copyright © Gestion des Absences (SGA) 2021 - Version 1.2.4 - Juillet 2021 by ANACMU</a>
+        </div>
+
+         
+                        
+      <!--  </div>
+            </div>
+        </div>
+    </div> -->
+    </h:body>
+</html>

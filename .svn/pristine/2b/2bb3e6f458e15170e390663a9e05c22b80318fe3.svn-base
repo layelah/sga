@@ -1,0 +1,48 @@
+package com.cmu.agence.rh.service;
+
+import com.cmu.agence.rh.domaine.SoldeConges;
+import com.cmu.base.service.BaseLibService;
+import com.cmu.sigicmu.admin.domaine.Agent;
+import java.util.List;
+import javax.ejb.LocalBean;
+import javax.ejb.Schedule;
+import javax.ejb.Stateless;
+import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
+
+
+@Stateless
+@LocalBean
+public class SoldeCongesService extends BaseLibService {
+
+    public void executerPSCalculSolde() {
+        StoredProcedureQuery psRecalculerSoldeConges = getEm().createStoredProcedureQuery("ps_recalculer_solde_conges");        
+        psRecalculerSoldeConges.execute();    
+    }
+    
+    public SoldeConges getSoldeConges(int agentId) {
+        String sql = "SELECT o"
+                + " FROM SoldeConges as o"
+                + " WHERE o.agent.id = :agentId";
+        
+        Query q = getEm().createQuery(sql);
+        q.setParameter("agentId", agentId);
+        return (SoldeConges) q.getSingleResult();
+    }
+    
+    public List<SoldeConges> soldeCongesList(Agent agent) {
+        String sql = "SELECT o"
+                + " FROM SoldeConges as o";
+        if (!agent.estRH()) {
+            sql += " WHERE o.agent.superviseur.id = :agentId ";
+        }
+                
+        sql += " ORDER BY o.agent.matricule";
+        
+        Query q = getEm().createQuery(sql);
+        if (!agent.estRH()) {
+            q.setParameter("agentId", agent.getId());
+        }
+        return q.getResultList();
+    }
+}

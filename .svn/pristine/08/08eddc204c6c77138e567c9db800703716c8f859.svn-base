@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/resources/template/principalRH.xhtml"         
+                xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:define name="title">Le personnel de l'Agence de la CMU</ui:define>
+
+    <ui:define name="content">
+    <b:container>            
+        <b:panel>
+            <b:dataTable value="#{agent.list}" var="item"> 
+                <b:dataTableColumn label="Matricule" value="#{item.matricule}" />
+                <b:dataTableColumn label="Nom" value="#{item.nomComplet}" />
+                <b:dataTableColumn label="Bureau et Service" value="#{item.entite.code} \\ #{item.service.code}"/>
+                <b:dataTableColumn label="Email professionnel" value="#{item.emailProfessionnel}"/>
+                <b:dataTableColumn label="Poste" value="#{item.numeroPoste}"/>                    
+                <b:dataTableColumn label="Téléphone" value="#{item.telProfessionnel} - #{item.coord.tel1}"/>         
+                <h:column  rendered="#{menuRH.estAdminOuRH()}">
+                    <f:facet name="header">Action</f:facet>
+                    <h:commandLink title="info" action="#{agent.goInfoAgent(item.id)}"  immediate="true" value="" styleClass="fa fa-info fa-1x btn-detail" style="color:green;margin-left: 10%;" />
+                    <h:commandLink title="modifier" rendered="#{agent.peutModifierMdp(item)}" action="#{agent.changerMdp(item)}" immediate="true" value="" styleClass="fa fa-pencil fa-1x btn-update" style="color:green;margin-left: 10%;" />
+                </h:column>
+            </b:dataTable>
+        </b:panel>
+
+        <b:panel rendered="#{menuRH.estAdminOuRH()}">
+            <b:commandButton action="#{agent.goNew()}" immediate="true" value="Ajouter" class="fa fa-plus" style="width: 150px;background: linear-gradient(gray,#006060);color: #ffffff;font-weight: bold;margin-left: 30%"/>
+        </b:panel>
+     </b:container>
+    </ui:define>
+</ui:composition>

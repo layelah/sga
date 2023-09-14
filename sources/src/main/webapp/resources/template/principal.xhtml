@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+
+        <meta charset="utf-8"></meta>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+        <meta content="width=device-width, initial-scale=1" name="viewport"></meta>
+        <meta content="" name="description"></meta>
+        <meta content="" name="author"></meta>
+        <title>| SIGICMU |</title>
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+        <h:outputStylesheet name="/css/font-awesome.min.css"></h:outputStylesheet >
+        <h:outputStylesheet name="/css/uniform.default.css" ></h:outputStylesheet>
+        <h:outputStylesheet name="/css/jquery.circliful.css" ></h:outputStylesheet>
+
+        <h:outputScript library="javax.faces" name="jsf.js" target="body" />
+        <h:outputScript library="js" name="jquery.circliful.min.js" target="body" />
+        <h:outputScript library="js" name="highcharts.js" target="body" />
+        <h:outputScript library="js" name="data.js" target="body" />
+        <h:outputScript library="js" name="exporting.js" target="body" />
+        <link href='http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel="stylesheet" type="text/css"/>
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=all" rel="stylesheet" type="text/css"/>
+        <link href="#{resource['assets/admin/layout2/css/layout.css']}" rel="stylesheet" type="text/css"/>
+        <link href="#{resource['assets/admin/layout2/css/themes/grey.css']}" rel="stylesheet" type="text/css" id="style_color"/>
+        <link rel="shortcut icon" href="favicon.ico"/>
+        <style>
+
+            .padrow{
+                padding-bottom : 10px;
+            }
+            .panel-dash{
+                width: 100px;
+                height: 100px
+            }
+            .content{
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+            .contain{
+                min-height: 800px
+            }
+            table{
+                font-size: 12px
+            }
+            .badge{
+                position: absolute;
+                height:2rem;
+                top:0rem;
+                font-size:30%;
+                left:2rem;
+                text-align: center;
+                line-height: 2rem;;
+                font-size: 1rem;
+                border-radius: 5%;
+                color: #000;
+                border:1px solid #a55f5f;
+            }
+
+
+            .ui-dialog {
+                margin: auto;
+            }
+            .ui-widget-content{
+                background-color:white;
+
+            }
+            .ui-widget-header{
+                background:green!important;
+
+            }
+            .ui-shadow{
+                box-shadow:none;
+            }
+            .ui-dialog-content{
+                background:white!important;
+                padding: 0,0,0,0!important;
+            }
+        </style>
+
+    </h:head>
+    <h:body class="page-container-bg-solid">
+        <h:form id="navId"> 
+            <b:navBar class="navbar-header" position="top" sticky="true" style="background-color: #006060;box-shadow: 4px 4px 4px 4px gray;">
+
+                <b:row>
+                    <b:column span="2">
+                        <b:image value="#{resource['design/images/logo.png']}" style="width: 90px;height: 40px;margin-left: 4px;margin-top: 5%;"/>
+                    </b:column>
+                    <b:column span="8">
+                        <b:navbarLinks>
+                            <b:dropMenu value="Tableaux de Bord" style="font-weight: bold;color: #ffffff;">
+                                <b:navLink style="font-weight: bold" value="Assurance maladie" href="#{request.contextPath}/BUR/dashboard.xhtml" rendered="#{menuBean.chekFonction('dashboard.xhtml','BUR')}">
+                                </b:navLink>
+                                <b:navLink style="font-weight: bold; color: #ffffff" value="Assistance médicale" href="#{request.contextPath}/FCT/tbFacture.xhtml" rendered="#{menuBean.chekFonction('tbFacture.xhtml','FCT')}"></b:navLink>
+                            </b:dropMenu>
+                            <b:dropMenu    rendered="#{menuBean.chekModule('PRM')}"    value="Paramétrage"  icon="setting" style="font-weight: bold;color: #ffffff;">
+                                <b:navLink rendered="#{menuBean.chekFonction('tabValTypList.xhtml','PRM')}"         value="Tables de valeurs"    href="#{request.contextPath}/PRM/tabValTypList.xhtml"/>
+                                <b:navLink rendered="#{menuBean.chekFonction('localiteList.xhtml','PRM')}"          value="Localité"             href="#{request.contextPath}/PRM/localiteList.xhtml" />
+                                <b:navLink rendered="#{menuBean.chekFonction('pyramideSanitaireList.xhtml','PRM')}" value="Pyramide sanitaire"   href="#{request.contextPath}/PRM/pyramideSanitaireList.xhtml"/>
+                                <b:navLink rendered="#{menuBean.chekFonction('typePrestationList.xhtml','PRM')}"    value="Types de prestation"  href="#{request.contextPath}/PRM/typePrestationList.xhtml" />
+                                <b:navLink rendered="#{menuBean.chekFonction('structureSanteList.xhtml','PRM')}"    value="Strutctures de santé" href="#{request.contextPath}/PRM/structureSanteList.xhtml"/>
+                                <b:navLink rendered="#{menuBean.chekFonction('pageList.xhtml','PRM')}"              value="Page"                 href="#{request.contextPath}/PRM/pageList.xhtml"/>
+                                <b:navLink rendered="#{menuBean.chekFonction('fonctionnaliteList.xhtml','PRM')}"    value="Fonctionnalité"       href="#{request.contextPath}/PRM/fonctionnaliteList.xhtml"/>
+                                <b:dropMenu value="Importation" class="disable">
+                                    <b:navLink rendered="#{menuBean.chekFonction('impModeleList.xhtml','PRM')}"     value="Modèles d'importation"   href="#{request.contextPath}/PRM/impModeleList.xhtml"/>     
+                                    <b:navLink rendered="#{menuBean.chekFonction('impChampList.xhtml','PRM')}"      value="Champs des modèles"      href="#{request.contextPath}/PRM/impChampList.xhtml"/>
+                                    <b:navLink rendered="#{menuBean.chekFonction('impControleList.xhtml','PRM')}"   value="Conrôles sur les champs" href="#{request.contextPath}/PRM/impControleList.xhtml"/>
+                                </b:dropMenu>
+                                <b:dropMenu value="Action vérification et initiative" class="disable" rendered="#{auth.estSuperAdmin}">
+                                    <b:navLink rendered="#{menuBean.chekFonction('actionVerificationList.xhtml','PRM')}" value="Action vérification"    href="#{request.contextPath}/PRM/actionVerificationList.xhtml"/>
+                                    <b:navLink rendered="#{menuBean.chekFonction('initiativeList.xhtml','PRM')}"         value="Initiative de gratuité" href="#{request.contextPath}/PRM/initiativeList.xhtml"/>
+                                </b:dropMenu>
+                            </b:dropMenu>
+                            <b:dropMenu value="Administration"  icon="key" style="font-weight: bold;color: #ffffff;"  rendered="#{auth.estSuperAdmin}">
+                                <b:navLink rendered="#{menuBean.chekFonction('entiteList.xhtml','ADM')}"       value="Bureaux"               href="#{request.contextPath}/ADM/entiteList.xhtml"/>
+                                <b:navLink rendered="#{menuBean.chekFonction('serviceList.xhtml','ADM')}"      value="Services"              href="#{request.contextPath}/ADM/serviceList.xhtml"/>
+                                <b:navLink rendered="#{menuBean.chekFonction('agentList.xhtml','ADM')}"        value="Agents"                href="#{request.contextPath}/ADM/agentList.xhtml"/>
+                                <b:navLink rendered="#{menuBean.chekFonction('roleList.xhtml','ADM')}"         value="Rôles"                 href="#{request.contextPath}/ADM/roleList.xhtml"/>
+                                <b:navLink rendered="#{menuBean.chekFonction('profilList.xhtml','ADM')}"       value="Profils"               href="#{request.contextPath}/ADM/profilList.xhtml"/>
+                                <b:navLink rendered="#{menuBean.chekFonction('userList.xhtml','ADM')}"         value="Utilisateurs"          href="#{request.contextPath}/ADM/userList.xhtml"/>
+                                <b:navLink rendered="#{menuBean.chekFonction('alerteList.xhtml','ADM')}"       value="Alertes"               href="#{request.contextPath}/ADM/alerteList.xhtml"/>
+                                <b:navLink rendered="#{menuBean.chekFonction('auditSystemList.xhtml','ADM')}"  value="Audit système"         href="#{request.contextPath}/ADM/auditSystemList.xhtml"/>
+                                
+                                <b:dropMenu value="Validation">
+                                   <b:navLink rendered="true"         value="Actions à valider" href="#{request.contextPath}/ADM/actionsAValiderList.xhtml"/>
+                                   <b:navLink rendered="#{menuBean.chekFonction('validationCircuitList.xhtml','ADM')}"         value="Circuit de validation" href="#{request.contextPath}/ADM/validationCircuitList.xhtml"/>
+                                </b:dropMenu>
+                            </b:dropMenu>
+                            <b:dropMenu value="Mutuelle de santé" style="font-weight: bold;color: #ffffff;"  rendered="#{menuBean.chekModule('MUT')}">
+                                <b:navLink rendered="#{menuBean.chekFonction('mutList.xhtml','MUT')}" value="Rechercher une mutuelle" href="#{request.contextPath}/MUT/mutList.xhtml"/>
+                                <b:navLink rendered="false" value="Ajouter un membre"  href="#{request.contextPath}#{mutAgent.goNew()}"/>
+                                <b:navLink rendered="false" value="Agréments"          href="#{request.contextPath}/MUT/demAgrList.xhtml"/>
+                                <b:navLink rendered="false" value="Immatriculations"   href="#{request.contextPath}/MUT/immatDemList.xhtml"/>
+                                <b:navLink rendered="true"  value="Saisie des données" href="#{request.contextPath}/MUT/mutDonneeList.xhtml"/>
+                                <b:navLink rendered="false" value="Personnes cibles"   href="#{request.contextPath}/MUT/mutList.xhtml"/>
+                                <b:navLink rendered="false" value="Subventions"        href="#{request.contextPath}/MUT/mutList.xhtml"/>
+                            </b:dropMenu>            
+
+                            <b:dropMenu value="Facture"  icon="claim" style="font-weight: bold;color: #ffffff;" rendered="#{menuBean.chekModule('FCT')}">
+                                <b:navLink rendered="#{menuBean.chekFonction('factureList.xhtml','FCT')}" value="Rechercher une facture" href="#{request.contextPath}/FCT/factureList.xhtml"/>                    
+                                <b:dropMenu value="Réception">   
+                                    <b:navLink rendered="#{menuBean.chekFonction('factureRecue.xhtml','FCT')}" value="Factures reçues" href="#{request.contextPath}/FCT/factureRecue.xhtml"/>                                    
+                                    <b:navLink rendered="#{menuBean.chekFonction('factureRetourne.xhtml','FCT')}" value="Factures retournées" href="#{request.contextPath}/FCT/factureRetourne.xhtml"/>                                    
+                                    <b:navLink  rendered="false" value="NON Bordereaux reçus" href="#{request.contextPath}/FCT/bordereauList.xhtml"/>
+                                </b:dropMenu>              
+                                <b:dropMenu value="Traitement">   
+                                    <b:navLink rendered="false" value="NON Factures à importer" href="#{request.contextPath}/FCT/facImportList.xhtml"/>
+                                    <b:navLink rendered="false" value="NON Factures à valider" href="#{request.contextPath}/FCT/facValidList.xhtml"/>
+                                    <b:navLink rendered="#{menuBean.chekFonction('factureAValider.xhtml','FCT')}" value="Factures à valider" href="#{request.contextPath}/FCT/factureAValider.xhtml"/>
+                                    <b:navLink rendered="#{menuBean.chekFonction('situationSynthetiqueList.xhtml','FCT')}" value="Situations synthétiques" href="#{request.contextPath}/FCT/situationSynthetiqueList.xhtml"/>
+                                    <b:navLink rendered="#{menuBean.chekFonction('reqPaiementList.xhtml','FCT')}" value="Requêtes de paiement" href="#{request.contextPath}/FCT/reqPaiementList.xhtml"/>
+                                </b:dropMenu>              
+                                <b:dropMenu value="Réglement">   
+                                    <b:navLink rendered="#{menuBean.chekFonction('mandatAsaisirList.xhtml','FCT')}" value="Requêtes de paiement à mandater" href="#{request.contextPath}/FCT/mandatAsaisirList.xhtml"></b:navLink>
+                                    <b:navLink rendered="#{menuBean.chekFonction('mandatAValiderList.xhtml','FCT')}" value="Mandats de paiement à valider" href="#{request.contextPath}/FCT/mandatAValiderList.xhtml"></b:navLink>
+                                    <b:navLink rendered="#{menuBean.chekFonction('mandatACompleterList.xhtml','FCT')}" value="Dossier à compléter" href="#{request.contextPath}/FCT/mandatACompleterList.xhtml"></b:navLink>
+                                    <b:navLink rendered="#{menuBean.chekFonction('mandatOrdonnList.xhtml','FCT')}" value="Mandats à ordonnancer" href="#{request.contextPath}/FCT/mandatOrdonnList.xhtml"></b:navLink>
+                                    <b:navLink rendered="#{menuBean.chekFonction('mandatAPayerList.xhtml','FCT')}" value="Réglements à enregistrer" href="#{request.contextPath}/FCT/mandatAPayerList.xhtml"></b:navLink>
+                                </b:dropMenu>
+                            </b:dropMenu> 
+                        </b:navbarLinks>
+
+                    </b:column>
+                    <b:column span="2">
+                        <b:navbarLinks pull="right">
+                            <b:dropMenu value="#{auth.srvCurrentUser().nomComplet} (#{auth.srvCurrentUser().getProfil().getLib()})" style="font-weight: lighter;color: #ffffff;">
+                                <b:navLink value="Changer ses données personnelles" href="#{request.contextPath}/BUR/informationChange.xhtml" icon-awesome="user"></b:navLink>
+                                <b:navLink value="Changer son mot de passe" href="#{request.contextPath}/BUR/mdpChange.xhtml" icon-awesome="lock"></b:navLink>
+                                <li role="separator" class="divider"></li>
+                                <li><h:commandLink action="#{auth.deconnecter()}"><span class="fa fa-key"></span> Se déconnecter</h:commandLink></li>
+                            </b:dropMenu> 
+
+                        </b:navbarLinks>
+                    </b:column>
+                </b:row>
+
+
+            </b:navBar>
+            <!--    <p:poll interval="3" update="navId:nbAlerte"/>-->
+        </h:form>  
+        <div class="page-content clearfix clear content" style="background: linear-gradient(white,graytext);padding-bottom: 5%;">
+            <b:container  style="background-color: #006060;font-size: 120%;font-weight: bold;font-style: italic;margin-top: 5%;position: fixed;top: 0px;right: 0px;left: 0px;z-index: 100;">
+                <!-- BEGIN PAGE HEADER-->
+                <div class="page-bar " style="margin:3px;">
+                    <ul class="page-breadcrumb" style="margin-left: 40%;font-family: Helvetica, sans-serif">
+                        <li>
+                            <ui:insert name="title">
+
+                            </ui:insert>
+                        </li>
+                    </ul>
+                </div>
+            </b:container>
+            <b:container class="container container-fluid contain" style="margin-top: 8%;">
+
+                <h:form id="form">
+                    <b:container>
+                        <b:messages global-only="false" rendered="false" escape="true" />       
+                    </b:container>
+                    <ui:insert name="content" id="connn">
+
+                    </ui:insert>
+                </h:form> 
+            </b:container>
+
+        </div>
+
+        <!-- END CONTAINER -->
+
+        <!-- BEGIN FOOTER -->
+        <div class="page-footer bottom" style="height: 80px; background-color: #006060;position:fixed;bottom:0px;left:0px;right:0px;box-shadow: 0px 0px 0px 6px maroon;">
+            <!--            <div class="page-footer-inner">
+                            <p class="text-center" style="text-align:center;">SIGICMU 2016 - Version 1.1.1 du 23/01/2017 by Agence de la CMU</p>
+                        </div>-->
+        <div class="footer" style="margin-top: 10px;position:fixed;bottom:0px;left:0px;right:0px; text-align: center; height: 20px; background:#31708F; z-index:1;">
+            <a href="http://www.agencecmu.sn"
+               style="color: white;font-weight:bolder;  font-size: 10px;"> Copyright © Gestion des Absences (SGA) 2023 - Version 1.3 - Aout 2023 by ANACMU</a>
+        </div>
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
+            </div>
+        </div>
+        <!-- END FOOTER -->
+        <!-- END FOOTER -->
+        <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+        <link href="#{resource['css/bootstrap.css']}" rel="stylesheet" type="text/css"/>
+        <link href="#{resource['css/uniform.default.css']}" rel="stylesheet" type="text/css"/>
+        <link href="#{resource['css/custom.css']}" rel="stylesheet" type="text/css"/>
+
+        <style>
+
+            .badge{
+                background-color: #ed6b75;
+                border-radius: 3px
+            }
+            .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+                color: #ffffff;
+                background-color: #000
+            }
+
+            /**.dropdown:hover .dropdown-menu {
+                display: block;
+                margin-top: 0
+             }
+            
+             **/
+
+
+        </style>
+        <script>
+
+            jQuery(document).ready(function ($) {
+
+                $(':input').keyup(function () {
+
+
+                });
+                $('.adhNouvH, .adhRetraitH').keyup(function () {
+                    // Total homme
+                    var val = parseInt($('.adhNouvH').val()) + parseInt($('.adhRetraitH').val());
+                    $('.adhNouvHTot').val(val)
+                });
+                $('.adhNouvF, .adhRetraitF').keyup(function () {
+
+                    // Total Femme
+                    var val = parseInt($('.adhNouvF').val()) + parseInt($('.adhRetraitF').val());
+                    $('.adhNouvFTot').val(val)
+                });
+
+                $('.adhNouvTot, .adhRetraitTot').keyup(function () {
+
+                    // Total Femme
+                    var val = parseInt($('.adhNouvTot').val()) + parseInt($('.adhRetraitTot').val());
+                    $('.adhTot').val(val)
+                });
+
+                $('.benNouvH, .benRetraitH').keyup(function () {
+
+                    // Total Femme
+                    var val = parseInt($('.benNouvH').val()) + parseInt($('.benRetraitH').val());
+                    $('.benH').val(val)
+                });
+
+
+                $('.benNouvF, .benRetraitF').keyup(function () {
+
+                    // Total Femme
+                    var val = parseInt($('.benNouvF').val()) + parseInt($('.benRetraitF').val());
+                    $('.benF').val(val)
+                });
+
+                $('.benNouvTot, .benRetraitTot').keyup(function () {
+
+                    // Total Femme
+                    var val = parseInt($('.benNouvTot').val()) + parseInt($('.benRetraitTot').val());
+                    $('.benTot').val(val)
+                });
+
+                $('.bsfNouvH, .bsfRetraitH').keyup(function () {
+
+                    // Total Femme
+                    var val = parseInt($('.bsfNouvH').val()) + parseInt($('.bsfRetraitH').val());
+                    $('.bsfH').val(val)
+                });
+
+                $('.bsfNouvF, .bsfRetraitF').keyup(function () {
+
+                    // Total Femme
+                    var val = parseInt($('.bsfNouvF').val()) + parseInt($('.bsfRetraitF').val());
+                    $('.bsfF').val(val)
+                });
+
+                $('.bsfNouvTot, .bsfRetraitTot').keyup(function () {
+
+                    // Total Femme
+                    var val = parseInt($('.bsfNouvTot').val()) + parseInt($('.bsfRetraitTot').val());
+                    $('.bsfTot').val(val)
+                });
+
+                $('.cecNouvH, .cecRetraitH').keyup(function () {
+
+                    // Total Femme
+                    var val = parseInt($('.cecNouvH').val()) + parseInt($('.cecRetraitH').val());
+                    $('.cecH').val(val)
+                });
+
+                $('.cecNouvF, .cecRetraitF').keyup(function () {
+
+                    // Total Femme
+                    var val = parseInt($('.cecNouvF').val()) + parseInt($('.cecRetraitF').val());
+                    $('.cecF').val(val)
+                });
+
+                $('.cecNouvTot, .cecRetraitTot').keyup(function () {
+
+                    // Total Femme
+                    var val = parseInt($('.cecNouvTot').val()) + parseInt($('.cecRetraitTot').val());
+                    $('.cecTot').val(val)
+                });
+
+                //$('td:nth-child(5),th:nth-child(5)').hide();
+                // diagram
+                //    setInterval(function(){
+                //        alert("du ttt");
+                //    },5000);
+
+                $('#amodal').on('hidden.bs.modal', function () {
+                    $(this).find("input,textarea,select").val('').end();
+
+                });
+
+                $('#reset').on('click', function () {
+                    $('form').find('input').val('');
+                });
+
+                var b = $("#navId #nbAlerte");
+                if (b.text() == 0) {
+                    $("#navId #nbAlerte").removeClass("badge");
+                    $("#navId #nbAlerte").text("");
+                    $("#bell").removeClass("fa-bell");
+                    $("#bell").addClass("fa-bell-o");
+                }
+
+
+                $("#avcAgrement").circliful({
+                    animationStep: 2,
+                    fontColor: "#0066cc"
+
+                });
+                $("#beneficiaire").circliful({
+                    animationStep: 2,
+                    fontColor: "#0066cc"
+                });
+
+                Highcharts.chart('container', {
+                    data: {
+                        table: 'datatable'
+                    },
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: ''
+                    },
+                    yAxis: {
+                        allowDecimals: false,
+                        title: {
+                            text: 'Population'
+                        }
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                    this.point.y + ' ' + this.point.name.toLowerCase();
+                        }
+                    }
+                });
+
+                // page formulaire données mutuelle
+
+
+
+
+
+            });
+        </script>
+        <!-- END JAVASCRIPTS -->
+    </h:body>
+    <!-- END BODY -->
+</html>

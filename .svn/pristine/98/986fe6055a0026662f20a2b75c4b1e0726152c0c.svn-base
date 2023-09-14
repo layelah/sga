@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"  
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+                template="/resources/template/principalRH.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">Ajout d'un nouveau service</ui:define>
+
+    <ui:define name="content">
+        <b:container>
+            <infina:msgEnreg bean="#{vueService}" msg_nom_objet="ce service" />
+            <b:panel>
+                <b:panel title="Enregistrement du Service" class="panel-title">
+                    <b:column span="8">
+                        <infina:formString  code="code" obj="#{vueService.obj.code}" titre="Code du Service" />
+                        <infina:formString  code="lib" obj="#{vueService.obj.lib}" titre="Libellé" />
+                        <infina:formZoneText code="desc" obj="#{vueService.obj.description}" titre="Description" />
+                        
+                    </b:column>
+                </b:panel>
+                <b:panel>
+                    <infina:infoAction_1  bean="#{vueService}" />
+                    
+                    <h:button styleClass="cancel-btn"   value="#{msg.BNT_RESET}" style="width: 150px;height: 5%;margin: 2px;background: #e7e6e3;color: #000000;font-weight: bold"/>
+                    <h:button styleClass="cancel-btn" value="#{msg.BNT_FERMER}" outcome="/RH/mailNotificationList.xhtml" style="width: 150px;height: 5%;margin: 2px;background: #ac0000;color: #ffffff;font-weight: bold"/>
+                </b:panel>
+            </b:panel>
+        </b:container>
+    </ui:define>
+
+</ui:composition>

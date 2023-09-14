@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:composite="http://java.sun.com/jsf/composite" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:infina="http://java.sun.com/jsf/composite/infina">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+        <composite:attribute name="mode_simple" required="false"/>
+    </composite:interface>
+
+    <composite:implementation> 
+        <h:panelGrid columns="2">
+            <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_PERS_Civilite} : " /><h:outputText value="#{cc.attrs.obj.civiliteCode}"/>
+            <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_PERS_Prenom} : " /><h:outputText value="#{cc.attrs.obj.prenom}"/>
+            <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_PERS_Nom} : " /><h:outputText value="#{cc.attrs.obj.nom}"/>
+            <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_PERS_Surnom} : " /><h:outputText value="#{cc.attrs.obj.surnom}"/>
+            <c:if test="#{cc.attrs.mode_simple}">
+                <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_PERS_Date_naissance} : " /><h:outputText value="#{cc.attrs.obj.dateNaissance}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
+                <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_PERS_Lieu_naissance} : " /><h:outputText value="#{cc.attrs.obj.lieuNaissance}"/>
+                <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_PERS_Sexe} : " /><h:outputText value="#{cc.attrs.obj.sexeCode}"/>
+                <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_PERS_Statut_marital} : " /><h:outputText value="#{cc.attrs.obj.statutMaritalCode}"/>
+                <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_PERS_Nationalite} : " /><h:outputText value="#{cc.attrs.obj.nationaliteCode}"/>
+            </c:if>
+        </h:panelGrid>
+        
+    </composite:implementation>
+</html>

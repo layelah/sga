@@ -1,0 +1,333 @@
+package com.cmu.sigicmu.admin.bean;
+
+import com.cmu.agence.rh.domaine.SoldeConges;
+import com.cmu.agence.rh.service.AbsenceService;
+import com.cmu.agence.rh.service.SoldeCongesService;
+import com.cmu.base.bean.BaseCRUDBean;
+import com.cmu.base.bean.JsfUtil;
+import com.cmu.base.domaine.BaseDomaine;
+import com.cmu.base.service.CommonLibCodeService;
+import com.cmu.base.service.exception.CMUServiceException;
+import com.cmu.base.service.exception.EchecSelectException;
+import com.cmu.sigicmu.admin.domaine.Agent;
+import com.cmu.sigicmu.admin.domaine.EtatCompteEnum;
+import com.cmu.sigicmu.admin.domaine.Utilisateur;
+import com.cmu.sigicmu.admin.service.AgentService;
+import com.cmu.sigicmu.admin.service.UtilisateurService;
+import com.cmu.sigicmu.bureau.bean.AuthentificationBean;
+import com.cmu.sigicmu.param.domaine.TableValeur;
+import com.cmu.sigicmu.param.domaine.TableValeurTypeEnum;
+import com.cmu.sigicmu.param.domaine.WebRacineEnum;
+import com.cmu.sigicmu.param.service.TableValeurService;
+import com.cmu.util.JIDate;
+import com.cmu.util.JUtil;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+@Named("agent")
+@javax.enterprise.context.SessionScoped
+public class AgentBean extends BaseCRUDBean {
+    
+    @EJB
+    UtilisateurService userSrv;
+
+    @Inject 
+    AuthentificationBean authBean;
+    
+    @EJB
+    AgentService srv;
+
+    @EJB
+    TableValeurService tvSrv;
+
+    @EJB
+    AbsenceService abSrv;
+
+    @EJB
+    SoldeCongesService scSrv;
+    
+    
+    
+    private Agent agent;
+    private SoldeConges sc;
+    private String motDePasse;
+    private String login;
+    
+    public AgentBean() {
+        super(WebRacineEnum.ADMINISTRATION, "agent");
+    }
+    
+    public Agent getObj() {
+        sc = scSrv.getSoldeConges(agent.getId());
+        return agent;
+    }
+    
+    public String loadDonneesPersonnelles() {
+        agent = authBean.getUser().getAgent();
+        sc = scSrv.getSoldeConges(agent.getId());
+        return "/RH/fichePersonnelle.xhtml";
+    }
+    
+    public String goInfoAgent(int id) {
+        
+        try {
+            getObj(id);
+        
+        } catch (CMUServiceException ex) {
+            JsfUtil.addExceptionMessage("Impossible d'afficher la page d'information de l'agent", ex);
+        }
+        
+        return "/ADM/agentInfo.xhtml";
+    }    
+            
+    public Agent getObj(Integer id) throws EchecSelectException {
+        agent = (Agent)scSrv.getEntite(new Agent(), id);
+        sc = scSrv.getSoldeConges(agent.getId());
+        return agent;
+    }
+   
+    public List getListAbsence(){
+       
+     // agent=dmtPer.getAbsence().getAgent();
+        return  abSrv.getListAbsence(agent); 
+    }
+    
+    public List getListSoldeAg() throws EchecSelectException{
+       //int agent=session.getSessIdAgenceEnCours();
+         // agent=user.getAgent();
+      //dmtPer=(DemandePermissionAbsence)obj;
+       
+      //agent=dmtPer.getAbsence().getAgent();
+         return abSrv.getListSolde(agent);
+    }
+    
+     public List getSyntheseConges(){
+          try {
+            return abSrv.getSynthese(agent);
+        } catch (EchecSelectException ex) {
+            Logger.getLogger(AgentBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    // Getters & Setters
+
+    public Agent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+    
+    
+    
+    
+     
+    public SoldeConges getSc() {
+        return sc;
+    }
+
+    public void setSc(SoldeConges sc) {
+        this.sc = sc;
+    }
+     
+    public String getStrDateDernierCalcul() {
+        return JIDate.formatDate(sc.getDateDernierCalcul());
+    }
+
+    @Override
+    public BaseDomaine getNewInstance() {
+        return new Agent();
+    }
+    
+    @Override
+    public String goNew() {
+        agent = new Agent();
+        return "/ADM/agentForm.xhtml";
+    }
+    
+    public String inserer() {
+        boolean bError = false;
+        try {
+
+            if (!srv.agentEstUnique(agent)) {
+                JsfUtil.addErrorMessage("Un autre agent porte le même nom avec la même date de naissance");
+                bError = true;
+            }
+            
+            if (!srv.cniEstUnique(agent)) {
+                JsfUtil.addErrorMessage("Un autre agent possède le même numéro de CNI");
+                bError = true;
+            }
+            
+            if (JUtil.longueur(agent.getMatricule()) != 5) {
+                JsfUtil.addErrorMessage("La longueur du matricule doit être égale à 5");
+                bError = true;
+            }
+            
+            if (!srv.matriculeEstUnique(agent)) {
+                JsfUtil.addErrorMessage("Un autre agent est déjà associé à ce numéro de matricule");
+                bError = true;
+            }
+            
+            if (!srv.emailProEstUnique(agent)) {
+                JsfUtil.addErrorMessage("L'émail professionnel est celui d'un autre agent");
+                bError = true;
+            }
+            
+            if (bError) {
+                return null;
+            }
+            
+            agent.getCoord().setAdresse3("SENEGAL");
+            if (JUtil.estVide(agent)) {
+                // Création de l'agent
+                agent.setNomComplet(agent.getPrenom()+ " "+ agent.getNom());
+                agent = (Agent)srv.save(agent);
+
+
+                // Création du solde de congés
+                SoldeConges sc = new SoldeConges(agent);
+                sc = (SoldeConges)srv.save(sc);
+
+                if (! JUtil.estVide(agent.getEmailProfessionnel())) {
+                    // Création de l'utilisateur
+                    TableValeur etatCompte = tvSrv.getRef(TableValeurTypeEnum.EtatCompte, EtatCompteEnum.ACTIF.toString());
+                    Utilisateur user = new Utilisateur(agent, etatCompte);
+                    user = (Utilisateur)srv.save(user);    
+
+                    agent = (Agent)srv.getEntite(agent, agent.getId());
+                    agent.setUtilisateur(user);
+                    agent = (Agent)srv.save(agent);                
+                }
+            } else {
+                // Modfification de l'agent
+                agent.setNomComplet(agent.getPrenom()+ " "+ agent.getNom());
+                agent = (Agent)srv.save(agent);
+
+                if (!JUtil.estVide(agent.getEmailProfessionnel()) && JUtil.estVide(agent.getUtilisateur())) {
+                    // Création de l'utilisateur
+                    TableValeur etatCompte = tvSrv.getRef(TableValeurTypeEnum.EtatCompte, EtatCompteEnum.ACTIF.toString());
+                    Utilisateur user = new Utilisateur(agent, etatCompte);
+                    user = (Utilisateur)srv.save(user);    
+
+                    agent = (Agent)srv.getEntite(agent, agent.getId());
+                    agent.setUtilisateur(user);
+                    agent = (Agent)srv.save(agent);                
+                }
+                
+                // Mise à jour du login
+                if (!JUtil.estVide(agent.getUtilisateur()) && (!agent.getEmailProfessionnel().equalsIgnoreCase(agent.getUtilisateur().getLogin()))) {
+                    Utilisateur user = agent.getUtilisateur();
+                    user.setLogin(agent.getEmailProfessionnel());                            
+                    user = (Utilisateur)srv.save(user);    
+                }                
+            }
+            
+            
+        } catch (Exception e) {
+            JsfUtil.addExceptionMessage("Impossible de créer l'agent", e);           
+            return null;
+        }
+        
+        return "/ADM/agentInfo.xhtml";     
+    }
+    
+    public String changerMdp(Agent unAgent) {
+        agent = unAgent;
+        return "/ADM/agentChangerMdp.xhtml";
+    }
+    
+    public String initialiserMdp() {
+        boolean bError = false;
+        try {
+            Utilisateur user = agent.getUtilisateur();
+        
+            if (!srv.emailProEstUnique(agent)) {
+                JsfUtil.addErrorMessage("L'émail professionnel est celui d'un autre agent");
+                bError = true;
+            }
+            
+            if (JUtil.longueur(motDePasse) < 8) {
+                JsfUtil.addErrorMessage("La longueur du mot de passe doit être au moins égale à 8");
+                bError = true;
+            }
+            
+            if (bError) {
+                return null;
+            }
+
+            user.setLogin(agent.getEmailProfessionnel());
+            user.setMotDePasse(motDePasse);
+            user = (Utilisateur)srv.save(user);
+            
+        } catch (Exception ex) {
+            JsfUtil.addExceptionMessage("Une erreur est survenue dans la requête sql", ex);            
+            return null;
+        }
+        
+        return "/ADM/agentInfo.xhtml";
+    }
+    
+    public String reinitMdp() {
+        boolean bError = false;
+        System.out.println("Login saisi: "+ this.login);
+        
+        
+        try {
+            Utilisateur user = (Utilisateur) srv.getUserParLogin(login);
+            user.setMotDePasse("passer"); 
+            user = (Utilisateur)srv.save(user);
+            System.out.println("Ca marche");
+        } catch (Exception ex) {
+            JsfUtil.addExceptionMessage("Une erreur est survenue dans la requête sql", ex);            
+            return null;
+        }
+        
+        return "/RH/fichePersonnelle.xhtml";
+    }
+    
+    public boolean peutModifierMdp(Agent unAgent) {
+        return (getAuth().getUser().getAgent().getEstAdmin() && !JUtil.estVide(unAgent.getUtilisateur()));
+    }
+    
+    public String supprimer(){
+        
+         
+        
+        System.out.println("Avant suppression");
+        
+        try {
+            
+            srv.supprimer(agent);
+        } catch (CMUServiceException ex) {   
+            Logger.getLogger(AgentBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+         System.out.println("Après suppression");
+       
+        return "/ADM/agentList.xhtml";
+    }
+    
+}

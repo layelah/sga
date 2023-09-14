@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:infina="http://java.sun.com/jsf/composite/infina">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <b:panel title="Informations système"  class="panel-info">
+        <!--c:if test="#{prm.affInfoSystemDesObjets}"-->
+            <infina:infoString titre="ID OBJET" valeur="#{cc.attrs.obj.id}"/>
+            <infina:infoString titre="#{msg.LBL_VERSION}" valeur="#{cc.attrs.obj.version}"/>                
+            <infina:infoDate titre="#{msg.LBL_DATE_CREATION}" valeur="#{cc.attrs.obj.insertDate}" date_longue="true"/>
+            <infina:infoDate titre="#{msg.LBL_DATE_MODIF}" valeur="#{cc.attrs.obj.updateDate}" date_longue="true"/>
+        <!--/c:if-->
+        </b:panel>
+
+    </composite:implementation>
+</html>

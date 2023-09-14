@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <composite:interface>
+        <composite:attribute name="bean" required="true"/>
+        <composite:attribute name="lib_action" default="#{msg.BNT_ENREGISTRER}"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <b:commandButton type="submit" look="primary" value="#{cc.attrs.lib_action}" action="#{cc.attrs.bean.enregistrer}"/>
+        <b:commandButton type="reset" look="primary" value="#{msg.BNT_RESET}"/>
+    </composite:implementation>
+</html>

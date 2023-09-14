@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html   xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:composite="http://java.sun.com/jsf/composite"
+        xmlns:b="http://bootsfaces.net/ui"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
+
+    <composite:interface>
+        <composite:attribute name="titre" required="true"/>
+        <composite:attribute name="code" required="true"/>
+        <composite:attribute name="obj_min" required="true"/>
+        <composite:attribute name="obj_max" required="true"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <b:row>
+            <b:column span='4'>
+                 <h:outputLabel value="#{cc.attrs.titre} entre"/>
+            </b:column>
+            <b:column span='3'>
+                <p:inputNumber inputStyle="text-align: right;" style="text-align: right;" decimalPlaces="0" thousandSeparator="&nbsp;"  id="#{cc.attrs.code}_min" size="12" maxlength="12" value="#{cc.attrs.obj_min}"  converterMessage="#{msg.GEN_ERR_VALEUR_TYPE}"/>
+            </b:column>
+            <b:column span='1'>
+                 <h:outputLabel value=" et "/>
+            </b:column>
+            <b:column span='3'>
+                <p:inputNumber inputStyle="text-align: right;" style="text-align: right;" decimalPlaces="0" thousandSeparator="&nbsp;"  id="#{cc.attrs.code}_max" size="12" maxlength="12" value="#{cc.attrs.obj_max}" converterMessage="#{msg.GEN_ERR_VALEUR_TYPE}"/>
+            </b:column>
+        </b:row>
+    </composite:implementation>
+</html>

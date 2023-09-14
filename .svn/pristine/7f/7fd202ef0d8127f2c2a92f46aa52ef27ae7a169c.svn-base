@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"  
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+                template="/resources/template/principalRH.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="title">Reinitialiser un mot de passe</ui:define>
+
+    <ui:define name="content">
+        <b:container>
+            
+            
+                <b:panel title="Reinitialisation du mot de passe" class="panel-title">
+                            <b:panel title="Compte utilisateur" class="panel-default">
+                        <infina:formString code="login" titre="Login" obj="#{agent.agent.emailProfessionnel}"/>
+                           
+                    </b:panel>
+
+                    <b:panel>
+                        <h:commandButton styleClass="submit" value="Enregistrer" action="#{agent.initialiserMdp()}" style="width: 150px;height: 40px;margin: 2px;margin-left: 30%;background: linear-gradient(olivedrab,green);color: #ffffff;font-weight: bold;border-radius: 5px"/>
+                        <h:button styleClass="cancel-btn" value="#{msg.BNT_RESET}" style="width: 150px;height: 40px;margin: 2px;background: linear-gradient(graytext,buttonhighlight);color: #000000;font-weight: bold;border-radius: 5px"/>
+                        <h:button styleClass="cancel-btn" value="#{msg.BNT_FERMER}" outcome="/ADM/agentList.xhtml" style="width: 150px;height: 40px;margin: 2px;background: linear-gradient(graytext,red);color: #ffffff;font-weight: bold;border-radius: 5px"/>
+                    </b:panel>
+                </b:panel>
+        </b:container>
+    </ui:define>
+
+</ui:composition>
+
+
+

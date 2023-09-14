@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/resources/template/principalRH.xhtml"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"    
+                xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:define name="title">Demandes de permission d'absence à valider (Définitivement)</ui:define>
+
+    <ui:define name="content">
+        <b:container>
+            <b:panel>
+                <b:panel title="Liste des demandes de persmission à valider définitivement" class="panel-body panel-title" id="text">
+                    <b:dataTable value="#{demPermisAbsence.listDemAbsAValiderPourDG}" var="item"> 
+                        <b:dataTableColumn label="N°demande" value="#{item.absence.demandePermissionAbsence.id}"/>
+                        <b:dataTableColumn label="Agent" value="#{item.absence.agent.nomComplet}"/>
+                        <b:dataTableColumn label="Type d'absence" value="#{item.absence.typeAbsence.lib}"/>
+                        <b:column>
+                            <f:facet name="header">Date demande</f:facet>
+                            <infina:colDate valeur="#{item.dateDemande}"/>
+                        </b:column>
+                        <b:column>
+                            <f:facet name="header">Période</f:facet>
+                            Du
+                            <infina:colDate valeur="#{item.absence.dateDebutAbsence1}"/>
+                            au
+                            <infina:colDate valeur="#{item.absence.dateFinAbsence1}"/>
+                        </b:column>
+                        <b:dataTableColumn label="Jours déductibles" value="#{item.absence.nbJourDeductible}"/>
+                        <b:dataTableColumn label="Etat demande" value="#{item.etat.lib}"/>
+                        <h:column>
+                            <f:facet name="header">DG</f:facet>
+                            <h:commandLink title="validation"  rendered="#{demPermisAbsence.peutValiderPourDG(item)}" action="#{demPermisAbsence.goValid(item)}"  immediate="true" value="" styleClass="fa fa-check fa-1x btn-validation" /> 
+                            <h:commandLink title="imprimer"  rendered="#{demPermisAbsence.peutImprimer(item)}" styleClass="fa fa-file-pdf-o" action="#{demPermisAbsence.printPDF(item.absence.id,item)}" style="margin-left: 20%;"/>
+                        </h:column>
+                    </b:dataTable>
+                </b:panel>
+            </b:panel>
+        </b:container>
+    </ui:define>
+</ui:composition>
+

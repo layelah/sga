@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:composite="http://java.sun.com/jsf/composite" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:infina="http://java.sun.com/jsf/composite/infina">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+        <composite:attribute name="mode_simple" required="false"/>
+    </composite:interface>
+
+    <composite:implementation> 
+        <!-- infina:formSelect lbl_name="civilite_code" lbl_text="#{msg.LBL_PERS_Civilite}" obj="#{cc.attrs.obj.civiliteCode}" list="#{myItems.lesCivilites}"/-->
+        <h:panelGrid columns="4">
+            <h:outputLabel value="#{msg.LBL_PERS_Prenom} : " for="prenom" />
+            <h:inputText id="prenom" size="50" maxlength="100" required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}" value="#{cc.attrs.obj.prenom}"/>
+            &nbsp;*&nbsp;<h:message for="prenom" errorStyle="color: red" />
+
+            <h:outputLabel value="#{msg.LBL_PERS_Nom} : " for="nom" />
+            <h:inputText id="nom" size="50" maxlength="100" value="#{cc.attrs.obj.nom}" required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"/>
+            &nbsp;*&nbsp;<h:message for="nom" errorStyle="color: red" />
+
+            <h:outputLabel value="#{msg.LBL_PERS_Surnom} : " for="surnom" />
+            <h:inputText id="surnom" size="50" maxlength="100" value="#{cc.attrs.obj.surnom}"/>
+            &nbsp; &nbsp;<h:message for="surnom" errorStyle="color: red" />
+
+            <c:if test="#{cc.attrs.mode_simple}">
+                <h:outputLabel value="#{msg.LBL_PERS_Date_naissance} : " for="date_naissance" />
+                <h:inputText id="date_naissance" size="10" maxlength="10"  required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}" value="#{cc.attrs.obj.dateNaissance}"><f:convertDateTime pattern="dd/MM/yyyy" /></h:inputText>
+                &nbsp;*&nbsp;<h:message for="date_naissance" errorStyle="color: red" />
+
+                <h:outputLabel value="#{msg.LBL_PERS_Lieu_naissance} : " for="lieu_naissance" />
+                <h:inputText id="lieu_naissance" size="50" maxlength="100"  required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}" value="#{cc.attrs.obj.lieuNaissance}"/>
+                &nbsp;*&nbsp;<h:message for="lieu_naissance" errorStyle="color: red" />
+            </c:if>
+        </h:panelGrid>
+
+        <c:if test="#{cc.attrs.mode_simple}">
+            <!--infina:formSelect lbl_name="sexe" lbl_text="#{msg.LBL_PERS_Sexe}" obj="#{cc.attrs.obj.sexeCode}" list="#{myItems.lesSexes}"/>
+            <infina:formSelect lbl_name="statut_marital" lbl_text="#{msg.LBL_PERS_Statut_marital}" obj="#{cc.attrs.obj.statutMaritalCode}" list="#{myItems.lesStatutMarital}"/>
+            <infina:formSelect lbl_name="nationalite" lbl_text="#{msg.LBL_PERS_Nationalite}" obj="#{cc.attrs.obj.nationaliteCode}" list="#{myItems.lesPays}"/-->
+        </c:if>
+    </composite:implementation>
+</html>

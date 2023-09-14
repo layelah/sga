@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:hf="http://highfaces.org">
+
+    <composite:interface>
+        <composite:attribute name="title" required="true"/>
+        <composite:attribute name="type" required="true"/>
+        <composite:attribute name="obj" required="true"/>
+        <composite:attribute name="name" required="true"/>
+        <composite:attribute name="objPoint" required="true"/>
+        <composite:attribute name="labels" required="true"/>
+       
+    </composite:interface>
+
+    <composite:implementation>
+        <hf:chart height="300" type="#{cc.attrs.type}" title="#{cc.attrs.title}">
+            <hf:chartSerie name="#{cc.attrs.name}" value="#{cc.attrs.obj}" var="var" point="#{cc.attrs.objPoint}"  tickLabel="#{cc.attrs.labels}" />
+
+        </hf:chart>
+    </composite:implementation>
+</html>

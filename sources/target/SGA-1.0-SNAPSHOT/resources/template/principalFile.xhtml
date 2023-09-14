@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <meta charset="utf-8"></meta>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+        <meta content="width=device-width, initial-scale=1" name="viewport"></meta>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"></meta>
+        
+        <h:outputStylesheet name="/css/font-awesome.min.css"></h:outputStylesheet >
+        <h:outputStylesheet name="/css/uniform.default.css" ></h:outputStylesheet>
+        <h:outputStylesheet name="/css/jquery.circliful.css" ></h:outputStylesheet>
+        <h:outputScript library="javax.faces" name="jsf.js" target="body" />
+        <h:outputScript library="js" name="jquery.circliful.min.js" target="body" />
+        <h:outputScript library="js" name="highcharts.js" target="body" />
+        <h:outputScript library="js" name="data.js" target="body" />
+        <h:outputScript library="js" name="exporting.js" target="body" />
+      
+        <link href='http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel="stylesheet" type="text/css"/>
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=all" rel="stylesheet" type="text/css"/>
+
+        <link href="#{resource['assets/admin/layout2/css/layout.css']}" rel="stylesheet" type="text/css"/>
+        <link href="#{resource['assets/admin/layout2/css/themes/grey.css']}" rel="stylesheet" type="text/css" id="style_color"/>
+        <link href="#{resource['css/dotpoint.css']}" rel="stylesheet" type="text/css"/>
+
+
+        <link rel="shortcut icon" href="favicon.ico"/>
+        <style>
+
+            .padrow{
+                padding-bottom : 10px;
+            }
+            .panel-dash{
+                width: 100px;
+                height: 100px
+            }
+            .content{
+                padding-top: 80px;
+                padding-left: 40px;
+                padding-right: 40px;
+                padding-bottom: 20px
+            }
+            .contain{
+                min-height: 500px
+            }
+            table{
+                font-size: 12px
+            }
+            .badge{
+                position: absolute;
+                height:2rem;
+                top:0rem;
+                font-size:30%;
+                left:2rem;
+                text-align: center;
+                line-height: 2rem;;
+                font-size: 1rem;
+                border-radius: 5%;
+                color: #000;
+                border:1px solid #a55f5f;
+            }
+
+            .ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+                background: #ffffff;
+                -moz-box-shadow: inset 0 2px 2px #8f8f8f;
+                -webkit-box-shadow: inset 0 2px 2px #8f8f8f;
+                box-shadow: inset 0 2px 2px #8f8f8f;
+                color: #555;
+                width: 100%;
+            }
+        </style>
+
+    </h:head>
+   
+    <h:body class="page-container-bg-solid">
+        <div style="margin-top: -10px;position:fixed;top:0px;left:0px;right:0px;z-index:1;">
+        <div class="jumbotron" style="background:#31708F; height: 10px;">
+            <div class="container">
+                <div class="page-bar" style="background: linear-gradient(white, #e7e6e3); height: 70px;">
+                    <h:form> 
+                        <b:navBar  style="background: linear-gradient(white, #e7e6e3);box-shadow: 4px 4px 4px 4px grey;">
+
+                            <b:row>
+                                <b:column span="2">
+                                    <b:image value="#{resource['design/images/logo.png']}" style="width: 100px;height: 30px;margin-left: 4px;margin-top: 5%;"/>
+                                </b:column>
+                                <b:column span="8">
+                                    <b:navbarLinks>
+                                        
+                                        <b:dropMenu value="Paramétrage" style="font-weight: bold;color: black;">
+                                            <b:navLink value="Personnel" href="#{request.contextPath}/ADM/agentList.xhtml"></b:navLink>
+                                            <b:navLink value="Jours fériés" href="#{request.contextPath}/RH/jourFerieList.xhtml"></b:navLink>
+                                            <b:navLink value="Congés exceptionnels non déductibles" href="#{request.contextPath}/RH/congesNonDeductibleList.xhtml"></b:navLink>
+                                            <b:navLink value="Services de l'agence" href="#{request.contextPath}/RH/vueServiceList.xhtml"></b:navLink>
+                                            <b:navLink value="Reinitialiser un mot de passe" href="${request.contextPath}/ADM/reinitimdpForm.xhtml" rendered="#{menuRH.estSHouRH()}" ></b:navLink>
+                                        </b:dropMenu>
+                                        <b:navCommandLink value="Fiche personnelle" action="#{agent.loadDonneesPersonnelles()}" immediate="true" style="font-weight: bold"></b:navCommandLink>
+                                        <b:dropMenu value="Demandes d'absence" style="font-weight: bold;color: black;"  >
+                                            <b:navLink value="Créer une demande d'absence" href="#{request.contextPath}/RH/formDemandeAbsence.xhtml" ></b:navLink>
+                                            <b:navLink value="Liste des demandes de ma direction" href="#{request.contextPath}/RH/demandeAbsenceList.xhtml"></b:navLink>
+                                            <b:navLink value="Mes demandes" href="#{request.contextPath}/RH/mesDemandesList.xhtml"></b:navLink>
+                                            <b:navLink value="Demandes à valider" href="#{request.contextPath}/RH/validationConges.xhtml" rendered="#{menuRH.estSHouRH()}"></b:navLink>
+                                            <b:navLink value="Demandes à valider définitivement" href="#{request.contextPath}/RH/validationRH.xhtml" rendered="#{menuRH.estRH()}"></b:navLink>
+                                            <b:navLink value="Demandes traitées" href="#{request.contextPath}/RH/demandesCongesList.xhtml" rendered="#{menuRH.peutVoirDemandes()}"></b:navLink>
+                                        </b:dropMenu>
+                                        <b:dropMenu value="Etats" style="font-weight: bold;color: black;">
+                                            <b:navLink value="Etat des absences des agents" href="#{request.contextPath}/RH/etatDesAbsences.xhtml"></b:navLink>
+                                            <b:navLink value="Planning des congés" href="#{request.contextPath}/RH/planningConges.xhtml" rendered="#{menuRH.estSHouRH()}"></b:navLink>
+                                            <b:navLink value="Solde des congés" href="#{request.contextPath}/RH/soldeCongesList.xhtml" rendered="#{menuRH.estSHouRH()}"></b:navLink>
+                                                                                     
+                                        </b:dropMenu>
+                                        <b:dropMenu value="Espace RH" style="font-weight: bold;color: black;" rendered="#{menuRH.estSHouRH()}">
+                                            <b:navLink value="Demandes en cours" href="#{request.contextPath}/RH/demandesEnCours.xhtml"></b:navLink>
+                                            <b:navLink value="Demandes Acceptées " href="#{request.contextPath}/RH/demandesAcceptees.xhtml" ></b:navLink>
+                                            <b:navLink value="Demandes Refusées" href="#{request.contextPath}/RH/demandesRefusees.xhtml" ></b:navLink>
+                                            <b:navLink value="Demandes de congés exceptionnels" href="#{request.contextPath}/RH/congesExcepList.xhtml" ></b:navLink>
+                                            <b:navLink value="Absences Regularisées" href="#{request.contextPath}/RH/absAjouteesList.xhtml" ></b:navLink>
+                                            <b:navLink value="Archivage des Absences" href="#{request.contextPath}/RH/archivageAbs.xhtml" ></b:navLink>
+
+                                            
+                                        </b:dropMenu>
+                                    </b:navbarLinks>
+                                </b:column>
+                                <b:column span="2">
+                                    <b:navbarLinks pull="right">
+                                        <b:dropMenu value="#{auth.srvCurrentUser().nomComplet}" style="font-weight: lighter">
+                                        <b:navLink  value="Changer son mot de passe" href="#{request.contextPath}/BUR/mdpChange.xhtml" icon-awesome="lock"></b:navLink>
+                                        <li role="separator" class="divider"></li>
+                                        <li><h:commandLink action="#{auth.deconnecter()}"><span class="fa fa-key"></span> Se déconnecter</h:commandLink></li>
+                                        </b:dropMenu> 
+
+                                    </b:navbarLinks>
+                                </b:column>
+                            </b:row>
+                        </b:navBar>
+                    </h:form> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+     
+        <div class="clearfix"></div>
+
+        <div class="page-content" style="background: linear-gradient(white, #e7e6e3)">
+            <b:container style="background:linear-gradient(grey, #31708F); height: 10%;font-size: 120%;font-weight: bold;margin-top: 9%;top: 0px;right: 0px;left: 0px;z-index: 100;">
+                <!-- BEGIN PAGE HEADER-->
+                <div class="page-bar ">
+                    <ul class="page-breadcrumb" style="margin-left: 40%;font-family: Helvetica, sans-serif">
+                        <li>
+                            <ui:insert name="title">
+
+                            </ui:insert>
+                        </li>
+                    </ul>
+                </div>
+            </b:container>
+            <b:container style="width: 100%; padding: 0px" class="container container-fluid contain" >
+
+                <h:form id="form1" enctype="multipart/form-data">
+                    <b:container>
+                        <b:messages global-only="false" rendered="true" escape="true" />       
+                    </b:container>
+                    <ui:insert name="content" id="connn">
+                        content
+                    </ui:insert>
+                </h:form> 
+            </b:container>
+            
+        </div>
+
+        
+        <div class="footer" style="margin-top: 10px;position:fixed;bottom:0px;left:0px;right:0px; text-align: center; height: 20px; background:#31708F; z-index:1;">
+            <a href="http://www.agencecmu.sn"
+               style="color: white;font-weight:bolder;  font-size: 10px;" > Copyright © Gestion des Absences (SGA) 2023 - Version 1.3 - Aout 2023 by ANACMU</a>
+        </div>
+
+        <link href="#{resource['css/bootstrap.css']}" rel="stylesheet" type="text/css"/>
+        <link href="#{resource['css/uniform.default.css']}" rel="stylesheet" type="text/css"/>
+        <link href="#{resource['css/custom.css']}" rel="stylesheet" type="text/css"/>
+
+        <style>
+
+            .badge{
+                background-color: #ed6b75;
+                border-radius: 3px
+            }
+            .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+                color: #ffffff;
+                /*background-color: #000*/
+            }
+            .navbar-default .navbar-nav > li > a {
+                color: black;
+            }
+            .navbar-default .navbar-nav > li > a:hover,
+            .navbar-default .navbar-nav > li > a:focus {
+                /**color: #333;**/
+                color: #31708F;
+                /*background-color: transparent;*/
+            }
+
+            .panel-default > .panel-heading {
+                color: white;
+                /*color: #333;*/
+                background-color: #31708F;
+                /*background-color: #f5f5f5;*/
+                border-color: #ddd;
+            }
+            .panel-default > .panel-heading + .panel-collapse > .panel-body {
+                border-top-color: #ddd;
+                background-color: #F7F7F7;
+            }
+
+            .page-bar {
+                padding: 0px;
+                background-color: #e7e6e3;
+                margin-bottom: 20px;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                -ms-border-radius: 4px;
+                -o-border-radius: 4px;
+                border-radius: 4px;
+            }
+            /**.dropdown:hover .dropdown-menu {
+                display: block;
+                margin-top: 0
+             }
+            
+             **/
+
+        </style>
+        <script>
+
+            jQuery(document).ready(function ($) {
+                //$('td:nth-child(5),th:nth-child(5)').hide();
+                // diagram
+                //    setInterval(function(){
+                //        alert("du ttt");
+                //    },5000);
+
+                $('#amodal').on('hidden.bs.modal', function () {
+                    $(this).find("input,textarea,select").val('').end();
+
+                });
+
+                $('#reset').on('click', function () {
+                    $('form').find('input').val('');
+                });
+
+                var b = $("#navId #nbAlerte");
+                if (b.text() == 0) {
+                    $("#navId #nbAlerte").removeClass("badge");
+                    $("#navId #nbAlerte").text("");
+                    $("#bell").removeClass("fa-bell");
+                    $("#bell").addClass("fa-bell-o");
+                }
+
+
+                $("#avcAgrement").circliful({
+                    animationStep: 2,
+                    fontColor: "#0066cc"
+
+                });
+                $("#beneficiaire").circliful({
+                    animationStep: 2,
+                    fontColor: "#0066cc"
+                });
+
+                Highcharts.chart('container', {
+                    data: {
+                        table: 'datatable'
+                    },
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: ''
+                    },
+                    yAxis: {
+                        allowDecimals: false,
+                        title: {
+                            text: 'Population'
+                        }
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                    this.point.y + ' ' + this.point.name.toLowerCase();
+                        }
+                    }
+                });
+
+
+            });
+            $("#dateDeb").datepicker({
+                minDate: 0,
+                maxDate: '+1Y+6M',
+                onSelect: function (dateStr) {
+                    var min = $(this).datepicker('getDate'); // Get selected date
+                    $("#dateFin").datepicker('option', 'minDate', min || '0'); // Set other min, default to today
+                }
+            });
+
+            $("#dateFin").datepicker({
+                minDate: '0',
+                maxDate: '+1Y+6M',
+                onSelect: function (dateStr) {
+                    var max = $(this).datepicker('getDate'); // Get selected date
+                    $('#datepicker').datepicker('option', 'maxDate', max || '+1Y+6M'); // Set other max, default to +18 months
+                    var start = $("#dateDeb").datepicker("getDate");
+                    var end = $("#dateFin").datepicker("getDate");
+                    var days = (end - start) / (1000 * 60 * 60 * 24);
+                    $("#duree").val(days);
+                }
+            });
+        </script>
+        <!-- END JAVASCRIPTS -->
+    </h:body>
+    <!-- END BODY -->
+</html>

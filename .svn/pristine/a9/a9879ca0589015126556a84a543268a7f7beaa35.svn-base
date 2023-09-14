@@ -1,0 +1,18 @@
+package com.cmu.agence.rh.domaine;
+
+import com.cmu.base.domaine.BaseLib_;
+import javax.annotation.Generated;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2022-02-22T15:58:20")
+@StaticMetamodel(ParametreMail.class)
+public class ParametreMail_ extends BaseLib_ {
+
+    public static volatile SingularAttribute<ParametreMail, String> mailNotification;
+    public static volatile SingularAttribute<ParametreMail, String> smtpHost;
+    public static volatile SingularAttribute<ParametreMail, String> smtpPort;
+    public static volatile SingularAttribute<ParametreMail, String> mdp;
+    public static volatile SingularAttribute<ParametreMail, String> type;
+
+}

@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:infina="http://java.sun.com/jsf/composite/infina">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+        <composite:attribute name="lbl_lib" default="#{msg.LBL_LIB}"/>
+        <composite:attribute name="taille_code" default="20"/>
+    </composite:interface>
+
+    <composite:implementation>         
+        <infina:formString code="code" titre="#{msg.LBL_CODE}" obj="#{cc.attrs.obj.code}" taille="#{cc.attrs.taille_code}" limite="#{cc.attrs.taille_code}"/>
+        <p id="errorCode" class="alert-danger"></p>
+        <infina:formString code="lib" titre="#{msg.LBL_LIB}" obj="#{cc.attrs.obj.lib}" />
+        <p id="errorLib" class="alert-danger"></p>
+    </composite:implementation>
+</html>

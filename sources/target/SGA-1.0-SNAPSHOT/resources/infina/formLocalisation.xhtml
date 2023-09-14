@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:composite="http://java.sun.com/jsf/composite" 
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:infina="http://java.sun.com/jsf/composite/infina">
+
+    <composite:interface>
+        <composite:attribute name="bean" required="true"/>
+    </composite:interface>
+
+    <composite:implementation> 
+                    <b:row>
+                        <b:column span="5">
+                            <h:outputLabel value="#{msg.LBL_REGION}"/><span style="color:red"> *</span>
+                        </b:column>
+                        <b:column span="7">
+                            <b:selectOneMenu
+                                id="region"
+                                value="#{cc.attrs.bean.region}"
+                                onchange="ajax:ajLoc.listenerRegion(cc.attrs.bean.region)"
+                                update="departement commune pyramide_sanitaire"
+                                required="true"
+                                requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"
+                                process="@this">
+                                <f:selectItem itemValue="" itemLabel="(aucun)"/>
+                                <f:selectItems value="#{myItems.lesRegions}" />
+                            </b:selectOneMenu>
+                            <b:message for="region" class="warning" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="5">
+                            <h:outputLabel value="#{msg.LBL_DEPARTEMENT}"/><span style="color:red"> *</span>
+                        </b:column>
+                        <b:column span="7">
+                            <b:selectOneMenu
+                                id="departement"
+                                value="#{cc.attrs.bean.departement}"
+                                onchange="ajax:ajLoc.listenerDepartement(cc.attrs.bean.departement)"
+                                update="commune"
+                                required="true"
+                                requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"
+                                process="@this">
+                                <f:selectItem itemValue="" itemLabel="(aucun)"/>
+                                <f:selectItems value="#{ajLoc.listDepartement}" />
+                            </b:selectOneMenu>
+                            <b:message for="departement" class="warning" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="5">
+                            <h:outputLabel value="#{msg.LBL_COMMUNE}"/><span style="color:red"> *</span>
+                        </b:column>
+                        <b:column span="7">
+                            <b:selectOneMenu
+                                id="commune"
+                                value="#{cc.attrs.bean.commune}"
+                                required="true"
+                                requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"
+                                process="@this">
+                                <f:selectItem itemValue="" itemLabel="(aucun)"/>
+                                <f:selectItems value="#{ajLoc.listCommune}" />
+                            </b:selectOneMenu>
+                            <b:message for="commune" class="warning" />
+                        </b:column>
+                    </b:row>                        
+    </composite:implementation>
+</html>

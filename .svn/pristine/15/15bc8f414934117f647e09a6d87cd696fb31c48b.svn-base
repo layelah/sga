@@ -1,0 +1,19 @@
+package com.cmu.sigicmu.param.domaine;
+
+import com.cmu.base.domaine.BaseLib_;
+import java.util.Date;
+import javax.annotation.Generated;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-12-14T12:36:34")
+@StaticMetamodel(Periode.class)
+public class Periode_ extends BaseLib_ {
+
+    public static volatile SingularAttribute<Periode, Date> dateDebut;
+    public static volatile SingularAttribute<Periode, String> moisLib;
+    public static volatile SingularAttribute<Periode, Integer> annee;
+    public static volatile SingularAttribute<Periode, Date> dateFin;
+    public static volatile SingularAttribute<Periode, Integer> mois;
+
+}

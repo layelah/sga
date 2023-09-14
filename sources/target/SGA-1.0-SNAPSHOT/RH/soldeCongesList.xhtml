@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:b="http://bootsfaces.net/ui" 
+                template="/resources/template/principalRH.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Solde des congés</ui:define>
+    <ui:define name="content">
+        <b:container>
+            <b:panel class="panel-info">                
+                <b:dataTable value="#{solde.soldeConges}" var="item" > 
+                    <b:dataTableColumn label="Mat." value="#{item.agent.matricule}"/>
+                    <b:dataTableColumn label="Agent" value="#{item.agent.nomComplet}"/>
+                    <b:dataTableColumn label="H/F" value="#{item.agent.genre.code}"/>
+                    <b:dataTableColumn label="Service" value="#{item.agent.entite.code} / #{item.agent.service.code}"/>
+                    <b:dataTableColumn label="Fonction" value="#{item.agent.fonction.lib}"/>
+                    <b:dataTableColumn label="Début"  data-type="date" data-order="#{item.agent.datePriseFonction}">    
+                        <h:outputText value="#{item.agent.datePriseFonction}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </b:dataTableColumn>                        
+                    <b:dataTableColumn label="Acq."  data-type="number" data-order="#{item.nbCongesAcquis}">    
+                        <h:outputText value="#{item.nbCongesAcquis}">
+                            <f:convertNumber pattern="#####.##" />
+                        </h:outputText>
+                    </b:dataTableColumn>                        
+                    <b:dataTableColumn label="Pris"  data-type="number" data-order="#{item.nbJourPris}">    
+                        <h:outputText value="#{item.nbJourPris}">
+                            <f:convertNumber pattern="#####.##" />
+                        </h:outputText>
+                    </b:dataTableColumn>                        
+                    <b:dataTableColumn label="Relq."  data-type="number" data-order="#{item.nbCongesReliquat}">    
+                        <h:outputText value="#{item.nbCongesReliquat}">
+                            <f:convertNumber pattern="#####.##" />
+                        </h:outputText>
+                    </b:dataTableColumn>                        
+                    <b:dataTableColumn label="Ech."  data-type="number" data-order="#{item.nbCongesEchus}">    
+                        <h:outputText value="#{item.nbCongesEchus}">
+                            <f:convertNumber pattern="#####.##" />
+                        </h:outputText>
+                    </b:dataTableColumn>                        
+                    <b:dataTableColumn label="En Cour."  data-type="number" data-order="#{item.nbCongesEncours}">    
+                        <h:outputText value="#{item.nbCongesEncours}">
+                            <f:convertNumber pattern="#####.##" />
+                        </h:outputText>
+                    </b:dataTableColumn>                        
+                    <b:dataTableColumn label="Supp."  data-type="number" data-order="#{item.nbCongesSupplementaire}">    
+                        <h:outputText value="#{item.nbCongesSupplementaire}">
+                            <f:convertNumber pattern="#####.##" />
+                        </h:outputText>
+                    </b:dataTableColumn>
+                    <h:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:commandLink title="info" action="#{solde.goInfoAgent(item.agent.id)}"  immediate="true" value="" styleClass="fa fa-info fa-1x btn-detail" style="color:green;margin-left: 10%;" />
+                        <h:commandLink title="modifier" rendered="#{menuRH.estRH()}" action="#{solde.goModif(item.id)}"  immediate="true" value="" styleClass="fa fa-pencil fa-1x btn-update" style="color:green;margin-left: 10%;" />
+                        <h:commandLink title="ajouter absence" rendered="#{menuRH.estRH()}" action="#{solde.addAbsence(item.agent)}"  immediate="true" value="" styleClass="fa fa-plus fa-1x btn-circle" style="color:green;margin-left: 10%;" />
+                    </h:column>
+                </b:dataTable>
+            </b:panel>
+            <b:panel rendered="#{menuRH.estAdminOuRH()}">
+                <b:commandButton look="primary" icon-awesome="file-excel-o" value="Exporter" action="#{solde.exportSolde()}" tooltip="Exporter"/>
+                <b:commandButton look="primary" icon-awesome="calculator" value="Cacluler solde" action="#{solde.calculerSolde()}" tooltip="Calculer solde"/>
+            </b:panel>
+        </b:container>
+    </ui:define>
+</ui:composition>

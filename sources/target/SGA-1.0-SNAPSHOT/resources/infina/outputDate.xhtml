@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:b="http://bootsfaces.net/ui"    
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <composite:interface>
+        <composite:attribute name="valeur" required="true"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <b:inputText class="bg-grey" disabled="true" value="#{cc.attrs.valeur}">
+            <f:convertDateTime pattern="dd/MM/yyyy" />
+        </b:inputText>
+    </composite:implementation>
+</html>

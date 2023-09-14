@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"  
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+                template="/resources/template/principalFile.xhtml"     
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+               
+    
+    <ui:define name="title"></ui:define>
+    <ui:define name="content">
+        <b:container>
+            <b:modal id="enregModal" title="Confirmation d'enregistrement" class="danger" styleClass="modalPseudoClass1" closable="false" close-on-escape="false" backdrop="false">
+                Voulez-vous réellement enregistrer <h:outputLabel value="la demande d'absence exceptionnelle dans la base"/>&nbsp;
+                <br/><br/>
+                <b:commandButton value="#{msg.BNT_OUI}" look="primary" action="#{demAbsence.enregistrerAbsExcep()}"/>
+                <b:button value="NON" dismiss="modal"  look="primary" onclick="return false;"/>
+            </b:modal>
+            <b:panel>
+                <b:panel title="Demande de permission d'absence exceptionnelle non deductible" class="panel-title" >
+                    <b:column span="6">
+                        <b:row>
+                            <b:column span="5"><h:outputLabel value="Agent"/><span style="color:red"> *</span></b:column>
+                            <b:column span="6">
+                                <b:selectOneMenu id="agent" value="#{demAbsence.obj.absence.agent}" 
+                                                 onchange="ajax:demAbsence.ajaxGetSoldeAgent(demAbsence.obj.absence.agent)"
+                                                 update="nb_jour_acquis_apres nb_jour_deja_pris_apres reliquat_apres echus_apres courrus_apres"
+                                                 required="true"
+                                                 requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"
+                                                 process="@this">
+                                    <f:selectItem itemValue="" itemLabel="(choisissez un agent)"/>
+                                    <f:selectItems value="#{myItems.lesAgentsDeMonService}" />
+                                </b:selectOneMenu>
+                                <b:message for="agent" class="warning" />               
+                            </b:column>
+                        </b:row>
+                        
+                        <b:row>
+                            <b:column span="5"><h:outputLabel value="Motif"/><span style="color:red"> *</span></b:column>
+                            <b:column span="6">
+                                <b:selectOneMenu id="absence_excep_motif" value="#{demAbsence.obj.absence.congesNonDeductible}" 
+                                                 
+                                                 required="true"
+                                                 requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"
+                                                 
+                                                 process="@this">
+                                    <f:selectItem itemValue="" itemLabel="(choisissez un motif)"/>
+                                    <f:selectItems value="#{myItems.lesAbsencesNonDeductibles}" />
+                                </b:selectOneMenu>
+                                <b:message for="absence_excep_motif" class="warning" />               
+                            </b:column>
+                        </b:row>
+                        
+                        <b:row>
+                            <b:column span='5'><h:outputLabel value="Date de départ" style="margin-bottom: 13%"/><span style="color:red"> *</span></b:column>
+                            <b:column span='6'>
+                                <b:dateTimePicker
+                                              class="datecust" 
+                                              format="DD/MM/YYYY"
+                                              mode="popup-icon" 
+                                              id="dateDeb" value="#{demAbsence.obj.absence.dateDebutAbsence}" 
+                                              required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}" 
+                                              ondtchange="ajax:demAbsence.ajaxCalculDateNbjExcep(demAbsence.obj.absence)"
+                                              process="@this"
+                                              update="nb_jour_absence  nb_jour_non_deductible"
+                                              placeholder="Selectionner une date"/>
+                                
+                                <b:message for="dateDeb" class="warning"/>    
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="5"><h:outputLabel value="Moment de départ" style="margin-bottom: 13%"/><span style="color:red"> *</span></b:column>
+                            <b:column span="6">
+                                <h:selectOneRadio id="moment_deb_absence" value="#{demAbsence.moment_deb}" required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}">                                                 
+                                    <f:selectItem itemValue="matin" itemLabel="Matin"/>
+                                    <f:selectItem itemValue="apres_midi" itemLabel="Après-midi"/>
+                                    <p:ajax process="@this" 
+                                            listener="#{demAbsence.ajaxCalculDateNbjExcep(demAbsence.obj.absence)}" 
+                                            update="nb_jour_absence nb_jour_non_deductible" />
+                                </h:selectOneRadio>
+                                <b:message for="moment_deb_absence" class="warning"/>
+                            </b:column>
+
+                        </b:row>
+                        <b:row>
+                            <b:column span='5'><h:outputLabel value="Date de retour" style="margin-bottom: 13%"/><span style="color:red"> *</span></b:column>
+                            <b:column span='6'>
+                                <b:dateTimePicker
+                                              class="datecust" 
+                                              format="DD/MM/YYYY"
+                                              mode="popup-icon" 
+                                              id="dateFin" value="#{demAbsence.obj.absence.dateFinAbsence}" 
+                                              required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}" 
+                                              ondtchange="ajax:demAbsence.ajaxCalculDateNbjExcep(demAbsence.obj.absence)"
+                                              process="@this"
+                                              update="nb_jour_absence nb_jour_non_deductible"
+                                              placeholder="Selectionner une date"/> 
+                                
+                                <b:message for="dateFin" class="warning"/>
+                            </b:column>
+                        </b:row>     
+                        <b:row>
+                            <b:column span="5"><h:outputLabel value="Moment de retour" style="margin-bottom: 13%"/><span style="color:red"> *</span></b:column>
+                            <b:column span="6">
+                                <h:selectOneRadio id="moment_fin_absence" value="#{demAbsence.moment_fin}" required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}">                                                 
+                                    <f:selectItem itemValue="matin" itemLabel="Matin"/>
+                                    <f:selectItem itemValue="apres_midi" itemLabel="Après-midi"/>
+                                     <p:ajax process="@this" 
+                                             listener="#{demAbsence.ajaxCalculDateNbjExcep(demAbsence.obj.absence)}" 
+                                             update="nb_jour_absence nb_jour_non_deductible" />
+                                </h:selectOneRadio>
+                                <b:message for="moment_fin_absence" class="warning"/>
+                            </b:column>
+
+                        </b:row> 
+                        <b:row>
+                            <b:column span="5"><h:outputLabel value="Nb. jour absence"/></b:column>
+                            <b:column span="6"><b:inputText id="nb_jour_absence" value="#{demAbsence.obj.absence.nbJourAbsence}" type="number" style="text-align: right;" readonly="true"  /></b:column>
+                        </b:row>  
+                        <b:row>
+                            <b:column span="5"><h:outputLabel value="Nb. jour non déductible"/></b:column>
+                            <b:column span="6"><b:inputText id="nb_jour_non_deductible" value="#{demAbsence.obj.absence.nbJourNonDeductible}" type="number" style="text-align: right;" readonly="true"  /></b:column>
+                        </b:row>  
+                    </b:column>   
+                    <b:column span="6">
+                        
+                        <b:row>
+                        <b:column span="6"><h:outputLabel value="Nombre de jour acquis"/></b:column>
+                        <b:column span="6"><b:inputText id="nb_jour_acquis_apres" value="#{demAbsence.scApres.nbCongesAcquis}" type="number" style="text-align: right;" readonly="true"  /></b:column>
+                    </b:row> 
+                    <b:row>
+                        <b:column span="6"><h:outputLabel value="Nb. jour déjà pris"/></b:column>
+                        <b:column span="6"><b:inputText id="nb_jour_deja_pris_apres" value="#{demAbsence.scApres.nbJourPris}" type="number" style="text-align: right;" readonly="true"  /></b:column>
+                    </b:row>    
+                    <b:row>
+                        <b:column span="6"><h:outputLabel value="Reliquat"/></b:column>
+                        <b:column span="6"><b:inputText id="reliquat_apres" value="#{demAbsence.scApres.nbCongesReliquat}" type="number" style="text-align: right;" readonly="true"  /></b:column>
+                    </b:row>    
+                    <b:row>
+                        <b:column span="6"><h:outputLabel value="Congés échus"/></b:column>
+                        <b:column span="6"><b:inputText id="echus_apres" value="#{demAbsence.scApres.nbCongesEchus}" type="number" style="text-align: right;" readonly="true"  /></b:column>
+                    </b:row>    
+                    <b:row>
+                        <b:column span="6"><h:outputLabel value="Congés courrus"/></b:column>
+                        <b:column span="6"><b:inputText id="courrus_apres" value="#{demAbsence.scApres.nbCongesEncours}" type="number" style="text-align: right;" readonly="true"  /></b:column>
+                    </b:row>    
+                        <b:row>
+                            <b:column span="6"><h:outputLabel value="Joindre la pièce justificative"/></b:column>
+                            <b:column span="6" >
+                                <p:fileUpload id="file_upload" value="#{demAbsence.file}" mode="simple"></p:fileUpload>    
+                            </b:column>
+                        </b:row>
+                        <b:row>
+                            <b:column span="6"><h:outputLabel value="Commentaire"/></b:column>
+                            <b:column span="6"><b:inputTextarea id="commentaire" value="#{demAbsence.obj.absence.commentaire}" type="textarea" rows="5" style="text-align: left;"  /></b:column>
+                        </b:row>  
+                         
+                    </b:column>
+                </b:panel>
+                <b:panel>
+                    <b:commandButton look="primary" type="submit" value="#{msg.BNT_ENREGISTRER}" onclick="$('.modalPseudoClass1').modal();return false;" style="width: 150px;height: 5%;margin: 2px;margin-left: 30%;background: #31708F;color: #ffffff;font-weight: bold"/>
+                    <h:button styleClass="cancel-btn"   value="#{msg.BNT_RESET}" style="width: 150px;height: 5%;margin: 2px;background: #e7e6e3;color: #000000;font-weight: bold"/>
+                    <h:button styleClass="cancel-btn" value="#{msg.BNT_FERMER}" outcome="/RH/demandeAbsenceList.xhtml" style="width: 150px;height: 5%;margin: 2px;background: #ac0000;color: #ffffff;font-weight: bold"/>
+                </b:panel>
+            </b:panel>
+        </b:container>
+    </ui:define>
+</ui:composition>
+

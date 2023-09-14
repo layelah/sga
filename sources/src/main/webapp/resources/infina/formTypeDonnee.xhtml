@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:composite="http://java.sun.com/jsf/composite" 
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:infina="http://java.sun.com/jsf/composite/infina">
+
+    <composite:interface>
+        <composite:attribute name="type_donnee" required="true"/>
+        <composite:attribute name="titre" required="true"/>
+        <composite:attribute name="code" required="true"/>
+        <composite:attribute name="obj" required="true"/>
+        <composite:attribute name="list"/>
+        <composite:attribute name="optionnel" default="false"/>
+        <composite:attribute name="taille" default="50"/>
+        <composite:attribute name="limite" default="100"/>
+    </composite:interface>
+
+    <composite:implementation> 
+        <c:choose>
+            <c:when test="${cc.attrs.type_donnee eq 'STR'}">
+                <infina:formString code="#{cc.attrs.code}" titre="#{cc.attrs.titre}" obj="#{cc.attrs.obj}" limite="#{cc.attrs.limite}" taille="#{cc.attrs.taille}" optionnel="#{cc.attrs.optionnel}"/>
+            </c:when>
+            <c:when test="${cc.attrs.type_donnee eq 'NUM'}">
+                <infina:formNumerique code="#{cc.attrs.code}" titre="#{cc.attrs.titre}" obj="#{cc.attrs.obj}" limite="#{cc.attrs.limite}" taille="#{cc.attrs.taille}" optionnel="#{cc.attrs.optionnel}"/>
+            </c:when>
+            <c:when test="${cc.attrs.type_donnee eq 'DAT'}">
+                <infina:formDate code="#{cc.attrs.code}" titre="#{cc.attrs.titre}" obj="#{cc.attrs.obj}" optionnel="#{cc.attrs.optionnel}"/>
+            </c:when>
+            <c:when test="${cc.attrs.type_donnee eq 'COD'}">
+                <infina:formSelect code="#{cc.attrs.code}" titre="#{cc.attrs.titre}" obj="#{cc.attrs.obj}" list="#{cc.attrs.list}" optionnel="#{cc.attrs.optionnel}"/>                
+            </c:when>
+            <c:when test="${cc.attrs.type_donnee eq 'BOL'}">
+                <infina:formString code="#{cc.attrs.code}" titre="#{cc.attrs.titre}" obj="#{cc.attrs.obj}" limite="10" taille="10" optionnel="#{cc.attrs.optionnel}"/>
+            </c:when>
+            <c:when test="${cc.attrs.type_donnee eq 'DEC'}">
+                <infina:formNumerique code="#{cc.attrs.code}" titre="#{cc.attrs.titre}" obj="#{cc.attrs.obj}" limite="#{cc.attrs.limite}" taille="#{cc.attrs.taille}" optionnel="#{cc.attrs.optionnel}"/>
+            </c:when>
+            <c:when test="${cc.attrs.type_donnee eq 'HER'}">
+                <infina:formString code="#{cc.attrs.code}" titre="#{cc.attrs.titre}" obj="#{cc.attrs.obj}" limite="5" taille="5"/>
+            </c:when>
+            <c:when test="${cc.attrs.type_donnee eq 'ANN'}">
+                <infina:formNumerique code="#{cc.attrs.code}" titre="#{cc.attrs.titre}" obj="#{cc.attrs.obj}" limite="4" taille="4" optionnel="#{cc.attrs.optionnel}"/>
+            </c:when>
+            <c:otherwise>
+                TYPE NON IMPLEMENTER
+            </c:otherwise>
+        </c:choose>
+    </composite:implementation>
+</html>

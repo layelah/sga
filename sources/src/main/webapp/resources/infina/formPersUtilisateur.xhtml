@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:composite="http://java.sun.com/jsf/composite" 
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:infina="http://java.sun.com/jsf/composite/infina"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+    </composite:interface>
+
+    <composite:implementation> 
+        <infina:infoString titre="XXX" valeur="XXXXX"/>
+        <infina:infoString titre="XXX" valeur="XXXXX"/>
+        <infina:infoString titre="XXX" valeur="XXXXX"/>
+        <infina:infoString titre="XXX" valeur="XXXXX"/>
+        <infina:infoString titre="XXX" valeur="XXXXX"/>
+        <infina:infoString titre="XXX" valeur="XXXXX"/>
+        
+        <h:panelGrid columns="4">
+            <h:outputLabel value="#{msg.LBL_PERS_Prenom} : " for="prenom" />
+            <h:inputText id="prenom" size="50" maxlength="100" required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}" value="#{cc.attrs.obj.prenom}"/>
+            &nbsp;*&nbsp;<h:message for="prenom" errorStyle="color: red" />
+
+            <h:outputLabel value="#{msg.LBL_PERS_Nom} : " for="nom" />
+            <h:inputText id="nom" size="50" maxlength="100" value="#{cc.attrs.obj.nom}" required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"/>
+            &nbsp;*&nbsp;<h:message for="nom" errorStyle="color: red" />
+
+            <h:outputLabel value="#{msg.LBL_PERS_Surnom} : " for="surnom" />
+            <h:inputText id="surnom" size="50" maxlength="100" value="#{cc.attrs.obj.surnom}"/>
+            &nbsp; &nbsp;<h:message for="surnom" errorStyle="color: red" />
+        </h:panelGrid>
+    </composite:implementation>
+</html>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"  
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+                template="/resources/template/principalRH.xhtml">
+
+    <ui:define name="title"></ui:define>
+
+    <ui:define name="content">
+        <b:container>
+            <b:panel title="Solde des congés" class="panel-info">
+                <infina:formSelect code="agent" titre="Agent" obj="#{solde.obj.agent}" list="#{myItems.lesAgents}" optionnel="true"/>
+                <infina:formSelect code="annee" titre="Année" obj="#{solde.obj.annee}" list="#{myItems.lesAnnees}" optionnel="true"/>
+                <infina:formNumerique optionnel="false"  code="nb_conges_acquis" obj="#{solde.obj.nbCongesAcquis}" titre="Nombre de congés acquis" />
+                <infina:formNumerique optionnel="false"  code="nb_conges_pris" obj="#{solde.obj.nbJourPris}" titre="Nombre de congés pris" />
+                <infina:formNumerique optionnel="false"  code="nb_jour_deductible" obj="#{solde.obj.nbJourPrisDeductible}" titre="Nombre de jours déductibles" />
+                <infina:formNumerique optionnel="false"  code="nb_jour_nondeductible" obj="#{solde.obj.nbJourPrisNonDeductible}" titre="Nombre de jours non déductibles" />
+                <infina:formNumerique optionnel="false"  code="nb_conges_reliquat" obj="#{solde.obj.nbCongesReliquat}" titre="Nombre de congés reliquats" />
+                <infina:formNumerique optionnel="false"  code="nb_conges_supplémentaires" obj="#{solde.obj.nbCongesSupplementaire}" titre="Nombre de congés supplémentaires" />
+             </b:panel>
+            <b:panel>
+                <infina:formAction bean="#{solde}"/>
+                
+            </b:panel>
+        </b:container>
+    </ui:define>
+
+</ui:composition>

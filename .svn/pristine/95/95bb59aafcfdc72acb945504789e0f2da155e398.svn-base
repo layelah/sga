@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:infina="http://java.sun.com/jsf/composite/infina">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+        <composite:attribute name="lbl_lib" default="#{msg.LBL_LIB}"/>
+        <composite:attribute name="lbl_description" default="#{msg.LBL_DESCRIPTION}"/>
+        <composite:attribute name="optionnel" default="false"/>
+
+    </composite:interface>
+
+    <composite:implementation>         
+        <infina:formString code="lib" titre="#{cc.attrs.lbl_lib}" obj="#{cc.attrs.obj.lib}" optionnel="#{cc.attrs.optionnel}" />
+        <infina:formZoneText obj="#{cc.attrs.obj.description}" titre="#{cc.attrs.lbl_description}" />
+    </composite:implementation>
+</html>

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:b="http://bootsfaces.net/ui"
+	xmlns:composite="http://xmlns.jcp.org/jsf/composite">
+
+<composite:interface>
+    <composite:attribute name="titre" required="true"/>
+    <composite:attribute name="code" required="true"/>
+    <composite:attribute name="obj_min" required="true"/>
+    <composite:attribute name="obj_max" required="true"/>
+</composite:interface>
+
+<composite:implementation>
+    <b:row>
+        <b:column span='4' style="background-color: #c0dff4;border: solid whitesmoke 1px">
+             <h:outputLabel value="#{cc.attrs.titre} entre"/>
+        </b:column>
+        <b:column span='3'>
+            <b:datepicker class="datecust" changeMonth="true" changeYear="true" mode="popup-icon" id="#{cc.attrs.code}_min" value="#{cc.attrs.obj_min}" placeholder="Selectionner une date"/>
+        </b:column>
+        <b:column span='1' style="background-color: #c0dff4;border: solid whitesmoke 1px">
+            <h:outputLabel value=" et "/>
+        </b:column>
+        <b:column span='3'>
+            <b:datepicker class="datecust" changeMonth="true" changeYear="true" mode="popup-icon" id="#{cc.attrs.code}_max" value="#{cc.attrs.obj_max}" placeholder="Selectionner une date"/>
+        </b:column>
+    </b:row>
+</composite:implementation>
+</html>

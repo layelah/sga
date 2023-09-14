@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:b="http://bootsfaces.net/ui" 
+                template="/resources/template/principalRH.xhtml"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Fiche personnelle</ui:define>
+
+    <ui:define name="content">
+        <b:container>
+            <b:panel class="panel-info">
+                <b:tabView activeIndex="0">
+                    <b:tab title="Données personnelles">
+                        <b:row>
+                            <b:column span="12">
+                                <b:panel title="Article L.148 du code du travail" class="panel-title">
+                                <b:row>
+                                    <b:column span="12">
+                                        <h:outputLabel style="font-weight: normal" value="Sauf dispositions plus favorables des conventions collectives, le travailleur acquiert droit au congé payé à la charge de l’employeur à raison de deux jours ouvrables par mois de service. " />
+                                        <h:outputLabel style="font-weight: normal" value="Cette durée du congé est augmentée en considération de l’ancienneté du travailleur dans l’entreprise, suivant les règlements en vigueur ou les dispositions des conventions collectives. " />
+                                        <h:outputLabel style="font-weight: normal" value="Les mères de famille ont droit à un jour de congé supplémentaire par an pour chaque enfant de moins de 14 ans enregistré à l’état civil.  " />
+                                        <h:outputLabel style="font-weight: normal" value="Les périodes de suspension de contrat de travail, énumérées à l’article L. 70 de la présente loi, ouvrent droit à congé au même titre que le temps de service effectif à l’exception de celles visées aux alinéas 9°, 10° et 11° du même article.  " />
+                                    </b:column>
+                                </b:row>                                
+                                </b:panel>
+                                <b:panel title="Article L.150 du code du travail" class="panel-title">
+                                <b:row>
+                                    <b:column span="12">
+                                        <h:outputLabel style="font-weight: normal" value="Le droit de jouissance au congé est acquis après une période minimale de service effectif, appelée période de référence, égale à 12 mois." />
+                                        <h:outputLabel style="font-weight: normal" value="Dans tous les cas, la jouissance effective du congé peut être reportée d'accord parties, sans que la durée de service effectif puisse excéder trois ans, et sous réserve d'un congé de six jours ouvrables à prendre obligatoirement chaque année." />
+                                    </b:column>
+                                </b:row>                                
+                                </b:panel> 
+                                <b:panel title="Informations sur l'agent" class="panel-title">
+                                    <b:row>
+                                        <b:column span="6">
+                                            <infina:infoString titre="Nom" valeur="#{agent.obj.nomTotal}"/>
+                                            <infina:infoString titre="Entité" valeur="#{agent.obj.entite.lib}"/>
+                                        </b:column>
+                                        <b:column span="6">
+                                            <infina:infoString titre="Matricule" valeur="#{agent.obj.matricule}"/>                                            
+                                            <infina:infoString titre="Fonction" valeur="#{agent.obj.fonction.lib}"/>                                            
+                                        </b:column>
+
+                                    </b:row>
+                                    <b:row>&nbsp;</b:row>
+                                    <b:row>
+                                        <b:column span="6">
+                                            <infina:infoDate   titre="Date d'entrée en service" valeur="#{agent.obj.datePriseFonction}"/>
+                                            <infina:infoString titre="Bureau" valeur="#{agent.obj.entite.lib}"/>
+                                            <infina:infoString titre="Service" valeur="#{agent.obj.service.lib}"/>
+                                            <infina:infoString titre="Superviseur" valeur="#{agent.obj.superviseur.nomComplet}"/>
+                                            <infina:infoString titre="N°. poste / Fixe bureau" valeur="#{agent.obj.numeroPoste} / #{agent.obj.telBureau}"/>
+                                            <infina:infoString titre="Tél. eGov (ADIE)" valeur="#{agent.obj.telProfessionnel}"/>
+                                            <infina:infoString titre="Email professionel" valeur="#{agent.obj.emailProfessionnel}"/>
+                                        </b:column>
+                                        <b:column span="6">
+                                            <infina:infoString titre="N° CNI" valeur="#{agent.obj.cni}"/>
+                                            <infina:infoCoordonnees  hide_adr3="false" hide_ville="false" lab_email="Email personnel" lab_tel1="Tél. personnel" lab_tel2="Tél. domicile" show_tel2="true"  obj="#{agent.obj.coord}"/>
+                                        </b:column>
+                                    </b:row>
+                                </b:panel>
+                                <b:panel title="Solde (en jour) des congés à la date du #{agent.strDateDernierCalcul}" class="panel-title">
+                                    <b:row>
+                                        <b:column span="6">
+                                            <infina:infoNumerique  titre="Total congès acquis" valeur="#{agent.sc.nbCongesAcquis}"/>
+                                            <infina:infoNumerique titre="Total congès pris" valeur="#{agent.sc.nbJourPrisDeductible}"/>
+                                            <infina:infoNumerique titre="Reliquat des congès" valeur="#{agent.sc.nbCongesReliquat}" en_evidence="true"/>
+                                        </b:column>
+                                        <b:column span="6">
+                                            <infina:infoNumerique titre="Congès échus" valeur="#{agent.sc.nbCongesEchus}"/>
+                                            <infina:infoNumerique titre="Congès en cours" valeur="#{agent.sc.nbCongesEncours}"/>
+                                            <infina:infoNumerique titre="Congès supplémentaires" valeur="#{agent.sc.nbCongesSupplementaire}"/>
+                                        </b:column>
+                                    </b:row>                                     
+                                </b:panel> 
+                                <b:panel title="Définition des Concepts liés au Congés " class="panel-title">
+                                <b:row>
+                                    <b:column span="6">
+                                        <infina:infoString titre="Total congés acquis" valeur="C’est le nombre de jour de congés totalisé pour l’agent depuis son premier jour de service"/>
+                                        <infina:infoString titre="Total congès pris" valeur="C’est le cumul des jours de congés déductibles pris depuis le début"/>
+                                        <infina:infoString titre="Congès en cours" valeur="Ce sont les congés courus (non encore échus). Les congés courus sont échus à la date d’anniversaire du jour de prise de service de l’agent"/>
+                                    </b:column>
+                                    <b:column span="6">
+                                        <infina:infoString titre="Congès échus" valeur="Ce sont les congés comptabilisés pour l’agent lors des exercices précédents" />
+                                        <infina:infoString titre="Reliquat des congès" valeur="C’est le total des congés échus et des congés encours"/>
+                                        <infina:infoString titre="Congès supplémentaires" valeur="Ce sont des jours de congés exceptionnellement accordés aux agents sur des critères bien précis (nombre d’enfant pour la mère, nombre d’année d’ancienneté, etc.)"/>
+                                    </b:column>
+                                </b:row>                                     
+                            </b:panel> 
+                                
+                        </b:column>
+                        </b:row>
+                    </b:tab>
+                    <b:tab title="Historique des absences">
+                        <b:panel title="Historique des absences" class="panel-title">
+                            <b:dataTable value="#{agent.listAbsence}" var="item"> 
+                                <b:dataTableColumn label="Type" value="#{item.typeAbsence.lib}"/>
+                                <b:dataTableColumn label="N° demande" value="#{item.demandePermissionAbsence.id}"/>
+                                <b:column>
+                                    <f:facet name="header">Date demande</f:facet>
+                                    <infina:colDateLongue valeur="#{item.demandePermissionAbsence.dateDemande}"/>
+                                </b:column>
+                                <b:dataTableColumn label="Motif" value="#{item.motif}"/> 
+                                <b:column>
+                                    <f:facet name="header">Début absence</f:facet>
+                                    <infina:colDate valeur="#{item.dateDebutAbsence}"/>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">Fin absence</f:facet>
+                                    <infina:colDate valeur="#{item.dateFinAbsence}"/>
+                                </b:column>
+                                <b:dataTableColumn label="Etat" value="#{item.etat.lib}"/> 
+                                <h:column>
+                                    <f:facet name="header">Action</f:facet>
+                                    <h:commandLink title="détail" immediate="true" action="#{demPermisAbsence.goInfoAbsence(item)}" value="" styleClass="fa fa-eye fa-1x btn-detail" style="margin-left: 10%;" />
+                                </h:column>
+                            </b:dataTable>
+                        </b:panel>
+                    </b:tab>
+                </b:tabView>
+            </b:panel>   
+        </b:container>
+    </ui:define>
+</ui:composition>

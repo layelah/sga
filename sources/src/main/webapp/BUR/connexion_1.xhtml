@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.5
+Version: 4.1.0
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+ <h:head>
+<meta charset="utf-8"></meta>
+<title>Connexion au Système de Gestion des Absences</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8"></meta>
+<meta content="" name="description"></meta>
+<meta content="" name="author"/></meta>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+<link rel="shortcut icon" href="favicon.ico"></link>
+<h:outputStylesheet name="/css/font-awesome.min.css"></h:outputStylesheet >
+<h:outputStylesheet name="/css/simple-line-icons.min.css"></h:outputStylesheet>
+<h:outputStylesheet name="/css/bootstrap.min.css" ></h:outputStylesheet >
+<h:outputStylesheet name="/css/uniform.default.css" ></h:outputStylesheet>
+<h:outputStylesheet name="css/select2.css" > </h:outputStylesheet>
+<h:outputStylesheet name="/css/login3.css" > </h:outputStylesheet>
+<h:outputStylesheet name="/css/plugins.css" > </h:outputStylesheet>
+<h:outputStylesheet name="/css/components-rounded.css" id="style_components" ></h:outputStylesheet>
+<h:outputStylesheet name="/css/layout.css" > </h:outputStylesheet>
+<h:outputStylesheet name="/css/default.css"  id="style_color"> </h:outputStylesheet>
+<h:outputStylesheet  name="/css/custom.css"> </h:outputStylesheet>
+
+<script>
+    function validateForm(){
+        
+        var login = document.getElementById("input_inform:login");
+        var pass = document.getElementById("input_inform:pass");
+        if(login != null &amp;&amp; login.value == ""){
+            document.getElementById("errorLog").innerHTML = "Renseigner le login";
+            return false;
+        }
+        if(login.value.length &lt; 1){
+            document.getElementById("errorPass").innerHTML = "Renseigner le mot de passe"
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
+<!--<script language="JavaScript">
+
+var position=0;
+var msg="BIENVENUE DANS VOTRE APPLICATION SISMUT!";
+var msg=" "+msg;
+var longue=msg.length;
+var fois=(70/msg.length)+1;
+
+
+
+function textdefil() {
+document.form1.deftext.value=msg.substring(position,position+70);
+position++;
+if(position == longue) position=0;
+setTimeout("textdefil()",100);
+}
+window.onload = textdefil;
+</script>-->
+
+ </h:head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<h:body class="login" style="height: 180px">
+    
+    <b:row> 
+            <form name="form1">
+<div align="center">
+    <input name="deftext" size="70" type="text"  value="Système de Gestion des Absences (SGA 1.2.3)" style="padding-left: 40px;padding-bottom:20;color: #01b070;font-style: italic;font-weight: 150;font-size: 15px"/>
+</div>
+</form>
+</b:row> 
+<b:container style="padding-top:50px; padding-left:300px; align-content: center; align-items: center;" >
+            
+    <b:row style="align-content: center">
+
+    <b:column  class="content" style="align-content: center;padding-bottom: 40px; padding-top: 40px;height: 260px">
+<!--                <div class="content">-->
+                <!-- BEGIN LOGIN FORM -->
+                <h:form id="inform" onsubmit="return validateForm()" style="align-content: center" >
+                    <b:panel title="Connexion à votre compte" collapsible="false"> 
+                        <b:row>
+                            <div class="form-group">
+                                <div class="input-icon">
+                                    <b:inputText class="form-control placeholder-no-fix fa fa-user" type="text" autocomplete="off" placeholder="Identifiant"  value="#{auth.login}" id="login" />
+                                    <p id="errorLog" class="alert-danger"></p>
+                                    <b:message for="login"/>
+                                </div>
+                            </div>
+                        </b:row>
+                           
+                        <b:row>
+                            <div class="form-group">
+                                <div class="input-icon">
+                                    <b:inputSecret class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Mot de passe" value="#{auth.mdp}" id="pass"/>
+                                    <p id="errorPass"></p>
+                                    <b:message for="pass"/>
+                                </div>
+                            </div>
+                        </b:row>
+                        
+                        <b:row>
+                            <!--<h:messages style="color: red" showSummary="true" globalOnly="true" showDetail="true" errorStyle="color: blue;" infoStyle="color: green;" fatalClass="color: red;" layout="list"/>-->
+                            <b:messages style="color: red" showSummary="true" globalOnly="true" showDetail="true" errorStyle="color: blue;" infoStyle="color: green;" fatalClass="color: red;"/>
+                        </b:row>
+<!--                        <b:row>
+                            <b:selectBooleanCheckbox caption="Se souvenir" /> 
+                        </b:row>-->
+                        <b:row>
+                            <div class="form-actions">			
+                                <b:commandButton look="success" type="submit" value="Connexion" action="#{auth.connecter()}" />
+                                <b:commandButton class="btn btn"  type="reset" value="Annuler" ></b:commandButton>
+                            </div>
+                        </b:row>
+<!--                        <b:row >
+                            <b:column col-md="12"><h:commandLink value="Mot de passe oublie" /> </b:column>
+                            
+                        </b:row>-->
+                        
+                    </b:panel>          
+
+                </h:form>
+                <!-- END REGISTRATION FORM -->
+<!--                </div>-->
+<!-- END LOGIN -->
+            </b:column>
+
+<!--<b:column span="4">
+    <h:graphicImage library="image" name="sismut.png" class="content" style="height: 260px"/>
+</b:column >-->
+        </b:row>
+    </b:container>
+<!-- BEGIN LOGO -->
+    
+<!-- END LOGO -->
+<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+<div class="menu-toggler sidebar-toggler">
+</div>
+<!-- END SIDEBAR TOGGLER BUTTON -->
+<!-- BEGIN LOGIN -->
+
+<!-- BEGIN COPYRIGHT -->
+
+
+<h:outputScript name="/js/metronic.js"></h:outputScript>
+
+<h:outputScript name="/js/demo.js" ></h:outputScript>
+
+<h:outputScript name="/js/layout.js" ></h:outputScript>
+
+<h:outputScript name="/js/login.js" ></h:outputScript>
+
+<h:outputScript name="/js/jquery.validate.min.js" ></h:outputScript>
+
+<h:outputScript name="/js/select2.min.js" ></h:outputScript>
+
+<h:outputScript name="/js/jquery.cokie.min.js" ></h:outputScript>
+
+<h:outputScript name="/js/jquery.uniform.min.js" ></h:outputScript>
+
+<h:outputScript name="/js/respond.min.js" ></h:outputScript>
+
+<h:outputScript name="/js/excanvas.min.js" ></h:outputScript>
+
+<h:outputScript name="/js/jquery.min.js" ></h:outputScript>
+
+<h:outputScript name="/js/jquery-migrate.min.js" ></h:outputScript>
+
+<h:outputScript name="/js/bootstrap.min.js" ></h:outputScript>
+
+<h:outputScript name="/js/jquery.blockui.min.js" ></h:outputScript>
+
+<!-- END PAGE LEVEL SCRIPTS -->
+<script language="JavaScript">
+jQuery(document).ready(function() {     
+  Metronic.init(); // init metronic core components
+  Layout.init(); // init current layout
+  Login.init();
+  Demo.init();
+});
+</script> 
+
+<!-- END JAVASCRIPTS -->
+</h:body>
+<!-- END BODY -->
+</html>

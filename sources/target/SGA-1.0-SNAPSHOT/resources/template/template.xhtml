@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta charset="utf-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta name="description" content=""></meta>
+        <meta name="author" content=""></meta>
+        <title>SISMUT</title>
+        <!-- core CSS -->
+        <link href="#{request.contextPath}/resources/design/css/font-awesome.min.css" rel="stylesheet"></link>
+        <link href="#{request.contextPath}/resources/design/css/bootstrap.min.css" rel="stylesheet"></link>
+        <link href="#{request.contextPath}/resources/design/css/main.css" rel="stylesheet"></link>
+        <link href="#{request.contextPath}/resources/design/css/responsive.css" rel="stylesheet"></link>
+        <!-- CSS custom -->
+        <link href="#{request.contextPath}/resources/design/css/cmu_style.css" rel="stylesheet"></link>	
+        <link href="#{request.contextPath}/resources/css/responsive.css" rel="stylesheet"></link>
+        <link href="#{request.contextPath}/resources/design/css/connexion_style.css" rel="stylesheet"></link>
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"></link>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
+
+    </h:head>
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title></title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+
+            <div class="container"> 
+                <!-- Header Tab -->
+                <nav class="navbar navbar-default navbar-fixed-top" id="header-bar">
+
+                    <div class="container-fluid">
+                        
+                        <h4 style="text-align: center; color: #ffffff; font-family:inherit">Agence de la Couverture Maladie Universelle du Sénégal</h4>
+
+                        <h:form> 
+                            <p:menubar style="background: #ffffff">
+                                <p:menuitem  value="Tablau de Bord" url="/BUR/dashboard.xhtml" style="margin-left: 70%; "/>
+                                <p:submenu label="Paramétrage">
+                                    <p:menuitem value="Tables de valeurs" url="/PRM/tabValTypList.xhtml"/>
+                                    <p:separator />
+                                    <p:menuitem value="Localités" url="/PRM/localiteList.xhtml" />
+                                    <p:separator/>
+                                    <p:menuitem value="Pyramide sanitaire" url="/PRM/pyramideSanitaireList.xhtml" />
+                                    <p:separator/>
+                                    <p:menuitem value="Types de prestation" url="/PRM/typePrestationList.xhtml" />
+                                    <p:separator/>
+                                    <p:menuitem value="Strutctures de santé" url="/PRM/structureSanteList.xhtml" />
+                                    <p:submenu label="Importation">
+                                        <p:menuitem value="Modèles d'importation" url="/PRM/impModeleList.xhtml" />
+                                        <p:menuitem value="Champs des modèles" url="/PRM/impChampList.xhtml" />
+                                        <p:menuitem value="Conrôles sur les champs" url="/PRM/impControleList.xhtml" />
+                                    </p:submenu>
+                                </p:submenu>
+
+                                <p:submenu label="Administration" class="disable" rendered="#{auth.estSuperAdmin}">
+                                    <p:menuitem value="Bureaux" url="/ADM/entiteList.xhtml"/>
+                                    <p:separator />
+                                    <p:menuitem value="Services" url="/ADM/serviceList.xhtml" />
+                                    <p:separator/>
+                                    <p:menuitem value="Agents" url="/ADM/agentList.xhtml" />
+                                    <p:separator/>
+                                    <p:menuitem value="Rôles" url="/ADM/roleList.xhtml" />
+                                    <p:separator/>
+                                    <p:menuitem value="Profils" url="/ADM/profilList.xhtml" />
+                                    <p:separator/>
+                                    <p:menuitem value="Utilisateurs" url="/ADM/userList.xhtml" />
+                                </p:submenu>
+
+                                <p:submenu label="Mutuelle de santé" class="disable" rendered="#{auth.estSuperAdmin}">
+                                    <p:menuitem value="Rechercher une mutuelle" url="/MUT/mutList.xhtml"/>
+                                    <p:separator />
+                                    <p:menuitem value="Saisie des données" url="/MUT/mutDonneeList.xhtml" />
+
+                                </p:submenu>
+
+                                <p:submenu label="Facture" class="disable">
+                                    <p:menuitem value="Rechercher une facture" url="/FCT/factureList.xhtml"/>
+                                    <p:separator />
+                                    <p:submenu label="Réception">
+                                        <p:menuitem value="Factures reçues" url="/FCT/factureList.xhtml" />
+                                        <p:menuitem value="Vérifications sommaires effectués" url="/FCT/verificationSomList.xhtml" />
+                                        <p:menuitem value="Bordereaux reçus" url="/FCT/bordereauList.xhtml" />
+                                    </p:submenu>
+                                    <p:menuitem value="Factures à importer" url="/FCT/facImportList.xhtml" />
+                                    <p:separator/>
+                                    <p:menuitem value="Factures à valider" url="/FCT/facValidList.xhtml" />
+                                    <p:separator/>
+                                    <p:menuitem value="Situations synthétiques" url="/FCT/situationSynthetiqueList.xhtml" />
+                                    <p:separator/>
+                                    <p:menuitem value="Requêtes de paiement" url="/FCT/reqPaiementList.xhtml" />
+                                    <p:submenu label="Mandat de paiements">
+                                        <p:menuitem value="Requêtes de paiement à mandater" url="/FCT/mandatAsaisirList.xhtml" />
+                                        <p:menuitem value="Mandats de paiement à valider" url="/FCT/mandatAValiderList.xhtml" />
+                                        <p:menuitem value="Dossier à compléter" url="/FCT/mandatACompleterList.xhtml" />
+                                        <p:menuitem value="Mandats à ordonnancer" url="/FCT/mandatOrdonnList.xhtml" />
+                                        <p:menuitem value="Réglements à enregistrer" url="/FCT/mandatAPayerList.xhtml" />
+                                        <p:separator/>
+                                        <p:menuitem value="Tableau de bord" url="/FCT/tbFacture.xhtml" />
+                                    </p:submenu>
+                                </p:submenu>
+                                <p:submenu icon="fa fa-user" style="margin-left: 300px">
+                                    <p:menuitem value="Changer ses données personnelles" icon="fa fa-user" url="/BUR/informationChange.xhtml"/>
+                                    <p:separator/>
+                                    <p:menuitem value="Changer son mot de passe" icon="fa fa-lock" url="/BUR/mdpChange.xhtml"/>
+                                    <p:separator/>
+                                    <p:menuitem value="Se déconnecter" icon="fa fa-key" url="/"/>
+                                </p:submenu>
+
+                                <f:facet name="options">
+                                    <!--<h:commandLink action="#{auth.deconnecter()}" class="" value="" style="margin-right: 10px;color: #a21612;"/>-->
+                                </f:facet>
+                            </p:menubar>
+                        </h:form>
+                    </div>
+                </nav>
+            </div>
+
+            <section class="content-body " >
+
+                <div class="container-fluid" id="wrapper"><br/>
+
+
+                    <ui:insert name="title" >
+
+                    </ui:insert>
+                    <ui:insert name="content">
+
+                    </ui:insert>
+                </div>
+            </section>
+                    <script src="../resources/design/js/bootstrap.min.js"></script>
+                    <script src="../resources/design/js/owl.carousel.min.js"></script>
+                    <script src="../resources/design/js/mousescroll.js"></script>
+                    <script src="../resources/design/js/jquery.prettyPhoto.js"></script>
+                    <script src="../resources/design/js/jquery.isotope.min.js"></script>
+                    <script src="../resources/design/js/jquery.inview.min.js"></script>
+                    <script src="../resources/design/js/wow.min.js"></script>
+                    <script src="../resources/design/js/main.js"></script>
+
+            <div class="footer" style="margin-top: 10px; text-align: center;">
+                       <div class="footer" style="margin-top: 10px;position:fixed;bottom:0px;left:0px;right:0px; text-align: center; height: 20px; background:#31708F; z-index:1;">
+                     <a href="http://www.agencecmu.sn"
+                            style="color: white;font-weight:bold;  font-size: 10px;"> Copyright © Gestion des Absences (SGA) 2021 - Version 1.2.4 - Juillet 2021 by ANACMU</a>
+                </div
+            </div>
+        </h:body>
+    </f:view>
+</html>

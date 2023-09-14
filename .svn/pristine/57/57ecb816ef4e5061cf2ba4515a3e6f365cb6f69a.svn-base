@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+      xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+        
+        <composite:attribute name="show_fax"  default="false"/>
+        <composite:attribute name="show_tel2" default="false"/>
+        <composite:attribute name="hide_adr2" default="false"/>
+        <composite:attribute name="hide_adr3" default="true"/>
+        <composite:attribute name="hide_ville" default="true"/>
+        
+        <composite:attribute name="lab_tel1" default="Téléphone"/>
+        <composite:attribute name="lab_tel2" default="Téléphone (2)"/>
+        <composite:attribute name="lab_email" default="#{msg.LBL_COORD_Email}"/>
+        <composite:attribute name="prefixe" default=""/>
+    </composite:interface>
+
+    <composite:implementation>
+        <infina:infoString titre="#{cc.attrs.lab_tel1} #{cc.attrs.prefixe}" valeur="#{cc.attrs.obj.tel1}"/>
+        <infina:infoString titre="#{cc.attrs.lab_tel2} #{cc.attrs.prefixe}" rendered="#{cc.attrs.show_tel2}" valeur="#{cc.attrs.obj.tel2}"/>
+        <infina:infoString titre="#{cc.attrs.lab_email} #{cc.attrs.prefixe}" valeur="#{cc.attrs.obj.email}"/>
+        <infina:infoString titre="#{msg.LBL_COORD_Adresse} #{cc.attrs.prefixe} (1)" valeur="#{cc.attrs.obj.adresse1}"/>
+        <infina:infoString titre="#{msg.LBL_COORD_Adresse} #{cc.attrs.prefixe} (2)" valeur="#{cc.attrs.obj.adresse2}"/>
+        <infina:infoString titre="Ville #{cc.attrs.prefixe}" valeur="#{cc.attrs.obj.ville}" />
+        <infina:infoString titre="#{msg.LBL_COORD_Fax} #{cc.attrs.prefixe}" rendered="#{cc.attrs.show_fax}" valeur="#{cc.attrs.obj.fax}"/>
+    </composite:implementation>
+</html>

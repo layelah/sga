@@ -1,0 +1,59 @@
+package com.cmu.agence.rh.bean;
+
+import com.cmu.base.bean.BaseBean;
+import com.cmu.sigicmu.admin.service.AgentService;
+import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+
+@Named("menuRH")
+@SessionScoped
+public class menuRHBean extends BaseBean {
+
+    @EJB
+    AgentService agtSrv;
+
+    public boolean estSHouRH() {
+        return (estSuperviseur() || estRH() || estAdmin() || estDaf());
+    }
+    
+    public boolean peutValider() {
+        return (estSuperviseur() || estRH() || estDir() || estSG() || estDG() || estAdmin() || estDaf());
+    }
+    
+    public boolean peutVoirDemandes() {
+        return ( estRH() || estDaf() || estDir() || estSG() || estDG() || estAdmin());
+    }
+    
+    public boolean estAdminOuRH() {
+        return (estAdmin() || estRH() || estDaf());
+    }
+    
+    public boolean estAdmin() {
+        return (getAuth().getUser().getAgent().getEstAdmin()) || getAuth().getUser().getAgent().getEstRoot();
+    }
+    
+    public boolean estSuperviseur() {
+        return (agtSrv.estSuperviseur(getAuth().getUser().getAgent().getId()) || estDaf() || estRH() || estAdmin());
+    }
+
+    public boolean estRH() {
+        return (getAuth().getUser().getAgent().estRH() || estAdmin() || estDaf());
+    }
+
+    public boolean estDG() {
+        return (getAuth().getUser().getAgent().estDG() || estAdmin());
+    }
+    
+    public boolean estDaf() {
+        return (getAuth().getUser().getAgent().estDaf() || estAdmin());
+    }
+    
+    public boolean estDir() {
+        return (getAuth().getUser().getAgent().estDIR() || estAdmin());
+    }
+    
+    public boolean estSG() {
+        return (getAuth().getUser().getAgent().estSG());
+    }
+}

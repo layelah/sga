@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+      xmlns:p="http://primefaces.org/ui">
+
+    <composite:interface>
+        <composite:attribute name="liste" required="true"/>        
+    </composite:interface>
+
+    <composite:implementation>
+        <b:dataTable value="#{cc.attrs.liste}" var="item" class="table table-condensed">     
+            <b:dataTableColumn value="#{item.url}" label="URL"/>
+            <b:dataTableColumn value="#{item.fonctionnalite.lib}" label="Fonctionnalité"/>
+            <h:column>
+                <f:facet name="header">Est globale?</f:facet>
+                <infina:outputBool valeur="#{item.estGlobal}"></infina:outputBool>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Est active?</f:facet>
+                <infina:outputBool valeur="#{item.estActif}"></infina:outputBool>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Est tracée?</f:facet>
+                <infina:outputBool valeur="#{item.estTrace}"></infina:outputBool>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Actions</f:facet>
+                <infina:tabColAction hide_modifier="false" hide_supprimer="false" bean="#{pageBean}" item="#{item}"/>
+            </h:column>
+        </b:dataTable> 
+    </composite:implementation>
+</html>

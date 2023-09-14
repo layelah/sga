@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:composite="http://java.sun.com/jsf/composite" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:infina="http://java.sun.com/jsf/composite/infina">
+
+    <composite:interface>
+        <composite:attribute name="bean" required="true"/>
+        <composite:attribute name="obj" required="true"/>
+        <composite:attribute name="hide_lib" default="false"/>
+    </composite:interface>
+
+    <composite:implementation> 
+        <h:panelGrid columns="1">
+            <c:if test="#{!cc.attrs.hide_lib}">
+                <infina:formLibDesc obj="#{cc.attrs.obj}"/>
+                <infina:formCheckbox code="est_public" titre="#{msg.LBL_EST_PUBLIC}" obj="#{cc.attrs.obj.estPublic}" />
+                <infina:formCheckbox code="est_general" titre="#{msg.LBL_EST_GENERAL}" obj="#{cc.attrs.obj.estGeneral}" rendered="#{auth.estSuper}" />
+                <br/>
+            </c:if>
+            <h:panelGrid columns="3">
+                <h:panelGrid columns="1">
+                    <h:outputLabel value="Choisissez les entités"/>
+                    <infina:formCheckbox code="tout_entite" titre="#{msg.LBL_TOUT_ENTITE}" obj="#{cc.attrs.obj.toutEntite}" /> 
+                    <h:selectManyListbox id="list_entite" value="#{cc.attrs.bean.listEntite}" size="15" style="width:250px;">
+                        <f:selectItems  value="#{myItems.lesEntitesById}"/>
+                    </h:selectManyListbox>
+                </h:panelGrid>
+                <h:panelGrid columns="1">
+                    <h:outputLabel value="Choisissez les profils"/>
+                    <infina:formCheckbox code="tout_profil" titre="#{msg.LBL_TOUT_PROFIL}" obj="#{cc.attrs.obj.toutProfil}" />
+                    <h:selectManyListbox id="list_profil" value="#{cc.attrs.bean.listProfil}" size="15" style="width:250px;">
+                        <f:selectItems  value="#{myItems.lesProfilsById}"/>
+                    </h:selectManyListbox>
+                </h:panelGrid>
+                <h:panelGrid columns="1">
+                    <h:outputLabel value="Choisissez les utilisateurs"/>
+                    <infina:formCheckbox code="tout_user" titre="#{msg.LBL_TOUT_USER}" obj="#{cc.attrs.obj.toutUtilisateur}" />
+                    <h:selectManyListbox id="list_utilisateur" value="#{cc.attrs.bean.listUtilisateur}"  size="15" style="width:250px;">
+                        <f:selectItems  value="#{myItems.lesUtilisateurs}"/>
+                    </h:selectManyListbox>
+                </h:panelGrid>
+            </h:panelGrid>
+        </h:panelGrid>
+    </composite:implementation>
+</html>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/resources/template/principalRH.xhtml"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"    
+                xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:define name="title">Mes demandes d'absences</ui:define>
+    <ui:define name="content">
+        <b:container>
+            <b:panel>
+                <b:dataTable value="#{demAbsence.getMesDemandesList()}" var="item"> 
+                    <b:dataTableColumn label="N° Demande" value="#{item.absence.demandePermissionAbsence.id}"/>
+                    <b:dataTableColumn label="Createur de la Demande" value="#{item.absence.nomCreateur}"/>
+                    <b:dataTableColumn label="Nom de l'Agent" value="#{item.absence.agent.nomComplet}"/>
+                    <b:dataTableColumn label="Type d'absence" value="#{item.absence.typeAbsence.lib}"/>
+                    <b:column>
+                        <f:facet name="header">Date demande</f:facet>
+                        <infina:colDateLongue valeur="#{item.dateDemande}"/>
+                    </b:column>
+                    <b:column>
+                        <f:facet name="header">Période</f:facet>
+                        Du
+                        <infina:colDate valeur="#{item.absence.dateDebutAbsence}"/>
+                        au
+                        <infina:colDate valeur="#{item.absence.dateFinAbsence}"/>
+                    </b:column>
+                    <b:dataTableColumn label="Durée" value="#{item.absence.nbJourAbsence}"/>
+                    <b:dataTableColumn label="Nb. jour déductible" value="#{item.absence.nbJourDeductible}"/>
+                    <b:dataTableColumn label="Etat demande" value="#{item.etat.lib}"/>
+                    <h:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:commandLink title="détail" action="#{demPermisAbsence.goMaDemande(item)}"  immediate="true" value="" styleClass="fa fa-eye fa-1x btn-detail" style="margin-left: 10%;" />
+                    </h:column>
+                </b:dataTable> 
+            </b:panel>  
+            <b:panel>
+                
+                <h:button styleClass="cancel-btn" value="#{msg.BNT_FERMER}" outcome="/RH/fichePersonnelle.xhtml" style="width: 150px;height: 5%;margin: 2px;background: #ac0000;color: #ffffff;font-weight: bold;margin-left: 43%"/>
+            </b:panel>
+        </b:container>
+    </ui:define>
+</ui:composition>
+

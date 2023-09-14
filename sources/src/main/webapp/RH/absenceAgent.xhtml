@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:b="http://bootsfaces.net/ui" 
+                template="/resources/template/principalRH.xhtml"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Etat Absence</ui:define>
+
+    <ui:define name="content">
+        <b:container>
+            <b:panel class="panel-info">
+
+                <b:panel title="Information sur l'agent" class="panel-title">
+                    <b:column span="12"> 
+                        <b:row>
+                            <b:column span="6">
+                                <infina:infoString titre="Direction" valeur="#{agent.obj.service.lib}"/>
+                                <infina:infoString titre="Agent" valeur="#{agent.obj.nomComplet}"/>
+                                <infina:infoString titre="Fonction" valeur="#{agent.obj.fonction.lib}"/>
+                            </b:column>
+                            <b:column span="5">
+                                <infina:infoString titre="Matricule" valeur="#{agent.obj.matricule}"/>
+                                <infina:infoDate   titre="Date d'entrée en service" valeur="#{agent.obj.datePriseFonction}"/>
+                            </b:column>
+                        </b:row>
+                    </b:column>
+                </b:panel>
+
+
+                <b:panel title="Etat des absences" class="panel-title">
+                    <table class="table table-condensed table-bordered " style="font-family: Arial, Verdana, sans-serif;">
+                        <thead>
+                            <tr>
+                                <th rowspan="" style="text-align: center">Date de demande</th>
+                                <th rowspan="" style="text-align: center">Date de début</th>
+                                <th rowspan="" style="text-align: center">Date de Fin</th>
+                                <th rowspan="" style="text-align: center">Nbjours</th>
+                                <th rowspan="" style="text-align: center">Type d'absence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <ui:repeat value="#{agent.listAbsence}" var="item">
+                                    <tr>
+                                        <td>
+                                            <h:outputText value="#{item.demandePermissionAbsence.dateDemande}">
+                                                <f:convertDateTime pattern="dd/MM/yy" locale="en"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{item.dateDebutAbsence}">
+                                                <f:convertDateTime pattern="dd/MM/yy" locale="en"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <h:outputText value="#{item.dateFinAbsence}">
+                                                <f:convertDateTime pattern="dd/MM/yy" locale="en"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td>#{item.nbJourAbsence}</td>
+                                        <td>#{item.typeAbsence.lib}</td>
+                                    </tr>
+                                </ui:repeat>
+                            </tr>
+                        </tbody>
+                    </table>
+                </b:panel>   
+                <h:button styleClass="cancel-btn" value="#{msg.BNT_FERMER}" outcome="/RH/etatAbsenceAgent.xhtml" style="width: 150px;height: 5%;margin: 2px;background: #ac0000;color: #ffffff;font-weight: bold"/>
+            </b:panel>
+        </b:container>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,91 @@
+package com.cmu.agence.rh.service;
+
+import com.cmu.agence.rh.domaine.AbsenceEnum;
+import com.cmu.agence.rh.domaine.EtatAbsenceEnum;
+import com.cmu.agence.rh.domaine.SoldeConges;
+import com.cmu.base.service.BaseLibService;
+import com.cmu.base.service.exception.EchecSelectException;
+import com.cmu.sigicmu.admin.domaine.Agent;
+import java.util.List;
+import javax.ejb.LocalBean;
+import javax.ejb.Schedule;
+import javax.ejb.Stateless;
+import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
+
+
+@Stateless
+@LocalBean
+public class SoldeCongesService extends BaseLibService {
+    
+    //Apppel de la procedure stockee 
+    // Pour le recalcul des soldes conges
+    public void executerPSCalculSolde() {
+        StoredProcedureQuery psRecalculerSoldeConges = getEm().createStoredProcedureQuery("ps_recalculer_solde_conges");        
+        psRecalculerSoldeConges.execute();    
+    }
+    
+    // Cette methode appele la procedure stockee 
+    // pour changer le niveau de validation apres 48h sans validation du SH
+    @Schedule(hour = "0", minute = "0", second = "0", persistent = false)
+    public void changeNiveauValidation() {
+        StoredProcedureQuery psChangeNiveauValidation = getEm().createStoredProcedureQuery("ps_validation_sh_rh");        
+        psChangeNiveauValidation.execute();    
+    }  
+    
+    // Cette methode appele la procedure stockee 
+    // pour mettre a jour le compteur des reliquats a 72 jours si ca se depasse
+    @Schedule(hour = "0", minute = "0", second = "0", persistent = false)
+    public void blocageReliquat() {
+        StoredProcedureQuery psblocageReliquat = getEm().createStoredProcedureQuery("ps_blocage_reliquat");        
+        psblocageReliquat.execute();    
+    }  
+    
+    public SoldeConges getSoldeConges(int agentId) {
+        String sql = "SELECT o"
+                + " FROM SoldeConges as o"
+                + " WHERE o.agent.id = :agentId";
+        
+        Query q = getEm().createQuery(sql);
+        q.setParameter("agentId", agentId);
+        return (SoldeConges) q.getSingleResult();
+    }
+    
+    public List<SoldeConges> soldeCongesList(Agent agent) {
+        String sql = "SELECT o"
+                + " FROM SoldeConges as o";
+        if (!agent.estRH()) {
+            sql += " WHERE o.agent.superviseur.id = :agentId ";
+        }
+                
+        sql += " ORDER BY o.agent.matricule";
+        
+        Query q = getEm().createQuery(sql);
+        if (!agent.estRH()) {
+            q.setParameter("agentId", agent.getId());
+        }
+        return q.getResultList();
+    }
+    
+    //Requete pour obtenir la liste des absence regularisees 
+    public List listAbsRegularisees() throws EchecSelectException {
+
+        try {
+            String sql = "SELECT a "
+                    + " FROM Absence as a"
+                    + " WHERE a.typeAbsence.code = :typeAbsence"
+                    + " AND a.etat.code = :etatCode";
+                   // + " OR a.etat.code = :etatCode1";                    
+
+            Query q = getEm().createQuery(sql);
+            q.setParameter("typeAbsence", AbsenceEnum.Regularisation.toString());
+            q.setParameter("etatCode", EtatAbsenceEnum.Effective.toString());
+           // q.setParameter("etatCode1", EtatAbsenceEnum.Effective.toString());
+            
+            return q.getResultList();
+
+        } catch (Exception ex2) {
+            throw new EchecSelectException(ex2);
+        }
+    }
+}

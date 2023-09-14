@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+    template="/resources/template/principalRH.xhtml"     
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+    
+    <ui:define name="title">Enregistrement d'un agent</ui:define>
+
+    <ui:define name="content">
+        <b:container>
+        <b:panel>
+            <b:row>
+                <b:column span="6">
+                    <b:panel title="Données personnelles" class="panel-default">
+                        <infina:formSelect code="civilite" titre="Titre" obj="#{agent.agent.civilite}" list="#{myItems.lesCivilites}"/>
+                        <infina:formString code="prenom" optionnel="true" titre="#{msg.LBL_PRENOM}" obj="#{agent.agent.prenom}"/>
+                        <infina:formString code="nom" titre="#{msg.LBL_NOM}" obj="#{agent.agent.nom}"/>
+                        <infina:formString code="nom_jeune_fille" optionnel="true" titre="Nom jeune fille" obj="#{agent.agent.nomJeuneFille}"/>
+                        <infina:formString code="surnom" optionnel="true" titre="Surnom" obj="#{agent.agent.surnom}"/>
+                        <infina:formSelect code="genre" titre="Genre" obj="#{agent.agent.genre}" list="#{myItems.lesGenre}"/>                        
+                        <infina:formSelect code="statut_marital" titre="Statut marital" obj="#{agent.agent.statutMarital}" list="#{myItems.lesStatutMarital}"/>
+                        <infina:formString code="cni" optionnel="true" titre="N° CNI" obj="#{agent.agent.cni}"/>
+                        <infina:formDate   code="date_naissance" optionnel="true" titre="Date naissance" obj="#{agent.agent.dateNaissance}"/>
+                        <infina:formString code="lieu_naissance" optionnel="true" titre="Lieu de naissance" obj="#{agent.agent.lieuNaissance}"/>
+                    </b:panel>
+                </b:column>
+                <b:column span="6">
+                    <b:panel title="Données professionnelles" class="panel-default">
+                        <infina:formSelect code="entite"                titre="Bureau"      obj="#{agent.agent.entite}" list="#{myItems.lesEntites}"/>
+                        <infina:formSelect code="service"               titre="Service"     obj="#{agent.agent.service}" list="#{myItems.lesServices}"/>
+                        <infina:formSelect code="fonction"              titre="Fonction"    obj="#{agent.agent.fonction}" list="#{myItems.lesFonctions}"/> 
+                        <infina:formString code="description"  titre="Description du Poste" obj="#{agent.agent.description_poste}"/>
+                        <infina:formSelect code="superviseur"           titre="Superviseur" optionnel="true" obj="#{agent.agent.superviseur}" list="#{myItems.lesAgents}"/>                        
+                        <infina:formString code="matricule"             titre="Matricule"   obj="#{agent.agent.matricule}" limite="5"/>
+                        <infina:formDate   code="date_recrutement"      titre="Recruté(e) le" obj="#{agent.agent.dateRecrutement}" optionnel="true"/>
+                        <infina:formDate   code="date_prise_fonction"   titre="A démarré le" obj="#{agent.agent.datePriseFonction}"/>
+                        <infina:formString code="num_poste"                  titre="N° de poste" optionnel="true" obj="#{agent.agent.numeroPoste}"/>
+                        <infina:formString code="tel_bureau"                  titre="Tél. Bureau" optionnel="true" obj="#{agent.agent.telBureau}"/>
+                        <infina:formString code="tel_professionnel"                  titre="Tél. ADIE" optionnel="true" obj="#{agent.agent.telProfessionnel}"/>
+                        <infina:formString code="email_professionnel"   titre="Email Prof." obj="#{agent.agent.emailProfessionnel}" />
+                    </b:panel>
+                </b:column> 
+            </b:row>
+            <b:row>
+                <b:panel title="Coordonnées personnelles" class="panel-default">                    
+                    <b:row>
+                        <b:column span='6'>
+                            <infina:formString code="lab_tel1"                  titre="Tél. personnel"  optionnel="true" obj="#{agent.agent.coord.tel1}"/>
+                                 <infina:formString code="lab_tel2"                  titre="Tél. domicile"  optionnel="true" obj="#{agent.agent.coord.tel2}"/>     
+                                 <infina:formString code="lab_email"                  titre="#{msg.LBL_COORD_Email}"  optionnel="true" obj="#{agent.agent.coord.email}"/> 
+                        </b:column>
+                        <b:column span='6'>
+                                <infina:formString code="adr1"                  titre="#{msg.LBL_COORD_Adresse}(1)"  optionnel="true" obj="#{agent.agent.coord.adresse1}"/> 
+                                <infina:formString code="adr2"                  titre="#{msg.LBL_COORD_Adresse}(2)"  optionnel="true" obj="#{agent.agent.coord.adresse2}"/>
+                                <infina:formString code="adr3"                  titre="#{msg.LBL_COORD_Adresse}(3)"  optionnel="true" obj="#{agent.agent.coord.adresse3}"/>
+                                <infina:formString code="ville"                  titre="#{msg.LBL_COORD_Ville}"  optionnel="true" obj="#{agent.agent.coord.ville}"/>
+                        </b:column>
+                    </b:row>
+                </b:panel>
+            </b:row>
+        </b:panel>
+        
+        <b:panel>
+            <h:commandButton styleClass="submit" value="Enregistrer" action="#{agent.inserer()}" style="width: 150px;height: 40px;margin: 2px;margin-left: 30%;background: linear-gradient(olivedrab,green);color: #ffffff;font-weight: bold;border-radius: 5px"/>
+            <h:button styleClass="cancel-btn" value="#{msg.BNT_RESET}" style="width: 150px;height: 40px;margin: 2px;background: linear-gradient(graytext,buttonhighlight);color: #000000;font-weight: bold;border-radius: 5px"/>
+            <h:button styleClass="cancel-btn" value="#{msg.BNT_FERMER}" outcome="/ADM/agentList.xhtml" style="width: 150px;height: 40px;margin: 2px;background: linear-gradient(graytext,red);color: #ffffff;font-weight: bold;border-radius: 5px"/>
+        </b:panel>
+</b:container>        
+    </ui:define>
+    
+  
+</ui:composition>

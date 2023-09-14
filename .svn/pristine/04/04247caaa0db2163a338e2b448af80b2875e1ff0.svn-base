@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <h:panelGrid columns="2">
+            <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_PROFIL} : " /><h:outputText value="#{cc.attrs.obj.profil.lib}"/>
+            <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_LOGIN} : " /><h:outputText value="#{cc.attrs.obj.login}"/>
+            <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_MDP_INVARIANT} : " /><h:outputText value="#{cc.attrs.obj.mdpInvariant}"><f:converter converterId="boolConvert" /></h:outputText>
+            <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_DOIT_CHANGER_SON_MDP} : " /><h:outputText value="#{cc.attrs.obj.doitChangerSonMdp}"><f:converter converterId="boolConvert" /></h:outputText>
+            <h:outputLabel style="font-weight: bold;"  value="#{msg.LBL_VISIBILITE_DESCENDATE} : " /><h:outputText value="#{cc.attrs.obj.visibiliteDescendante}"><f:converter converterId="boolConvert" /></h:outputText>
+        </h:panelGrid>
+    </composite:implementation>
+</html>

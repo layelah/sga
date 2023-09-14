@@ -1,0 +1,31 @@
+package com.cmu.sigicmu.admin.domaine;
+
+import com.cmu.sigicmu.admin.domaine.Agent;
+import com.cmu.sigicmu.admin.domaine.Entite;
+import com.cmu.sigicmu.admin.domaine.Service;
+import com.cmu.sigicmu.admin.domaine.Utilisateur;
+import com.cmu.sigicmu.param.domaine.TableValeur;
+import java.util.Date;
+import javax.annotation.Generated;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-12-09T12:46:37")
+@StaticMetamodel(Agent.class)
+public class Agent_ extends PersonnePhysique_ {
+
+    public static volatile SingularAttribute<Agent, String> matricule;
+    public static volatile SingularAttribute<Agent, String> telBureau;
+    public static volatile SingularAttribute<Agent, Date> dateRecrutement;
+    public static volatile SingularAttribute<Agent, Agent> superviseur;
+    public static volatile SingularAttribute<Agent, String> numeroPoste;
+    public static volatile SingularAttribute<Agent, Entite> entite;
+    public static volatile SingularAttribute<Agent, Date> datePriseFonction;
+    public static volatile SingularAttribute<Agent, Utilisateur> utilisateur;
+    public static volatile SingularAttribute<Agent, Service> service;
+    public static volatile SingularAttribute<Agent, TableValeur> fonction;
+    public static volatile SingularAttribute<Agent, String> telProfessionnel;
+    public static volatile SingularAttribute<Agent, String> emailProfessionnel;
+    public static volatile SingularAttribute<Agent, String> cni;
+
+}

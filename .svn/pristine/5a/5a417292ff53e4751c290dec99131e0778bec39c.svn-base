@@ -1,0 +1,27 @@
+package com.cmu.sigicmu.param.domaine;
+
+import com.cmu.base.domaine.BaseLibCodeDesc_;
+import com.cmu.sigicmu.param.domaine.ActionVerification;
+import com.cmu.sigicmu.param.domaine.TableValeurType;
+import javax.annotation.Generated;
+import javax.persistence.metamodel.ListAttribute;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-12-07T13:00:45")
+@StaticMetamodel(TableValeur.class)
+public class TableValeur_ extends BaseLibCodeDesc_ {
+
+    public static volatile SingularAttribute<TableValeur, String> lib5;
+    public static volatile SingularAttribute<TableValeur, String> code;
+    public static volatile SingularAttribute<TableValeur, String> lib;
+    public static volatile SingularAttribute<TableValeur, Integer> ordre;
+    public static volatile ListAttribute<TableValeur, ActionVerification> actionVerificationList;
+    public static volatile SingularAttribute<TableValeur, Boolean> estParDefaut;
+    public static volatile SingularAttribute<TableValeur, String> lib3;
+    public static volatile SingularAttribute<TableValeur, TableValeurType> type;
+    public static volatile SingularAttribute<TableValeur, String> lib4;
+    public static volatile SingularAttribute<TableValeur, String> lib1;
+    public static volatile SingularAttribute<TableValeur, String> lib2;
+
+}

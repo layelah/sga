@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:composite="http://xmlns.jcp.org/jsf/composite"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <composite:interface>
+        <composite:attribute name="bean" required="true"/>
+    </composite:interface>
+    
+    <composite:implementation>       
+        <h:commandButton action="#{cc.attrs.bean.fermer()}" class="btn btn" value="Fermer" style="width: 150px;height: 5%;margin-left: 40%;background: linear-gradient(graytext,red);color: #ffffff;font-weight: bold;border-radius: 20px"></h:commandButton>
+    </composite:implementation>
+</html>

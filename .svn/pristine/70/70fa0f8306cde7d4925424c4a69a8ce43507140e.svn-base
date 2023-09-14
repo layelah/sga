@@ -1,0 +1,28 @@
+package com.cmu.sigicmu.admin.domaine;
+
+import com.cmu.base.domaine.BaseDomaine_;
+import com.cmu.sigicmu.admin.domaine.Agent;
+import com.cmu.sigicmu.param.domaine.TableValeur;
+import java.util.Date;
+import javax.annotation.Generated;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2021-09-13T14:42:17")
+@StaticMetamodel(Utilisateur.class)
+public class Utilisateur_ extends BaseDomaine_ {
+
+    public static volatile SingularAttribute<Utilisateur, Date> dateChangementMdp;
+    public static volatile SingularAttribute<Utilisateur, String> motDePasse;
+    public static volatile SingularAttribute<Utilisateur, Agent> agent;
+    public static volatile SingularAttribute<Utilisateur, Date> dateDerniereConnexion;
+    public static volatile SingularAttribute<Utilisateur, TableValeur> etatCompte;
+    public static volatile SingularAttribute<Utilisateur, Boolean> doitChangerSonMdp;
+    public static volatile SingularAttribute<Utilisateur, Integer> nbEssaiConnexion;
+    public static volatile SingularAttribute<Utilisateur, String> ipDerniereConnexion;
+    public static volatile SingularAttribute<Utilisateur, Date> datePremiereConnexion;
+    public static volatile SingularAttribute<Utilisateur, String> raisonBlocage;
+    public static volatile SingularAttribute<Utilisateur, String> login;
+    public static volatile SingularAttribute<Utilisateur, Date> dateDerniereDeconnexion;
+
+}

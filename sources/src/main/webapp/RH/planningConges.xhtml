@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    template="/resources/template/principalRH.xhtml"
+    xmlns:hf="http://highfaces.org"
+    xmlns:infina="http://java.sun.com/jsf/composite/infina">
+
+    <ui:define name="title">Planning des congés</ui:define>
+
+    <ui:define name="content">
+        <b:container>
+            <b:panel class="panel panel-info">
+               
+                   
+                        <b:panel title="Planning des congés" class="panel-title">
+                                
+                            <b:dataTable value="#{demPermisAbsence.planning}" var="item" > 
+                                <b:dataTableColumn label="N° demande" value="#{item.absence.demandePermissionAbsence.id}" style="top: auto;"/>
+                                <b:dataTableColumn label="Date demande" data-type="date" data-order="#{item.dateDemande}" >
+                                    <h:outputText value="#{item.absence.dateFinAbsence}" >
+                                         <f:convertDateTime pattern="dd/MM/yyyy" />
+                                     </h:outputText>
+                                </b:dataTableColumn>
+                               <b:dataTableColumn label="Service" value="#{item.absence.agent.service.lib}"/>
+                               <b:dataTableColumn label="Agent" value="#{item.absence.agent.nomComplet}"/>
+                               <b:dataTableColumn label="Début" data-type="date" data-order="#{item.absence.dateDebutAbsence}" >
+                                    <h:outputText value="#{item.absence.dateFinAbsence}" >
+                                         <f:convertDateTime pattern="dd/MM/yyyy" />
+                                     </h:outputText>
+                               </b:dataTableColumn>
+                               <b:dataTableColumn label="Fin" data-type="date" data-order="#{item.absence.dateDebutAbsence}" >
+                                    <h:outputText value="#{item.absence.dateFinAbsence}" >
+                                         <f:convertDateTime pattern="dd/MM/yyyy" />
+                                     </h:outputText>
+                               </b:dataTableColumn>
+                                <b:dataTableColumn label="Motif" value="#{item.absence.motif}"/>
+                                <b:dataTableColumn label="Nbre jours"  data-type="number" data-order="#{item.absence.nbJourAbsence}">    
+                                    <h:outputText value="#{item.absence.nbJourAbsence}">
+                                        <f:convertNumber pattern="#####.##" />
+                                    </h:outputText>
+                                </b:dataTableColumn>                               
+                                                                
+                            </b:dataTable>
+                        </b:panel>
+                    
+                
+            </b:panel>
+        </b:container>
+        <script>
+     </script>
+    </ui:define>
+
+</ui:composition>

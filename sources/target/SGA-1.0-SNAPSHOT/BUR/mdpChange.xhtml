@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:h="http://java.sun.com/jsf/html" 
+                template="/resources/template/principalRH.xhtml">
+
+    <ui:define name="title">Changement de son mot de passe</ui:define>
+
+    <ui:define name="content">
+        <b:container style="width: 400px">  
+        <b:panel title ="Changement de mot de passe">
+        <b:row>
+            <b:column >
+                <h:outputLabel value="#{msg.LBL_MOT_DE_PASSE} : "/>
+            </b:column>
+            <b:column >
+                <b:inputSecret id="passAChanger" value="#{auth.passAChanger}"  maxlength="50" size="20"  required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}" placeholder='mot de '/>
+            </b:column>
+            <b:column><b:message for="passAChanger" errorStyle="color: red"/></b:column>
+        </b:row>
+        <b:row>
+            <b:column>
+                <h:outputLabel value="#{msg.LBL_NOUVEAU_MDP} : "/>
+            </b:column>
+            <b:column>
+                <b:inputSecret id="new_mdp" value="#{auth.newMdp}"  maxlength="50" size="20"  required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}"  placeholder='password'/>
+            </b:column>
+            <b:column ><b:message for="new_mdp" errorStyle="color: red"/></b:column>
+            </b:row>
+                <b:row>
+                <b:column>
+                    <h:outputLabel value="#{msg.LBL_NOUVEAU_MDP}(bis) : "/>
+                </b:column>
+                <b:column>
+                    <b:inputSecret id="new_mdp_bis" value="#{auth.newMdpBis}"  maxlength="50" size="20"  required="true" requiredMessage="#{msg.GEN_ERR_VALEUR_OBLIGATOIRE}" placeholder='password'/>
+                </b:column>
+                <b:column >
+                    <b:message for="new_mdp_bis" errorStyle="color: red"/>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="4">
+                    <b:commandButton value="Enregistrer" action="#{auth.changerMotDePasse}" look='primary' />
+                </b:column>
+                <b:column span="8">
+                    <b:commandButton type="reset" value="Reset"  />
+                </b:column>
+            </b:row>
+           </b:panel>
+        </b:container>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>

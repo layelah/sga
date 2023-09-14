@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:infina="http://java.sun.com/jsf/composite/infina"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <composite:interface>
+        <composite:attribute name="obj" required="true"/>
+        <composite:attribute name="bean" required="true"/>
+        <composite:attribute name="sans_mdp" required="" default="false"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <infina:formSelect code="profil" titre="Profil" obj="#{cc.attrs.obj.profil}" list="#{myItems.lesProfils}"/>
+        <infina:formSelect code="champ_intervention" titre="Champ d'intervention" obj="#{cc.attrs.obj.champIntervention}" list="#{myItems.lesChampsInterventions}"/>
+        <infina:formSelect code="niveau_confidentialite" titre="Niveau confidentialité" obj="#{cc.attrs.obj.niveauConfidentialite}" list="#{myItems.lesNiveauConfidentialite}" optionnel="true"/>
+        <infina:formSelect code="poids_signature" titre="Poids signature" obj="#{cc.attrs.obj.poidsSignature}" list="#{myItems.lesPoidsSIgnature}" optionnel="true"/>
+
+        <infina:formString lecture_seule="true" code="login" optionnel="true" titre="Login" obj="#{cc.attrs.obj.login}"/>  
+        <c:if test="#{not cc.attrs.sans_mdp}">
+            <infina:formSecret code="new_mdp"       titre="#{msg.LBL_MOT_DE_PASSE}" obj="#{cc.attrs.obj.newMdp}"/>    
+            <infina:formSecret code="new_mdp_bis"   titre="#{msg.LBL_MOT_DE_PASSE} (bis)" obj="#{cc.attrs.obj.newMdpBis}"/>    
+        </c:if>
+    </composite:implementation>
+</html>

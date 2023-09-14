@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <composite:interface>
+        <composite:attribute name="bean" required="true"/>
+        <composite:attribute name="lib_action" default="#{msg.BNT_ENREGISTRER}"/>
+    </composite:interface>
+
+    <composite:implementation>
+        
+        <h:button styleClass="cancel-btn"   value="#{msg.BNT_RESET}" style="width: 150px;height: 5%;margin: 2px;background: linear-gradient(graytext,buttonhighlight);color: #000000;font-weight: bold;border-radius: 20px"/>
+        <h:button styleClass="cancel-btn" value="#{msg.BNT_FERMER}" outcome="#{cc.attrs.bean.goBack()}" style="width: 150px;height: 5%;margin: 2px;background: linear-gradient(graytext,red);color: #ffffff;font-weight: bold;border-radius: 20px"/>
+    </composite:implementation>
+</html>

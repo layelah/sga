@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:b="http://bootsfaces.net/ui" 
+                template="/resources/template/principalRH.xhtml"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">Fiche personnelle</ui:define>
+
+    <ui:define name="content">
+        <b:container>
+            <b:panel class="panel-info">
+                <b:tabView activeIndex="0">
+                    <b:tab title="Données personnelles">
+                        <b:row>
+                            <b:column span="12">
+                                
+                                <b:panel title="Informations sur l'agent" class="panel-title">
+                                    <b:row>
+                                        <b:column span="6">
+                                            <infina:infoString titre="Nom" valeur="#{agent.obj.nomTotal}"/>
+                                            <infina:infoString titre="Entité" valeur="#{agent.obj.entite.lib}"/>
+                                        </b:column>
+                                        <b:column span="6">
+                                            <infina:infoString titre="Matricule" valeur="#{agent.obj.matricule}"/>                                            
+                                            <infina:infoString titre="Fonction" valeur="#{agent.obj.fonction.lib}"/>                                            
+                                        </b:column>
+
+                                    </b:row>
+                                    <b:row>&nbsp;</b:row>
+                                    <b:row>
+                                        <b:column span="6">
+                                            <infina:infoDate   titre="Date d'entrée en service" valeur="#{agent.obj.datePriseFonction}"/>
+                                            <infina:infoString titre="Bureau" valeur="#{agent.obj.entite.lib}"/>
+                                            <infina:infoString titre="Service" valeur="#{agent.obj.service.lib}"/>
+                                            <infina:infoString titre="Superviseur" valeur="#{agent.obj.superviseur.nomComplet}"/>
+                                            <infina:infoString titre="N°. poste / Fixe bureau" valeur="#{agent.obj.numeroPoste} / #{agent.obj.telBureau}"/>
+                                            <infina:infoString titre="Tél. eGov (ADIE)" valeur="#{agent.obj.telProfessionnel}"/>
+                                            <infina:infoString titre="Email professionel" valeur="#{agent.obj.emailProfessionnel}"/>
+                                        </b:column>
+                                        <b:column span="6">
+                                            <infina:infoString titre="N° CNI" valeur="#{agent.obj.cni}"/>
+                                            <infina:infoCoordonnees  hide_adr3="false" hide_ville="false" lab_email="Email personnel" lab_tel1="Tél. personnel" lab_tel2="Tél. domicile" show_tel2="true"  obj="#{agent.obj.coord}"/>
+                                        </b:column>
+                                    </b:row>
+                                </b:panel>
+                                <b:panel title="Solde (en jour) des congés à la date du #{agent.strDateDernierCalcul}" class="panel-title">
+                                    <b:row>
+                                        <b:column span="6">
+                                            <infina:infoNumerique  titre="Total congès acquis" valeur="#{agent.sc.nbCongesAcquis}"/>
+                                            <infina:infoNumerique titre="Total congès pris" valeur="#{agent.sc.nbJourPrisDeductible}"/>
+                                            <infina:infoNumerique titre="Reliquat des congès" valeur="#{agent.sc.nbCongesReliquat}" en_evidence="true"/>
+                                        </b:column>
+                                        <b:column span="6">
+                                            <infina:infoNumerique titre="Congès échus" valeur="#{agent.sc.nbCongesEchus}"/>
+                                            <infina:infoNumerique titre="Congès en cours" valeur="#{agent.sc.nbCongesEncours}"/>
+                                            <infina:infoNumerique titre="Congès supplémentaires" valeur="#{agent.sc.nbCongesSupplementaire}"/>
+                                        </b:column>
+                                    </b:row>                                     
+                                </b:panel> 
+                                
+                                
+                        </b:column>
+                        </b:row>
+                    </b:tab>
+                    <b:tab title="Historique des absences">
+                        <b:panel title="Historique des absences" class="panel-title">
+                            <b:dataTable value="#{agent.listAbsence}" var="item"> 
+                                <b:dataTableColumn label="Type" value="#{item.typeAbsence.lib}"/>
+                                <b:dataTableColumn label="N° demande" value="#{item.demandePermissionAbsence.id}"/>
+                                <b:column>
+                                    <f:facet name="header">Date demande</f:facet>
+                                    <infina:colDateLongue valeur="#{item.demandePermissionAbsence.dateDemande}"/>
+                                </b:column>
+                                <b:dataTableColumn label="Motif" value="#{item.motif}"/> 
+                                <b:column>
+                                    <f:facet name="header">Début absence</f:facet>
+                                    <infina:colDate valeur="#{item.dateDebutAbsence}"/>
+                                </b:column>
+                                <b:column>
+                                    <f:facet name="header">Fin absence</f:facet>
+                                    <infina:colDate valeur="#{item.dateFinAbsence}"/>
+                                </b:column>
+                                <b:dataTableColumn label="Etat" value="#{item.etat.lib}"/> 
+                                <h:column>
+                                    <f:facet name="header">Action</f:facet>
+                                    <h:commandLink title="détail" immediate="true" action="#{demPermisAbsence.goInfoAbsence(item)}" value="" styleClass="fa fa-eye fa-1x btn-detail" style="margin-left: 10%;" />
+                                </h:column>
+                            </b:dataTable>
+                        </b:panel>
+                    </b:tab>
+                </b:tabView>
+            </b:panel>   
+        </b:container>
+    </ui:define>
+</ui:composition>

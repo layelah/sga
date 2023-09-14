@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <composite:interface>
+        <composite:attribute name="titre" required="true"/>
+        <composite:attribute name="valeur" required="true"/>
+        <composite:attribute name="en_evidence"  default="false"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <b:row>
+            <b:column span='6' style="background-color: #c0dff4;border: solid whitesmoke 1px" >
+                <h:outputLabel style="font-weight: bold;"  value="#{cc.attrs.titre}" />
+            </b:column>
+            <b:column span='6' style="background-color: whitesmoke;border: solid #c0dff4 1px">
+                <c:if test="#{cc.attrs.en_evidence}">
+                    <h:outputLabel style="font-weight: bold;color: red"  value="#{cc.attrs.valeur}">            
+                        <f:convertNumber pattern="###,###,###,##0.##"/>
+                    </h:outputLabel>
+                </c:if>
+                <c:if test="#{!cc.attrs.en_evidence}">
+                    <h:outputLabel style="font-weight: normal;"  value="#{cc.attrs.valeur}">            
+                        <f:convertNumber pattern="###,###,###,##0.##"/>
+                    </h:outputLabel>
+                </c:if>            
+            </b:column>
+	</b:row>
+       
+    </composite:implementation>
+</html>

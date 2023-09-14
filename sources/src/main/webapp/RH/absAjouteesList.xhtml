@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/resources/template/principalRH.xhtml"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"    
+                xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:define name="title">Liste des Absences Régularisées</ui:define>
+    <ui:define name="content">
+        <b:container>
+            <b:panel>
+                <b:dataTable value="#{solde.getAbsencesRegularisees()}" var="item"> 
+                    <b:dataTableColumn label="N° Absence" value="#{item.id}"/>
+                    <b:dataTableColumn label="Createur de la Regularisation" value="#{item.nomCreateur}"/>
+                    <b:dataTableColumn label="Nom de l'Agent" value="#{item.agent.nomComplet}"/>
+                    
+                    <b:column>
+                        <f:facet name="header">Date de la Regularisation</f:facet>
+                        <infina:colDateLongue valeur="#{item.insertDate}"/>
+                    </b:column>
+                    <b:column>
+                        <f:facet name="header">Période</f:facet>
+                        Du
+                        <infina:colDate valeur="#{item.dateDebutAbsence1}"/>
+                        au
+                        <infina:colDate valeur="#{item.dateFinAbsence1}"/>
+                    </b:column>
+                    <b:dataTableColumn label="Durée" value="#{item.nbJourDeductible}"/>
+                    
+                    <b:dataTableColumn label="Motif" value="#{item.motif}"/>
+                    
+                    
+                    
+                </b:dataTable>
+                <b:panel>
+                    <h:button styleClass="cancel-btn" value="#{msg.BNT_FERMER}" outcome="/RH/fichePersonnelle.xhtml" style="width: 150px;height: 5%;margin: 2px;background: #ac0000;color: #ffffff;font-weight: bold;margin-left: 40%"/>
+                </b:panel>
+            </b:panel>   
+        </b:container>
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/resources/template/principalRH.xhtml"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"    
+                xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:define name="title">Liste des jours fériés</ui:define>
+    <ui:define name="bar">
+        <h:outputLink value="#">RH </h:outputLink>
+        <i class="fa fa-angle-right"/>
+        <h:outputLink value="#{request.contextPath}/RH/jourFerieList.xhtml">Jours fériés</h:outputLink>
+    </ui:define>
+    <ui:define name="content">
+        <b:container>
+            <b:panel>
+                <b:panel title="Jours Fériés" class="panel-body panel-title" id="text" collapsible="false">
+                    <b:dataTable value="#{ferie.list}" var="item"> 
+                        <b:dataTableColumn label="Libellé" value="#{item.lib}"/>
+                        <b:dataTableColumn label="Jour"  data-type="date" data-order="#{item.jour}">    
+                            <h:outputText value="#{item.jour}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </b:dataTableColumn>
+                        <h:column rendered="#{menuRH.estRH()}">
+                            <f:facet name="header">Action</f:facet>
+                            <infina:tabColAction bean="#{ferie}" item="#{item}"/>
+                        </h:column>
+                    </b:dataTable>
+                </b:panel>
+                <b:commandButton  action="#{ferie.goNew}" immediate="true" value="Ajouter" class="fa fa-plus" style="width: 150px;background: #31708F;color: #ffffff;font-weight: bold;margin-left: 40%" rendered="#{menuRH.estRH()}"/>
+            </b:panel>
+        </b:container>
+    </ui:define>
+</ui:composition>
+

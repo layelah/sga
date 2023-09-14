@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <composite:interface>
+        <composite:attribute name="bean" required="true"/>
+    </composite:interface>
+
+    <composite:implementation>
+        <h:panelGrid rendered="#{cc.attrs.bean.navNbLignes != 0}" columns="12">
+            <h:outputLabel value="Nb. lignes (au total/par page): "/><h:outputLabel value="#{cc.attrs.bean.navNbLignes} / #{prm.nbLignesTableau}"/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <h:commandLink value="&lt;&lt;" action="#{cc.attrs.bean.navDebut()}"/> &nbsp;<h:commandLink value="&lt;" action="#{cc.attrs.bean.navPrec()}"/>&nbsp;&nbsp;
+            <h:outputLabel value="#{cc.attrs.bean.navPageCourante}/#{cc.attrs.bean.navNbPages}"/>
+            &nbsp;&nbsp;<h:commandLink value="&gt;" action="#{cc.attrs.bean.navSuiv()}"/>&nbsp;<h:commandLink value="&gt;&gt;" action="#{cc.attrs.bean.navFin()}"/>                 
+        </h:panelGrid>                
+    </composite:implementation>
+</html>

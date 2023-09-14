@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/resources/template/principalRH.xhtml"
+                xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"    
+                xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:define name="title">Validation d'une demande</ui:define>
+
+    <ui:define name="content">
+        <b:container>
+            <infina:msgSup bean="#{demPermisAbsence}" msg_nom_objet="le congé" />
+            <b:panel>   
+                <b:panel title="Demande n° #{demPermisAbsence.obj.id}" class="panel-body panel-title" id="text"  collapsible="false">
+                    <b:row>
+                        <b:column span="6">
+                            <infina:infoString titre="Agent" valeur="#{demPermisAbsence.obj.absence.agent.nomComplet}"/>
+                            <infina:infoString titre="Type d'absence" valeur="#{demPermisAbsence.obj.absence.typeAbsence.lib}"/>
+                            <infina:infoDate titre="Date de demande" valeur="#{demPermisAbsence.obj.dateDemande}"/>
+                            <infina:infoString titre="Motif" valeur="#{demPermisAbsence.obj.absence.motif}"/>
+                            <infina:infoDate titre="Date début" valeur="#{demPermisAbsence.obj.absence.dateDebutAbsence}"/>
+                            <infina:infoDate titre="Date fin" valeur="#{demPermisAbsence.obj.absence.dateFinAbsence}"/>
+                        </b:column>
+                        <b:column span="6">
+                            <infina:infoString titre="Etat demande" valeur="#{demPermisAbsence.obj.etat.lib}"/>
+                            <infina:infoNumerique titre="Durée d'absence" valeur="#{demPermisAbsence.obj.absence.nbJourAbsence}"/>
+                            <infina:infoNumerique titre="Jours Deductibles" valeur="#{demPermisAbsence.obj.absence.nbJourDeductible}"/>
+                            <infina:infoNumerique titre="Jours Non Deductibles" valeur="#{demPermisAbsence.obj.absence.nbJourNonDeductible}"/>
+                            <infina:infoString titre="Remarque" valeur="#{demPermisAbsence.obj.absence.remarque}"/>
+                            
+                        </b:column>
+                    </b:row>
+                </b:panel>
+                
+                <b:panel title="Liste des validations précédentes" class="panel-body panel-title" collapsible="false">
+                    <b:dataTable value="#{demPermisAbsence.listDesValidations}" var="item" paginated="false"> 
+                        <b:dataTableColumn label="Numéro demande" value="#{item.demandePermissionAbsence.id}"/>
+                        <b:column>
+                            <f:facet name="header">Date validation</f:facet>
+                            <infina:colDateLongue valeur="#{item.dateValidation}" />
+                        </b:column>
+                        <b:dataTableColumn label="Note" value="#{item.note}"/> 
+                        <b:dataTableColumn label="Responsable" value="#{item.validateur.agent.nomComplet}"/>
+                        <b:dataTableColumn label="Etat validation" value="#{item.etat.lib}"/>
+                    </b:dataTable>
+                </b:panel>
+                
+                <b:row>
+                    <b:column span="6">
+                        <infina:formString code="note_validation" obj="#{demPermisAbsence.raison}" titre="Note de validation" optionnel="true"/>
+                    </b:column>
+                    <b:column span="6">
+                        <b:commandButton  value="Accepter" action="#{demPermisAbsence.accepter()}" styleClass="fa fa-check" style="width: 150px;height: 5%;margin: 2px;background: #31708F;color: #ffffff;font-weight: bold;"/>
+                        <b:commandButton  value="Refuser" action="#{demPermisAbsence.refuser()}" class="fa fa-times" style="width: 150px;height: 5%;margin: 2px;margin-left: 2%;background: #ac0000;color: #ffffff;font-weight: bold;"/>
+                    </b:column>
+                </b:row>
+            </b:panel>
+        </b:container>
+    </ui:define>
+</ui:composition>
+

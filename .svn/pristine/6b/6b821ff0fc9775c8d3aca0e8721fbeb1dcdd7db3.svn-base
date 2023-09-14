@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:h="http://java.sun.com/jsf/html" 
+    xmlns:b="http://bootsfaces.net/ui"
+    xmlns:infina="http://xmlns.jcp.org/jsf/composite/infina"
+    template="/resources/template/principalRH.xhtml">
+    
+<ui:define name="title">Information sur un agent</ui:define>
+
+<ui:define name="content">
+<b:container>        
+<infina:msgSup bean="#{agent}" msg_nom_objet="l'agent" />
+
+<b:panel  class="panel-title">
+        <b:row>
+            <b:column span="6">            
+                <b:panel title="Données personnelles" class="panel-info">
+                    <infina:infoString titre="Titre" valeur="#{agent.obj.civilite.lib}"/>
+                    <infina:infoString titre="#{msg.LBL_PRENOM}" valeur="#{agent.obj.prenom}"/>
+                    <infina:infoString titre="#{msg.LBL_NOM}" valeur="#{agent.obj.nom}"/>
+                    <infina:infoString titre="Nom de jeune fille" valeur="#{agent.obj.nomJeuneFille}"/>
+                    <infina:infoString titre="Surnom" valeur="#{agent.obj.surnom}" />
+                    <infina:infoString titre="Statut marital" valeur="#{agent.obj.statutMarital.lib}"/>
+                    <infina:infoString titre="N° CNI" valeur="#{agent.obj.cni}"/>
+                    <infina:infoDate titre="Date de naissance" valeur="#{agent.obj.dateNaissance}"/>
+                    <infina:infoString titre="Lieu de naissance" valeur="#{agent.obj.lieuNaissance}"/>
+                </b:panel>
+            </b:column>
+            <b:column span="6">
+                <b:panel title="Données professionnelles" class="panel-info">
+                    <infina:infoDate   titre="Date d'entrée en service" valeur="#{agent.obj.datePriseFonction}"/>
+                    <infina:infoString titre="Matricule" valeur="#{agent.obj.matricule}"/>
+                    <infina:infoString titre="Fonction" valeur="#{agent.obj.fonction.lib}"/>
+                    <infina:infoString titre="Bureau" valeur="#{agent.obj.entite.lib}"/>
+                    <infina:infoString titre="Service" valeur="#{agent.obj.service.lib}"/>
+                    <infina:infoString titre="Superviseur" valeur="#{agent.obj.superviseur.nomComplet}"/>                        
+                    <infina:infoString titre="N°. poste / Fixe bureau" valeur="#{agent.obj.numeroPoste} / #{agent.obj.telBureau}"/>
+                    <infina:infoString titre="Tél. eGov (ADIE)" valeur="#{agent.obj.telProfessionnel}"/>
+                    <infina:infoString titre="Email professionel" valeur="#{agent.obj.emailProfessionnel}"/>
+                </b:panel>
+            </b:column>
+        </b:row>
+            
+        <b:row>
+            <b:column span="6">
+                <b:panel title="Coodonnées personnelles" class="panel-info">
+                    <infina:infoCoordonnees lab_email="Email personnel" lab_tel1="Tél. personnel" lab_tel2="Tél. domicile" show_tel2="true" obj="#{agent.obj.coord}"/>
+                </b:panel>
+            </b:column>
+            <b:column span="6">
+                <b:panel title="Solde (en jour) des congés à la date du #{agent.strDateDernierCalcul}" class="panel-title">
+                    <infina:infoNumerique titre="Total congès acquis" valeur="#{agent.sc.nbCongesAcquis}"/>
+                    <infina:infoNumerique titre="Total congès pris" valeur="#{agent.sc.nbJourPrisDeductible}"/>
+                    <infina:infoNumerique titre="Reliquat des congès" valeur="#{agent.sc.nbCongesReliquat}" en_evidence="true"/>
+                    <infina:infoNumerique titre="Congès échus" valeur="#{agent.sc.nbCongesEchus}"/>
+                    <infina:infoNumerique titre="Congès en cours" valeur="#{agent.sc.nbCongesEncours}"/>
+                    <infina:infoNumerique titre="Congès supplémentaires" valeur="#{agent.sc.nbCongesSupplementaire}"/>
+                </b:panel>
+           </b:column>                
+        </b:row>
+         
+</b:panel>
+
+<b:panel rendered="#{menuRH.estAdminOuRH()}">
+    <b:commandButton look="primary" type="submit"   value="#{msg.BNT_MODIFIER}" action="#{agent.goModif()}" style="width: 200px;background-color: #31708F;color: #ffffff;font-weight: bold;margin: 2px;margin-left: 25%;"/>
+    <b:commandButton styleClass="submit" value="#{msg.BNT_SUPPRIMER}" action="#{agent.supprimer()}" style="width: 150px;height: 5%;margin: 2px;margin-left: 1%;background: #31708F;color: #ffffff;font-weight: bold"/>
+    <b:commandButton type="submit"  immediate="true" value="#{msg.BNT_FERMER}" action="/ADM/agentList.xhtml" style="width: 200px;margin: 2px;background: #e33b06;color: #ffffff;font-weight: bold;"/>
+</b:panel>
+
+</b:container>
+</ui:define>
+
+</ui:composition>
+
